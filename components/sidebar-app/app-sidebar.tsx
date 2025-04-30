@@ -49,8 +49,6 @@ const data = {
       url: "/leaderboard",
       icon: Trophy,
     },
-  ],
-  resources: [
     {
       title: "Resources",
       url: "/resources",
@@ -71,30 +69,13 @@ const data = {
         {
           title: "Bifrost Finance",
           url: "https://bifrost.finance",
-          external: true,
         },
       ],
     },
-  ],
-  risks: [
     {
       title: "Risks & Warnings",
-      url: "/app/risks",
+      url: "/risks",
       icon: Info,
-      items: [
-        {
-          title: "General Risks",
-          url: "/app/risks/general",
-        },
-        {
-          title: "Protocol Risks",
-          url: "/app/risks/protocol",
-        },
-        {
-          title: "Security",
-          url: "/app/risks/security",
-        },
-      ],
     },
   ],
 };
@@ -107,8 +88,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.mainItems} />
-        <NavMain collapsibleItems={data.resources} />
-        <NavMain collapsibleItems={data.risks} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
