@@ -4,15 +4,10 @@ import * as React from "react";
 import {
   BarChart3,
   BookOpen,
-  ExternalLink,
   Globe,
   Info,
+  Settings,
   Trophy,
-  User,
-  Wallet,
-  Command,
-  GalleryVerticalEnd,
-  AudioWaveform,
 } from "lucide-react";
 
 import {
@@ -77,6 +72,11 @@ const data = {
       url: "/risks",
       icon: Info,
     },
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings,
+    },
   ],
 };
 
@@ -89,9 +89,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.mainItems} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      {/* <SidebarFooter className="text-xs p-4">
+        © 2025 YieldCraft Dashboard Version 1.0.0
+      </SidebarFooter> */}
       <SidebarRail />
     </Sidebar>
   );
