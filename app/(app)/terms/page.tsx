@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms and conditions for using YieldCraft platform.",
+  description: "Terms and conditions for using Dotheon platform.",
 };
 
 export default function TermsPage() {
@@ -20,8 +20,8 @@ export default function TermsPage() {
             1. Introduction
           </h2>
           <p className="text-gray-600 mb-6">
-            Welcome to YieldCraft. By accessing or using our platform, you agree
-            to be bound by these Terms of Service. Please read them carefully
+            Welcome to Dotheon. By accessing or using our platform, you agree to
+            be bound by these Terms of Service. Please read them carefully
             before using our services.
           </p>
 
@@ -29,7 +29,7 @@ export default function TermsPage() {
             2. Definitions
           </h2>
           <p className="text-gray-600 mb-6">
-            "Platform" refers to the YieldCraft website and all associated
+            "Platform" refers to the Dotheon website and all associated
             services. "User" refers to any individual or entity that accesses or
             uses the Platform. "Services" refers to all features, functionality,
             and content provided through the Platform.
@@ -60,9 +60,9 @@ export default function TermsPage() {
           </h2>
           <p className="text-gray-600 mb-6">
             Cryptocurrency and DeFi investments involve significant risks. Users
-            acknowledge that they understand these risks and that YieldCraft is
-            not responsible for any financial losses incurred through the use of
-            our Services.
+            acknowledge that they understand these risks and that Dotheon is not
+            responsible for any financial losses incurred through the use of our
+            Services.
           </p>
 
           <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
@@ -70,17 +70,17 @@ export default function TermsPage() {
           </h2>
           <p className="text-gray-600 mb-6">
             All content, features, and functionality on the Platform are owned
-            by YieldCraft and are protected by international copyright,
-            trademark, and other intellectual property laws.
+            by Dotheon and are protected by international copyright, trademark,
+            and other intellectual property laws.
           </p>
 
           <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
             7. Limitation of Liability
           </h2>
           <p className="text-gray-600 mb-6">
-            YieldCraft shall not be liable for any indirect, incidental,
-            special, consequential, or punitive damages resulting from your use
-            of or inability to use the Platform.
+            Dotheon shall not be liable for any indirect, incidental, special,
+            consequential, or punitive damages resulting from your use of or
+            inability to use the Platform.
           </p>
 
           <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
@@ -98,7 +98,7 @@ export default function TermsPage() {
           </h2>
           <p className="text-gray-600">
             For any questions about these Terms, please contact us at
-            support@yieldcraft.com
+            support@Dotheon.com
           </p>
         </div>
       </div>

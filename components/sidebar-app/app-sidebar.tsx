@@ -90,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.mainItems} />
       </SidebarContent>
       {/* <SidebarFooter className="text-xs p-4">
-        © 2025 YieldCraft Dashboard Version 1.0.0
+        © 2025 Dotheon Dashboard Version 1.0.0
       </SidebarFooter> */}
       <SidebarRail />
     </Sidebar>

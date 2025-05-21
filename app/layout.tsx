@@ -13,8 +13,8 @@ const ibmPlexMonoFont = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "YieldCraft | DeFi Yield Dashboard & Onboarding Guide for Bifrost",
-    template: "%s | YieldCraft",
+    default: "Dotheon | DeFi Yield Dashboard & Onboarding Guide for Bifrost",
+    template: "%s | Dotheon",
   },
   description: "DeFi Yield Dashboard & Onboarding Guide for Bifrost",
 };
