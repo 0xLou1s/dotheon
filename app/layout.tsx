@@ -1,14 +1,25 @@
 import type { Metadata } from "next";
 import Providers from "@/providers";
 import "@rainbow-me/rainbowkit/styles.css";
-import "./globals.css";
+import "@/styles/globals.css";
 import TopLoader from "@/components/top-loader";
-import { IBM_Plex_Mono } from "next/font/google";
+import { Manrope, JetBrains_Mono, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
-const ibmPlexMonoFont = IBM_Plex_Mono({
+import { cn } from "@/lib/utils";
+
+const fontSans = Manrope({
+  variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-ibm-plex-mono",
+});
+
+const fontMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+});
+
+const fontHeading = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -27,7 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${ibmPlexMonoFont.className} ${ibmPlexMonoFont.variable} custom-selection antialiased`}
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable,
+          fontHeading.variable,
+          fontMono.variable,
+          "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+        )}
         suppressHydrationWarning
       >
         <Providers>
