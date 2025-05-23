@@ -13,6 +13,15 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowDown, ArrowUp, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface ProtocolsTableProps {
   data: any;
@@ -27,6 +36,8 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
     key: "tvl",
     direction: "descending",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const protocols = data.protocols;
 
@@ -82,6 +93,15 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
   const filteredProtocols = sortedProtocols.filter((protocol) =>
     protocol.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredProtocols.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProtocols = filteredProtocols.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="space-y-4">
@@ -162,7 +182,7 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredProtocols.map((protocol, index) => (
+                {displayedProtocols.map((protocol, index) => (
                   <TableRow
                     key={protocol.name}
                     className={
@@ -171,7 +191,9 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
                         : ""
                     }
                   >
-                    <TableCell className="font-medium">{index + 1}</TableCell>
+                    <TableCell className="font-medium">
+                      {startIndex + index + 1}
+                    </TableCell>
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-2">
                         <span className="truncate">{protocol.name}</span>
@@ -227,6 +249,66 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
           </div>
         </div>
       </div>
+      {totalPages > 1 && (
+        <Pagination className="w-full justify-end">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                className={
+                  currentPage === 1
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
+              />
+            </PaginationItem>
+
+            {[...Array(totalPages)].map((_, index) => {
+              const pageNumber = index + 1;
+              // Show first page, last page, current page, and pages around current page
+              if (
+                pageNumber === 1 ||
+                pageNumber === totalPages ||
+                (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+              ) {
+                return (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      onClick={() => handlePageChange(pageNumber)}
+                      isActive={currentPage === pageNumber}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              } else if (
+                pageNumber === currentPage - 2 ||
+                pageNumber === currentPage + 2
+              ) {
+                return (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+              return null;
+            })}
+
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  handlePageChange(Math.min(totalPages, currentPage + 1))
+                }
+                className={
+                  currentPage === totalPages
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }
