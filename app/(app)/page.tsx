@@ -19,6 +19,15 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [dashboardData, setDashboardData] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState("overview");
+
+  useEffect(() => {
+    // Load active tab from localStorage on mount
+    const savedTab = localStorage.getItem("dashboardActiveTab");
+    if (savedTab) {
+      setActiveTab(savedTab);
+    }
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -166,6 +175,11 @@ export default function DashboardPage() {
     return topChains;
   }
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    localStorage.setItem("dashboardActiveTab", value);
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col">
@@ -183,11 +197,14 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="flex-1 space-y-6 p-6">
-          <Tabs defaultValue="overview" className="space-y-6">
+          <Tabs
+            value={activeTab}
+            onValueChange={handleTabChange}
+            className="space-y-6"
+          >
             <TabsList>
               <TabsTrigger value="overview">Market Overview</TabsTrigger>
               <TabsTrigger value="protocols">Protocols</TabsTrigger>
-              <TabsTrigger value="trends">Trends & Analysis</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-6">
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -209,7 +226,7 @@ export default function DashboardPage() {
 
   if (error) {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
         <div className="flex items-center justify-between border-b px-6 py-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
@@ -246,7 +263,11 @@ export default function DashboardPage() {
         </div>
       </div>
       <div className="flex-1 space-y-6 p-6">
-        <Tabs defaultValue="overview" className="space-y-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className="space-y-6"
+        >
           <TabsList>
             <TabsTrigger value="overview">Market Overview</TabsTrigger>
             <TabsTrigger value="protocols">Protocols</TabsTrigger>
@@ -257,7 +278,9 @@ export default function DashboardPage() {
               <TvlTrends data={dashboardData} />
               <ApyTrends data={dashboardData} />
             </div>
-            <ProtocolsTable data={dashboardData} />
+            <div className="overflow-x-auto">
+              <ProtocolsTable data={dashboardData} />
+            </div>
           </TabsContent>
           <TabsContent value="protocols" className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">

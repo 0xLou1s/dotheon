@@ -85,9 +85,9 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-semibold">Liquid Staking Protocols</h2>
-        <div className="w-64">
+        <div className="w-full sm:w-64">
           <Input
             placeholder="Search protocols..."
             value={searchTerm}
@@ -96,128 +96,136 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
         </div>
       </div>
       <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]">Rank</TableHead>
-              <TableHead>Protocol</TableHead>
-              <TableHead
-                className="cursor-pointer hover:bg-muted/50"
-                onClick={() => requestSort("tvl")}
-              >
-                TVL{" "}
-                {getClassNamesFor("tvl") === "ascending" ? (
-                  <ArrowUp className="inline h-4 w-4" />
-                ) : (
-                  <ArrowDown className="inline h-4 w-4" />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:bg-muted/50"
-                onClick={() => requestSort("apy")}
-              >
-                APY{" "}
-                {getClassNamesFor("apy") === "ascending" ? (
-                  <ArrowUp className="inline h-4 w-4" />
-                ) : (
-                  <ArrowDown className="inline h-4 w-4" />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:bg-muted/50"
-                onClick={() => requestSort("change_24h")}
-              >
-                24h Change{" "}
-                {getClassNamesFor("change_24h") === "ascending" ? (
-                  <ArrowUp className="inline h-4 w-4" />
-                ) : (
-                  <ArrowDown className="inline h-4 w-4" />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:bg-muted/50"
-                onClick={() => requestSort("change_7d")}
-              >
-                7d Change{" "}
-                {getClassNamesFor("change_7d") === "ascending" ? (
-                  <ArrowUp className="inline h-4 w-4" />
-                ) : (
-                  <ArrowDown className="inline h-4 w-4" />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:bg-muted/50"
-                onClick={() => requestSort("pools.length")}
-              >
-                Pools{" "}
-                {getClassNamesFor("pools.length") === "ascending" ? (
-                  <ArrowUp className="inline h-4 w-4" />
-                ) : (
-                  <ArrowDown className="inline h-4 w-4" />
-                )}
-              </TableHead>
-              <TableHead className="text-right">Details</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredProtocols.map((protocol, index) => (
-              <TableRow
-                key={protocol.name}
-                className={
-                  protocol.name.toLowerCase().includes("bifrost")
-                    ? "bg-primary/5"
-                    : ""
-                }
-              >
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell className="font-medium">
-                  {protocol.name}
-                  {protocol.name.toLowerCase().includes("bifrost") && (
-                    <Badge
-                      variant="outline"
-                      className="ml-2 bg-primary/10 text-primary hover:bg-primary/20"
-                    >
-                      Bifrost
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>{formatCurrency(protocol.tvl)}</TableCell>
-                <TableCell>{formatPercentage(protocol.apy)}</TableCell>
-                <TableCell>
-                  <span
+        <div className="w-full overflow-x-auto">
+          <div className="min-w-[640px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[40px]">#</TableHead>
+                  <TableHead className="w-[200px]">Protocol</TableHead>
+                  <TableHead
+                    className="w-[120px] cursor-pointer hover:bg-muted/50"
+                    onClick={() => requestSort("tvl")}
+                  >
+                    TVL{" "}
+                    {getClassNamesFor("tvl") === "ascending" ? (
+                      <ArrowUp className="inline h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="inline h-4 w-4" />
+                    )}
+                  </TableHead>
+                  <TableHead
+                    className="w-[100px] cursor-pointer hover:bg-muted/50"
+                    onClick={() => requestSort("apy")}
+                  >
+                    APY{" "}
+                    {getClassNamesFor("apy") === "ascending" ? (
+                      <ArrowUp className="inline h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="inline h-4 w-4" />
+                    )}
+                  </TableHead>
+                  <TableHead
+                    className="hidden md:table-cell w-[120px] cursor-pointer hover:bg-muted/50"
+                    onClick={() => requestSort("change_24h")}
+                  >
+                    24h{" "}
+                    {getClassNamesFor("change_24h") === "ascending" ? (
+                      <ArrowUp className="inline h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="inline h-4 w-4" />
+                    )}
+                  </TableHead>
+                  <TableHead
+                    className="hidden md:table-cell w-[120px] cursor-pointer hover:bg-muted/50"
+                    onClick={() => requestSort("change_7d")}
+                  >
+                    7d{" "}
+                    {getClassNamesFor("change_7d") === "ascending" ? (
+                      <ArrowUp className="inline h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="inline h-4 w-4" />
+                    )}
+                  </TableHead>
+                  <TableHead
+                    className="hidden md:table-cell w-[80px] cursor-pointer hover:bg-muted/50"
+                    onClick={() => requestSort("pools.length")}
+                  >
+                    Pools{" "}
+                    {getClassNamesFor("pools.length") === "ascending" ? (
+                      <ArrowUp className="inline h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="inline h-4 w-4" />
+                    )}
+                  </TableHead>
+                  <TableHead className="w-[60px] text-right">Details</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredProtocols.map((protocol, index) => (
+                  <TableRow
+                    key={protocol.name}
                     className={
-                      protocol.change_24h >= 0
-                        ? "text-green-600"
-                        : "text-red-600"
+                      protocol.name.toLowerCase().includes("bifrost")
+                        ? "bg-primary/5"
+                        : ""
                     }
                   >
-                    {protocol.change_24h >= 0 ? "+" : ""}
-                    {formatPercentage(protocol.change_24h)}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={
-                      protocol.change_7d >= 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {protocol.change_7d >= 0 ? "+" : ""}
-                    {formatPercentage(protocol.change_7d)}
-                  </span>
-                </TableCell>
-                <TableCell>{protocol.pools.length}</TableCell>
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <ExternalLink className="h-4 w-4" />
-                    <span className="sr-only">View details</span>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                    <TableCell className="font-medium">{index + 1}</TableCell>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="truncate">{protocol.name}</span>
+                        {protocol.name.toLowerCase().includes("bifrost") && (
+                          <Badge
+                            variant="outline"
+                            className="shrink-0 bg-primary/10 text-primary hover:bg-primary/20"
+                          >
+                            Bifrost
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>{formatCurrency(protocol.tvl)}</TableCell>
+                    <TableCell>{formatPercentage(protocol.apy)}</TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <span
+                        className={
+                          protocol.change_24h >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }
+                      >
+                        {protocol.change_24h >= 0 ? "+" : ""}
+                        {formatPercentage(protocol.change_24h)}
+                      </span>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <span
+                        className={
+                          protocol.change_7d >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }
+                      >
+                        {protocol.change_7d >= 0 ? "+" : ""}
+                        {formatPercentage(protocol.change_7d)}
+                      </span>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {protocol.pools.length}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <ExternalLink className="h-4 w-4" />
+                        <span className="sr-only">View details</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
     </div>
   );

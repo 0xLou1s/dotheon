@@ -49,6 +49,7 @@ const CHART_COLORS = [
   "#ec4899", // pink-500
   "#f97316", // orange-500
   "#10b981", // emerald-500
+  "#f59e0b", // amber-500 - for Bifrost
 ];
 
 const formatProtocolName = (name: string) => {
@@ -69,8 +70,33 @@ const TIME_RANGES = [
 export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
   const [timeRange, setTimeRange] = useState("1Y");
 
-  // Get top 5 protocols by TVL for the chart
-  const topProtocols = data.protocols.slice(0, 5);
+  // Get top 5 protocols by TVL and add Bifrost Liquid Staking
+  const sortedProtocols = data.protocols
+    .filter((protocol) => protocol.name !== "bifrost-liquid-staking")
+    .sort((a, b) => {
+      const aTvl = a.pools.reduce(
+        (sum, pool) =>
+          sum + (pool.history[pool.history.length - 1]?.tvlUsd || 0),
+        0
+      );
+      const bTvl = b.pools.reduce(
+        (sum, pool) =>
+          sum + (pool.history[pool.history.length - 1]?.tvlUsd || 0),
+        0
+      );
+      return bTvl - aTvl;
+    });
+
+  const topProtocols = sortedProtocols.slice(0, 5);
+
+  const bifrostProtocol = data.protocols.find(
+    (protocol) => protocol.name === "bifrost-liquid-staking"
+  );
+
+  const chartProtocols = [
+    ...topProtocols,
+    ...(bifrostProtocol ? [bifrostProtocol] : []),
+  ];
 
   // Format data for the chart
   const formatChartData = () => {
@@ -78,7 +104,7 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
     const allDates = new Set<string>();
 
     // First, collect all unique dates from all protocols' history
-    topProtocols.forEach((protocol: Protocol) => {
+    chartProtocols.forEach((protocol: Protocol) => {
       protocol.pools.forEach((pool) => {
         pool.history.forEach((point) => {
           if (point.timestamp) {
@@ -128,7 +154,7 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
     });
 
     // Fill in TVL values for each protocol on each date
-    topProtocols.forEach((protocol: Protocol) => {
+    chartProtocols.forEach((protocol: Protocol) => {
       // Aggregate TVL by date for all pools of this protocol
       const protocolTvlByDate: Record<string, number> = {};
 
@@ -161,14 +187,17 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
   const chartData = formatChartData();
 
   // Create chart config for shadcn/ui chart components
-  const chartConfig = topProtocols.reduce(
+  const chartConfig = chartProtocols.reduce(
     (acc: ChartConfig, protocol: Protocol, index: number) => {
       acc[protocol.name] = {
         label: protocol.name
           .split("-")
           .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" "),
-        color: CHART_COLORS[index],
+        color:
+          protocol.name === "bifrost-liquid-staking"
+            ? CHART_COLORS[5] // Use amber color for Bifrost
+            : CHART_COLORS[index],
       };
       return acc;
     },
@@ -185,7 +214,7 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
     let latestTotal = 0;
     let previousTotal = 0;
 
-    topProtocols.forEach((protocol) => {
+    chartProtocols.forEach((protocol) => {
       latestTotal += latestData[protocol.name] || 0;
       previousTotal += previousData[protocol.name] || 0;
     });
@@ -211,7 +240,7 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
           <div>
             <CardTitle>TVL Trends</CardTitle>
             <CardDescription>
-              Historical total value locked for top 5 LST protocols
+              TVL History - Top 5 LST Protocols & Bifrost
             </CardDescription>
           </div>
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -239,7 +268,7 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
             }}
           >
             <defs>
-              {topProtocols.map((protocol, index) => (
+              {chartProtocols.map((protocol, index) => (
                 <linearGradient
                   key={`gradient-${protocol.name}`}
                   id={`fill-${protocol.name}`}
@@ -314,7 +343,7 @@ export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
                 );
               }}
             />
-            {topProtocols.map((protocol, index) => (
+            {chartProtocols.map((protocol, index) => (
               <Area
                 key={protocol.name}
                 dataKey={protocol.name}
