@@ -32,6 +32,7 @@ interface Protocol {
     history: {
       timestamp: string;
       apy: number;
+      tvlUsd?: number;
     }[];
   }[];
 }
@@ -49,6 +50,7 @@ const CHART_COLORS = [
   "#ec4899", // pink-500
   "#f97316", // orange-500
   "#10b981", // emerald-500
+  "#f59e0b", // amber-500 - for Bifrost
 ];
 
 const formatProtocolName = (name: string) => {
@@ -67,10 +69,35 @@ const TIME_RANGES = [
 ];
 
 export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
-  const [timeRange, setTimeRange] = useState("1Y");
+  const [timeRange, setTimeRange] = useState("3M");
 
-  // Get top 5 protocols by TVL for the chart
-  const topProtocols = data.protocols.slice(0, 5);
+  // Get top 5 protocols by TVL and add Bifrost Liquid Staking
+  const sortedProtocols = data.protocols
+    .filter((protocol) => protocol.name !== "bifrost-liquid-staking")
+    .sort((a, b) => {
+      const aTvl = a.pools.reduce(
+        (sum, pool) =>
+          sum + (pool.history[pool.history.length - 1]?.tvlUsd || 0),
+        0
+      );
+      const bTvl = b.pools.reduce(
+        (sum, pool) =>
+          sum + (pool.history[pool.history.length - 1]?.tvlUsd || 0),
+        0
+      );
+      return bTvl - aTvl;
+    });
+
+  const topProtocols = sortedProtocols.slice(0, 5);
+
+  const bifrostProtocol = data.protocols.find(
+    (protocol) => protocol.name === "bifrost-liquid-staking"
+  );
+
+  const chartProtocols = [
+    ...topProtocols,
+    ...(bifrostProtocol ? [bifrostProtocol] : []),
+  ];
 
   // Format data for the chart
   const formatChartData = () => {
@@ -78,7 +105,7 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
     const allDates = new Set<string>();
 
     // First, collect all unique dates from all protocols' history
-    topProtocols.forEach((protocol: Protocol) => {
+    chartProtocols.forEach((protocol: Protocol) => {
       protocol.pools.forEach((pool) => {
         pool.history.forEach((point) => {
           if (point.timestamp) {
@@ -128,9 +155,12 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
     });
 
     // Fill in APY values for each protocol on each date
-    topProtocols.forEach((protocol: Protocol) => {
+    chartProtocols.forEach((protocol: Protocol) => {
       // Aggregate APY by date for all pools of this protocol
-      const protocolApyByDate: Record<string, number> = {};
+      const protocolApyByDate: Record<
+        string,
+        { total: number; count: number }
+      > = {};
 
       protocol.pools.forEach((pool) => {
         pool.history.forEach((point) => {
@@ -138,18 +168,21 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
             const date = point.timestamp.split("T")[0];
             if (filteredDates.includes(date)) {
               if (!protocolApyByDate[date]) {
-                protocolApyByDate[date] = 0;
+                protocolApyByDate[date] = { total: 0, count: 0 };
               }
-              protocolApyByDate[date] += point.apy || 0;
+              if (point.apy) {
+                protocolApyByDate[date].total += point.apy;
+                protocolApyByDate[date].count += 1;
+              }
             }
           }
         });
       });
 
-      // Add protocol APY to the date map
-      Object.entries(protocolApyByDate).forEach(([date, apy]) => {
-        if (dateProtocolMap[date]) {
-          dateProtocolMap[date][protocol.name] = apy;
+      // Calculate average APY for each date
+      Object.entries(protocolApyByDate).forEach(([date, { total, count }]) => {
+        if (dateProtocolMap[date] && count > 0) {
+          dateProtocolMap[date][protocol.name] = total / count;
         }
       });
     });
@@ -161,14 +194,17 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
   const chartData = formatChartData();
 
   // Create chart config for shadcn/ui chart components
-  const chartConfig = topProtocols.reduce(
+  const chartConfig = chartProtocols.reduce(
     (acc: ChartConfig, protocol: Protocol, index: number) => {
       acc[protocol.name] = {
         label: protocol.name
           .split("-")
           .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" "),
-        color: CHART_COLORS[index],
+        color:
+          protocol.name === "bifrost-liquid-staking"
+            ? CHART_COLORS[5] // Use amber color for Bifrost
+            : CHART_COLORS[index],
       };
       return acc;
     },
@@ -186,7 +222,7 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
     let previousTotal = 0;
     let count = 0;
 
-    topProtocols.forEach((protocol) => {
+    chartProtocols.forEach((protocol) => {
       if (latestData[protocol.name] && previousData[protocol.name]) {
         latestTotal += latestData[protocol.name];
         previousTotal += previousData[protocol.name];
@@ -215,7 +251,7 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
           <div>
             <CardTitle>APY Trends</CardTitle>
             <CardDescription>
-              Historical yield performance across top LST protocols
+              Yield History - Top LST Protocols & Bifrost - Liquid Staking
             </CardDescription>
           </div>
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -243,7 +279,7 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
             }}
           >
             <defs>
-              {topProtocols.map((protocol, index) => (
+              {chartProtocols.map((protocol, index) => (
                 <linearGradient
                   key={`gradient-${protocol.name}`}
                   id={`fill-${protocol.name}`}
@@ -314,7 +350,7 @@ export function ApyTrends({ data, showDetailed = false }: ApyTrendsProps) {
                 );
               }}
             />
-            {topProtocols.map((protocol, index) => (
+            {chartProtocols.map((protocol, index) => (
               <Area
                 key={protocol.name}
                 dataKey={protocol.name}
