@@ -43,7 +43,6 @@ interface TvlTrendsProps {
   showDetailed?: boolean;
 }
 
-// Manual colors for the chart
 const CHART_COLORS = [
   "#2563eb", // blue-600
   "#8b5cf6", // violet-500
@@ -68,7 +67,7 @@ const TIME_RANGES = [
 ];
 
 export function TvlTrends({ data, showDetailed = false }: TvlTrendsProps) {
-  const [timeRange, setTimeRange] = useState("6M");
+  const [timeRange, setTimeRange] = useState("1Y");
 
   // Get top 5 protocols by TVL for the chart
   const topProtocols = data.protocols.slice(0, 5);
