@@ -187,7 +187,6 @@ export default function DashboardPage() {
             <TabsList>
               <TabsTrigger value="overview">Market Overview</TabsTrigger>
               <TabsTrigger value="protocols">Protocols</TabsTrigger>
-              <TabsTrigger value="trends">Trends & Analysis</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-6">
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
