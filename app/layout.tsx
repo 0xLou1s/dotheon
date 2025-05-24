@@ -6,6 +6,7 @@ import TopLoader from "@/components/top-loader";
 import { Manrope, JetBrains_Mono, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/react";
 
 const fontSans = Manrope({
   variable: "--font-sans",
@@ -52,6 +53,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Toaster />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
