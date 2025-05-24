@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bifrost Liquid Staking Dashboard
+
+## Overview
+Bifrost Liquid Staking Dashboard is your all-in-one platform for liquid staking management. Whether you're a DeFi enthusiast, institutional investor, or casual staker, our platform provides everything you need to maximize your staking returns while maintaining liquidity.
+
+## Key Features
+
+### 1. Protocol Analytics
+- Track TVL, APY, and performance metrics across all major liquid staking protocols
+- Compare protocols side by side
+- Monitor 24h and 7d changes
+- View historical performance data
+
+### 2. Smart Search
+- Find protocols instantly
+- Save your favorite protocols
+- Get real-time updates on protocol performance
+
+### 3. Bifrost Integration
+- Direct access to Bifrost's liquid staking pools
+- Special benefits for Bifrost users
+- Real-time Bifrost metrics and updates
+
+### 4. LST Minting
+- Mint Liquid Staking Tokens with one click
+- Support for multiple tokens
+- Track your minted tokens and yields
+- Easy redemption process
+
+### 5. AI Portfolio Assistant
+- Get personalized staking recommendations
+- Receive alerts on market opportunities
+- Automated portfolio optimization
+- Risk management insights
+- Natural language queries about your portfolio
+
+### 6. Portfolio Management
+- Track all your staking positions in one place
+- Monitor yields and returns
+- View performance analytics
+- Manage multiple protocols efficiently
+
+## Benefits
+
+### For Individual Users
+- Maximize staking returns while maintaining liquidity
+- Save time with automated portfolio management
+- Make informed decisions with AI-powered insights
+- Access multiple protocols through a single interface
+
+### For Institutional Users
+- Comprehensive protocol analytics
+- Risk management tools
+- Portfolio optimization
+- Automated reporting and monitoring
+
+### For Protocol Users
+- Easy access to multiple staking options
+- Real-time performance tracking
+- Automated yield optimization
+- Risk assessment and management
 
 ## Getting Started
 
-First, run the development server:
+1. **Create Your Account**
+   - Sign up for free
+   - Connect your wallet
+   - Start exploring protocols
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Explore Protocols**
+   - Browse available protocols
+   - Compare performance metrics
+   - Find the best staking opportunities
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Start Staking**
+   - Choose your preferred protocol
+   - Mint LSTs with one click
+   - Track your positions and yields
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Optimize Your Portfolio**
+   - Use AI recommendations
+   - Monitor performance
+   - Adjust strategies as needed
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Support
 
-## Learn More
+- 24/7 customer support
+- Comprehensive documentation
+- Community forums
+- Regular updates and improvements
 
-To learn more about Next.js, take a look at the following resources:
+## Security
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Industry-leading security measures
+- Regular security audits
+- Insurance coverage
+- Transparent operations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contact
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For business inquiries, partnerships, or support:
+- Email: [contact@bifrost.com]
+- Twitter: [@Bifrost]
+- Discord: [Bifrost Community]
