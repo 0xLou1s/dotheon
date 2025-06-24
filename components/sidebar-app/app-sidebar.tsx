@@ -38,26 +38,7 @@ const data = {
       icon: BarChart3,
     },
     {
-      title: "Onboarding",
-      url: "/guide",
-      icon: GraduationCap,
-      items: [
-        {
-          title: "DeFi Guide",
-          url: "/guide",
-        },
-        {
-          title: "Risks & Warnings",
-          url: "/risks",
-        },
-        {
-          title: "Glossary",
-          url: "/resources/glossary",
-        },
-      ],
-    },
-    {
-      title: "vDOT Services",
+      title: "Liquid DOT",
       url: "/vdot",
       icon: Coins,
       items: [
@@ -72,6 +53,25 @@ const data = {
         {
           title: "My Positions",
           url: "/vdot/positions",
+        },
+      ],
+    },
+    {
+      title: "Learn DeFi",
+      url: "/guide",
+      icon: GraduationCap,
+      items: [
+        {
+          title: "DeFi Guide",
+          url: "/guide",
+        },
+        {
+          title: "Risks & Warnings",
+          url: "/risks",
+        },
+        {
+          title: "Glossary",
+          url: "/resources/glossary",
         },
       ],
     },
