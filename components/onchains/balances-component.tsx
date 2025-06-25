@@ -6,6 +6,7 @@ import { roundLongDecimals } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RefreshCcw } from "lucide-react";
 import type { BalancesProps } from "@/types/shared";
+import { useState } from "react";
 
 export default function BalancesComponent({
   nativeBalance,
@@ -16,10 +17,17 @@ export default function BalancesComponent({
   refetchTokenBalances,
 }: BalancesProps) {
   const chainId = useChainId();
+  const [isRefetching, setIsRefetching] = useState(false);
 
   async function handleRefetchAllBalances() {
-    await refetchNativeBalance();
-    await refetchTokenBalances();
+    try {
+      setIsRefetching(true);
+      await Promise.all([refetchNativeBalance(), refetchTokenBalances()]);
+    } catch (error) {
+      console.error("Error refreshing balances:", error);
+    } finally {
+      setIsRefetching(false);
+    }
   }
 
   return (
@@ -29,10 +37,14 @@ export default function BalancesComponent({
           <h1 className="text-2xl font-bold">Tokens</h1>
           <Button
             className="hover:cursor-pointer"
+            variant="ghost"
             size="icon"
             onClick={handleRefetchAllBalances}
+            disabled={isRefetching}
           >
-            <RefreshCcw />
+            <RefreshCcw
+              className={`w-4 h-4 ${isRefetching ? "animate-spin" : ""}`}
+            />
           </Button>
         </div>
         <p className="text-muted-foreground">Current wallet balances</p>
