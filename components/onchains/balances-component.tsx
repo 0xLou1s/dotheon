@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { RefreshCcw } from "lucide-react";
 import type { BalancesProps } from "@/types/shared";
 import { useState } from "react";
+import { TokenIcon } from "@/components/ui/token-icon";
 
 export default function BalancesComponent({
   nativeBalance,
@@ -50,120 +51,75 @@ export default function BalancesComponent({
         <p className="text-muted-foreground">Current wallet balances</p>
       </div>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-row justify-between gap-2">
-          <div className="flex flex-row gap-2 items-center justify-center">
-            <Image src="/eth.svg" alt="Ethereum" width={48} height={48} />
-            <div className="flex flex-col">
-              <p className="text-xl font-semibold">Ethereum</p>
-              {chainId === 11155111 ? (
-                <p className="text-muted-foreground">Sepolia</p>
-              ) : (
-                <p className="text-muted-foreground">Base Sepolia</p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col text-right">
-            <div className="text-xl">
-              {isNativeBalanceLoading ? (
-                <Skeleton className="w-12 h-4" />
-              ) : (
-                roundLongDecimals(
-                  formatEther((nativeBalance as bigint) || BigInt(0)),
-                  6
-                )
-              )}
-            </div>
-            <p className="text-muted-foreground">ETH</p>
-          </div>
+        <TokenBalanceItem
+          symbol="ETH"
+          name="Ethereum"
+          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
+          balance={nativeBalance as bigint}
+          isLoading={isNativeBalanceLoading}
+        />
+
+        <TokenBalanceItem
+          symbol="DOT"
+          name="Polkadot"
+          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
+          balance={tokenBalances?.[0] as bigint}
+          isLoading={isTokenBalancesLoading}
+        />
+
+        <TokenBalanceItem
+          symbol="vETH"
+          name="Voucher ETH"
+          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
+          balance={tokenBalances?.[1] as bigint}
+          isLoading={isTokenBalancesLoading}
+        />
+
+        <TokenBalanceItem
+          symbol="vDOT"
+          name="Voucher DOT"
+          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
+          balance={tokenBalances?.[2] as bigint}
+          isLoading={isTokenBalancesLoading}
+        />
+      </div>
+    </div>
+  );
+}
+
+interface TokenBalanceItemProps {
+  symbol: string;
+  name: string;
+  networkName: string;
+  balance: bigint;
+  isLoading: boolean;
+}
+
+function TokenBalanceItem({
+  symbol,
+  name,
+  networkName,
+  balance,
+  isLoading,
+}: TokenBalanceItemProps) {
+  return (
+    <div className="flex flex-row justify-between gap-2">
+      <div className="flex flex-row gap-4 items-center justify-center">
+        <TokenIcon symbol={symbol} size={24} />
+        <div className="flex flex-col">
+          <p className="text-lg font-semibold">{name}</p>
+          <p className="text-sm text-muted-foreground">{networkName}</p>
         </div>
-        <div className="flex flex-row justify-between gap-2">
-          <div className="flex flex-row gap-2 items-center justify-center">
-            <Image src="/dot.svg" alt="Polkadot" width={48} height={48} />
-            <div className="flex flex-col">
-              <p className="text-xl font-semibold">Polkadot</p>
-              {chainId === 11155111 ? (
-                <p className="text-muted-foreground">Sepolia</p>
-              ) : (
-                <p className="text-muted-foreground">Base Sepolia</p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col text-right">
-            <div className="text-xl">
-              {isTokenBalancesLoading ? (
-                <Skeleton className="w-12 h-4" />
-              ) : (
-                roundLongDecimals(
-                  formatEther((tokenBalances?.[0] as bigint) || BigInt(0)),
-                  6
-                )
-              )}
-            </div>
-            <p className="text-muted-foreground">DOT</p>
-          </div>
+      </div>
+      <div className="flex flex-col text-right">
+        <div className="text-md">
+          {isLoading ? (
+            <Skeleton className="w-12 h-4" />
+          ) : (
+            roundLongDecimals(formatEther(balance || BigInt(0)), 6)
+          )}
         </div>
-        <div className="flex flex-row justify-between gap-2">
-          <div className="flex flex-row gap-2 items-center justify-center">
-            <Image
-              src="/veth.svg"
-              alt="Voucher Ethereum"
-              width={48}
-              height={48}
-            />
-            <div className="flex flex-col">
-              <p className="text-xl font-semibold">Voucher ETH</p>
-              {chainId === 11155111 ? (
-                <p className="text-muted-foreground">Sepolia</p>
-              ) : (
-                <p className="text-muted-foreground">Base Sepolia</p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col text-right">
-            <div className="text-xl">
-              {isTokenBalancesLoading ? (
-                <Skeleton className="w-12 h-4" />
-              ) : (
-                roundLongDecimals(
-                  formatEther((tokenBalances?.[1] as bigint) || BigInt(0)),
-                  6
-                )
-              )}
-            </div>
-            <p className="text-muted-foreground">vETH</p>
-          </div>
-        </div>
-        <div className="flex flex-row justify-between gap-2">
-          <div className="flex flex-row gap-2 items-center justify-center">
-            <Image
-              src="/vdot.svg"
-              alt="Voucher Polkadot"
-              width={48}
-              height={48}
-            />
-            <div className="flex flex-col">
-              <p className="text-xl font-semibold">Voucher DOT</p>
-              {chainId === 11155111 ? (
-                <p className="text-muted-foreground">Sepolia</p>
-              ) : (
-                <p className="text-muted-foreground">Base Sepolia</p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col text-right">
-            <div className="text-xl">
-              {isTokenBalancesLoading ? (
-                <Skeleton className="w-12 h-4" />
-              ) : (
-                roundLongDecimals(
-                  formatEther((tokenBalances?.[2] as bigint) || BigInt(0)),
-                  6
-                )
-              )}
-            </div>
-            <p className="text-muted-foreground">vDOT</p>
-          </div>
-        </div>
+        <p className="text-muted-foreground">{symbol}</p>
       </div>
     </div>
   );

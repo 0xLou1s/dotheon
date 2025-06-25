@@ -34,6 +34,7 @@ import { roundLongDecimals } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { TransactionStatus } from "@/components/onchains/transaction-status";
 import { l2SlpxAbi } from "@/lib/abis";
+import { TokenIcon } from "@/components/ui/token-icon";
 
 const tokens: Token[] = TOKEN_LIST.filter(
   (token) => token.symbol === "vDOT" || token.symbol === "vETH"
@@ -496,7 +497,7 @@ function SelectMintToken({ token }: { token: Token }) {
   return (
     <SelectItem value={token.symbol}>
       <div className="flex flex-row gap-2 items-center justify-center">
-        <Image src={token.image} alt={token.symbol} width={24} height={24} />
+        <TokenIcon symbol={token.symbol} size={24} />
         <p className="text-lg">{token.name}</p>
         <p className="text-lg text-muted-foreground">{token.symbol}</p>
       </div>
