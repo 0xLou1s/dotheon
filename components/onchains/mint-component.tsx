@@ -192,9 +192,10 @@ export default function MintComponent({
         <p className="text-muted-foreground">Mint Liquid Staking Tokens</p>
       </div>
       <form
-        onSubmit={(e) => {
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           e.stopPropagation();
+          // Always handle submit when the submit button is clicked
           form.handleSubmit();
         }}
       >
@@ -239,9 +240,97 @@ export default function MintComponent({
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-row gap-2 items-center justify-between">
                       <p className="text-muted-foreground">Minting</p>
-                      <button className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer">
-                        Max
-                      </button>
+                      {selectedToken && (
+                        <div className="flex flex-row gap-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const availableBalance =
+                                selectedToken?.symbol === "vETH"
+                                  ? nativeBalance ?? BigInt(0)
+                                  : tokenBalances?.[0] ?? BigInt(0);
+
+                              const percentageAmount =
+                                (availableBalance * BigInt(25)) / BigInt(100);
+                              field.handleChange(
+                                roundLongDecimals(
+                                  formatEther(percentageAmount),
+                                  6
+                                )
+                              );
+                            }}
+                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                          >
+                            25%
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const availableBalance =
+                                selectedToken?.symbol === "vETH"
+                                  ? nativeBalance ?? BigInt(0)
+                                  : tokenBalances?.[0] ?? BigInt(0);
+
+                              const percentageAmount =
+                                (availableBalance * BigInt(50)) / BigInt(100);
+                              field.handleChange(
+                                roundLongDecimals(
+                                  formatEther(percentageAmount),
+                                  6
+                                )
+                              );
+                            }}
+                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                          >
+                            50%
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const availableBalance =
+                                selectedToken?.symbol === "vETH"
+                                  ? nativeBalance ?? BigInt(0)
+                                  : tokenBalances?.[0] ?? BigInt(0);
+
+                              const percentageAmount =
+                                (availableBalance * BigInt(75)) / BigInt(100);
+                              field.handleChange(
+                                roundLongDecimals(
+                                  formatEther(percentageAmount),
+                                  6
+                                )
+                              );
+                            }}
+                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                          >
+                            75%
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const availableBalance =
+                                selectedToken?.symbol === "vETH"
+                                  ? nativeBalance ?? BigInt(0)
+                                  : tokenBalances?.[0] ?? BigInt(0);
+
+                              // For max, leave a small amount for gas (if ETH)
+                              const maxAmount =
+                                selectedToken?.symbol === "vETH"
+                                  ? availableBalance > BigInt(1e16) // Leave 0.01 ETH for gas
+                                    ? availableBalance - BigInt(1e16)
+                                    : BigInt(0)
+                                  : availableBalance;
+
+                              field.handleChange(
+                                roundLongDecimals(formatEther(maxAmount), 6)
+                              );
+                            }}
+                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                          >
+                            Max
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <div className="flex flex-row gap-2">
                       {isDesktop ? (
@@ -312,6 +401,18 @@ export default function MintComponent({
                 size="lg"
                 className="hover:cursor-pointer text-lg font-bold"
                 type="submit"
+                onClick={(e) => {
+                  // Only submit when explicitly clicking the mint button
+                  if (
+                    !canSubmit ||
+                    isSubmitting ||
+                    isPending ||
+                    isBatching ||
+                    isSendingCalls
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
                 disabled={
                   !canSubmit ||
                   isSubmitting ||

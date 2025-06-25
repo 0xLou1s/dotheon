@@ -33,7 +33,7 @@ export default function ConnectWalletBtn() {
                   <Button
                     onClick={openConnectModal}
                     variant="default"
-                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
+                    className="rounded-none bg-primary text-background"
                   >
                     Connect Wallet
                   </Button>
@@ -45,7 +45,7 @@ export default function ConnectWalletBtn() {
                   <Button
                     onClick={openChainModal}
                     variant="destructive"
-                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
+                    className="rounded-none bg-primary text-background"
                   >
                     Wrong network
                   </Button>
@@ -57,7 +57,7 @@ export default function ConnectWalletBtn() {
                   <Button
                     onClick={openChainModal}
                     variant="default"
-                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
+                    className="rounded-none bg-primary text-background "
                   >
                     {chain.name && chain.name.length > 10
                       ? `${chain.name.slice(0, 5)}..${chain.name.slice(-5)}`
@@ -68,7 +68,7 @@ export default function ConnectWalletBtn() {
                   <Button
                     onClick={openAccountModal}
                     variant="default"
-                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
+                    className="rounded-none bg-primary text-background "
                   >
                     {/* <img src={account.ensAvatar} alt='' /> */}
                     {account.displayName}
