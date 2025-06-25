@@ -14,6 +14,7 @@ import { MarketShare } from "@/components/dashboard/market-share/market-share";
 import { HistoricalPerformance } from "@/components/dashboard/historical-performance/historical-performance";
 import { ChainDistribution } from "@/components/dashboard/chain-distribution/chain-distribution";
 import ProtocolComparison from "@/components/dashboard/protocol-comparison/protocol-comparison";
+import { TokenStatistics } from "@/components/dashboard/token-statistics/token-statistics";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -274,12 +275,17 @@ export default function DashboardPage() {
           </TabsList>
           <TabsContent value="overview" className="space-y-6">
             <MarketOverview data={dashboardData} />
+
             <div className="grid gap-6 md:grid-cols-2">
               <TvlTrends data={dashboardData} />
               <ApyTrends data={dashboardData} />
             </div>
             <div className="overflow-x-auto">
               <ProtocolsTable data={dashboardData} />
+            </div>
+            {/* Token Statistics Component */}
+            <div className="grid gap-6 md:grid-cols-1">
+              <TokenStatistics />
             </div>
           </TabsContent>
           <TabsContent value="protocols" className="space-y-6">
@@ -288,13 +294,6 @@ export default function DashboardPage() {
               <MarketShare data={dashboardData} />
             </div>
             <ChainDistribution data={dashboardData} />
-          </TabsContent>
-          <TabsContent value="trends" className="space-y-6">
-            <HistoricalPerformance data={dashboardData} />
-            <div className="grid gap-6 md:grid-cols-2">
-              <ApyTrends data={dashboardData} showDetailed={true} />
-              <TvlTrends data={dashboardData} showDetailed={true} />
-            </div>
           </TabsContent>
         </Tabs>
       </div>

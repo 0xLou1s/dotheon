@@ -8,6 +8,9 @@ import {
   Info,
   Settings,
   Trophy,
+  Wallet,
+  Coins,
+  GraduationCap,
 } from "lucide-react";
 
 import {
@@ -35,24 +38,48 @@ const data = {
       icon: BarChart3,
     },
     {
-      title: "DeFi Guide",
-      url: "/guide",
-      icon: BookOpen,
-    },
-    {
-      title: "Leaderboard",
-      url: "/leaderboard",
-      icon: Trophy,
-    },
-    {
-      title: "Resources",
-      url: "/resources",
-      icon: Globe,
+      title: "Liquid Tokens",
+      url: "/vtokens",
+      icon: Coins,
       items: [
+        {
+          title: "Mint vTokens",
+          url: "/vtokens/mint",
+        },
+        {
+          title: "Redeem vTokens",
+          url: "/vtokens/redeem",
+        },
+        {
+          title: "My Positions",
+          url: "/vtokens/positions",
+        },
+      ],
+    },
+    {
+      title: "Learn DeFi",
+      url: "/guide",
+      icon: GraduationCap,
+      items: [
+        {
+          title: "DeFi Guide",
+          url: "/guide",
+        },
+        {
+          title: "Risks & Warnings",
+          url: "/risks",
+        },
         {
           title: "Glossary",
           url: "/resources/glossary",
         },
+      ],
+    },
+    {
+      title: "Yield Opportunities",
+      url: "/resources/yield-farming",
+      icon: Wallet,
+      items: [
         {
           title: "Yield Farming",
           url: "/resources/yield-farming",
@@ -61,16 +88,22 @@ const data = {
           title: "Liquid Staking",
           url: "/resources/liquid-staking",
         },
+      ],
+    },
+    {
+      title: "Resources",
+      url: "/resources",
+      icon: Globe,
+      items: [
+        {
+          title: "Leaderboard",
+          url: "/leaderboard",
+        },
         {
           title: "Bifrost Finance",
           url: "https://bifrost.finance",
         },
       ],
-    },
-    {
-      title: "Risks & Warnings",
-      url: "/risks",
-      icon: Info,
     },
     {
       title: "Settings",
@@ -89,9 +122,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.mainItems} />
       </SidebarContent>
-      {/* <SidebarFooter className="text-xs p-4">
-        © 2025 Dotheon Dashboard Version 1.0.0
-      </SidebarFooter> */}
+      <SidebarFooter className="text-xs p-4">
+        © {new Date().getFullYear()} Dotheon
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
