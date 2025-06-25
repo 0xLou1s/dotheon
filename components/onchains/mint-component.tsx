@@ -36,6 +36,26 @@ import { TransactionStatus } from "@/components/onchains/transaction-status";
 import { l2SlpxAbi } from "@/lib/abis";
 import { TokenIcon } from "@/components/ui/token-icon";
 
+// Define interface for the API response
+interface StakingAsset {
+  contractAddress: string;
+  symbol: string;
+  slug: string;
+  baseSlug: string;
+  unstakingTime: number;
+  users: number;
+  apr: number | null;
+  fee: number;
+  price: number;
+  exchangeRatio: number;
+  supply: number;
+}
+
+interface StakingApiResponse {
+  name: string;
+  supportedAssets: StakingAsset[];
+}
+
 const tokens: Token[] = TOKEN_LIST.filter(
   (token) => token.symbol === "vDOT" || token.symbol === "vETH"
 );
@@ -47,6 +67,10 @@ export default function MintComponent({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [open, setOpen] = useState(false);
+  const [stakingData, setStakingData] = useState<StakingApiResponse | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState(false);
   const config = useConfig();
   const chainId = useChainId();
   const { address } = useAccount();
@@ -54,6 +78,38 @@ export default function MintComponent({
     account: address,
     chainId: chainId,
   });
+
+  // Fetch staking data from API
+  useEffect(() => {
+    const fetchStakingData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("https://dapi.bifrost.io/api/staking");
+        const data = await response.json();
+        setStakingData(data);
+      } catch (error) {
+        console.error("Error fetching staking data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStakingData();
+  }, []);
+
+  // Get exchange ratio for selected token
+  const getExchangeRatio = (symbol: string | undefined) => {
+    if (!symbol || !stakingData) return null;
+
+    // Remove 'v' prefix to match with API data
+    const tokenSymbol = symbol;
+
+    const asset = stakingData.supportedAssets.find(
+      (asset) => asset.symbol === tokenSymbol
+    );
+
+    return asset?.exchangeRatio || null;
+  };
 
   const { data: tokenAllowance, refetch: refetchTokenAllowance } =
     useReadContract({
@@ -185,6 +241,22 @@ export default function MintComponent({
       refetchTokenAllowance();
     }
   }, [isConfirmed, refetchTokenAllowance]);
+
+  // Calculate expected amount of vTokens based on exchange ratio
+  const calculateExpectedAmount = (
+    inputAmount: string,
+    exchangeRatio: number | null
+  ) => {
+    if (!inputAmount || !exchangeRatio) return "0";
+
+    try {
+      const amount = parseFloat(inputAmount);
+      const expected = amount / exchangeRatio;
+      return roundLongDecimals(expected.toString(), 6);
+    } catch (e) {
+      return "0";
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 w-full p-4">
@@ -391,6 +463,38 @@ export default function MintComponent({
                         ) : (
                           <p className="text-muted-foreground">-</p>
                         )}
+                      </div>
+                      {/* Exchange ratio display */}
+                      <div className="flex flex-col gap-1 mt-2 p-2 bg-muted/10 rounded-md">
+                        <div className="flex justify-between items-center">
+                          <p className="text-sm text-muted-foreground">
+                            Exchange Ratio:
+                          </p>
+                          <p className="text-sm font-medium">
+                            {isLoading ? (
+                              <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
+                            ) : (
+                              `1 ${selectedToken?.symbol} = ${getExchangeRatio(
+                                selectedToken?.symbol
+                              )} ${selectedToken?.symbol.replace("v", "")}`
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <p className="text-sm text-muted-foreground">
+                            You will receive:
+                          </p>
+                          <p className="text-sm font-medium">
+                            {isLoading ? (
+                              <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
+                            ) : (
+                              `${calculateExpectedAmount(
+                                field.state.value || "0",
+                                getExchangeRatio(selectedToken?.symbol)
+                              )} ${selectedToken?.symbol}`
+                            )}
+                          </p>
+                        </div>
                       </div>
                       <FieldInfo field={field} />
                     </div>
