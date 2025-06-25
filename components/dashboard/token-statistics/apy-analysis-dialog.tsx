@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Info, X } from "lucide-react";
 import type { ApyDetails } from "@/hooks/use-token-data";
 import Image from "next/image";
+import { ApyChart } from "./apy-chart";
 
 interface ApyAnalysisDialogProps {
   isOpen: boolean;
@@ -98,6 +99,15 @@ export function ApyAnalysisDialog({
             </span>
             {tokenSymbol} APY Analysis
           </DialogTitle>
+          <DialogClose asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 rounded-full"
+            >
+              <X className="h-5 w-5 text-slate-500 dark:text-slate-400" />
+            </Button>
+          </DialogClose>
         </DialogHeader>
 
         <div className="grid grid-cols-12 gap-6">
@@ -116,15 +126,9 @@ export function ApyAnalysisDialog({
                 </Tooltip>
               </TooltipProvider>
             </h3>
-            <div className="bg-white dark:bg-slate-800 overflow-hidden">
-              <div className="relative aspect-[16/9]">
-                <Image
-                  src={`/placeholder.svg?width=800&height=450&text=APY+Trend+Chart&query=modern+clean+line+graph+financial+data+blue+green+red+lines+on+light+background`}
-                  alt="APY Trend Chart"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 60vw"
-                />
+            <div className="bg-white dark:bg-slate-800 overflow-hidden p-4 rounded-lg">
+              <div className="h-[350px]">
+                <ApyChart tokenSymbol={tokenSymbol} />
               </div>
             </div>
           </div>
@@ -150,17 +154,17 @@ export function ApyAnalysisDialog({
                 <InfoCard
                   title="90 Days APY"
                   value={`${apyDetails.baseApy.ninetyDay}%`}
-                  color="#8A2BE2"
+                  color="#8884d8"
                 />
                 <InfoCard
                   title="30 Days APY"
                   value={`${apyDetails.baseApy.thirtyDay}%`}
-                  color="#FF4500"
+                  color="#82ca9d"
                 />
                 <InfoCard
                   title="7 Days APY"
                   value={`${apyDetails.baseApy.sevenDay}%`}
-                  color="#32CD32"
+                  color="#ffc658"
                 />
                 <InfoCard
                   title="Network avg. APY"
