@@ -31,9 +31,10 @@ export default function ConnectWalletBtn() {
               if (!connected) {
                 return (
                   <Button
+                    id="wallet-connect-button"
                     onClick={openConnectModal}
                     variant="default"
-                    className="rounded-none bg-primary text-background"
+                    className="rounded-none bg-primary text-background hover:bg-primary/90"
                   >
                     Connect Wallet
                   </Button>
@@ -45,7 +46,7 @@ export default function ConnectWalletBtn() {
                   <Button
                     onClick={openChainModal}
                     variant="destructive"
-                    className="rounded-none bg-primary text-background"
+                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
                   >
                     Wrong network
                   </Button>

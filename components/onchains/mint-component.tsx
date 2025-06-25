@@ -209,7 +209,7 @@ export default function MintComponent({
               }
             }}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger id="token-selector" className="w-full">
               <SelectValue placeholder="Select a token" />
             </SelectTrigger>
             <SelectContent>
@@ -240,7 +240,10 @@ export default function MintComponent({
                 >
                   {(field) => (
                     <div className="flex flex-col gap-2">
-                      <div className="flex flex-row gap-2 items-center justify-between">
+                      <div
+                        id="amount-controls"
+                        className="flex flex-row gap-2 items-center justify-between"
+                      >
                         <p className="text-muted-foreground">Minting</p>
                         {selectedToken && (
                           <div className="flex flex-row gap-1">
@@ -407,6 +410,7 @@ export default function MintComponent({
           >
             {([canSubmit, isSubmitting]) => (
               <Button
+                id="mint-button"
                 size="lg"
                 className="hover:cursor-pointer text-lg font-bold"
                 type="submit"

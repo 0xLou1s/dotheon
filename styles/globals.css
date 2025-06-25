@@ -264,3 +264,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Driver.js custom styles */
+.dotheon-popover {
+  --popover-bg: var(--background);
+  --popover-text: var(--foreground);
+  --stage-bg: rgba(0, 0, 0, 0.7);
+  --focus-border: var(--primary);
+  --button-bg: var(--primary);
+  --button-text: var(--primary-foreground);
+  
+  color-scheme: light dark;
+  font-family: var(--font-sans);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dotheon-popover .driver-popover-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dotheon-popover .driver-popover-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.dotheon-popover .driver-popover-footer {
+  margin-top: 1rem;
+}
+
+.dotheon-popover .driver-popover-progress-text {
+  font-size: 0.8rem;
+}

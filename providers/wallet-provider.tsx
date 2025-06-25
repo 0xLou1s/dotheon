@@ -24,12 +24,11 @@ const config = getDefaultConfig({
       wallets: [trustWallet, ledgerWallet],
     },
   ],
-  chains: [sepolia, baseSepolia],
+  chains: [baseSepolia, sepolia],
   transports: {
-    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_SEPOLIA!),
     [baseSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_BASE_SEPOLIA!),
+    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_SEPOLIA!),
   },
-  ssr: true, // Because it is Nextjs's App router, you need to declare ssr as true
 });
 
 const queryClient = new QueryClient();
@@ -42,8 +41,8 @@ export function WalletProviders({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <WagmiProvider  config={config}>
-      <QueryClientProvider  client={queryClient}>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
           initialChain={0}
           showRecentTransactions={true}
