@@ -218,180 +218,188 @@ export default function MintComponent({
             </SelectContent>
           </Select>
           <div className="flex flex-col gap-2 rounded-lg border p-4">
-            <div>
-              {/* A type-safe field component*/}
-              <form.Field
-                name="amount"
-                validators={{
-                  onChange: ({ value }) =>
-                    !value
-                      ? "Please enter an amount to mint"
-                      : parseEther(value) < 0
-                      ? "Amount must be greater than 0"
-                      : parseEther(value) >
-                        (selectedToken?.symbol === "vETH"
-                          ? nativeBalance ?? BigInt(0)
-                          : tokenBalances?.[0] ?? BigInt(0))
-                      ? "Amount must be less than or equal to your balance"
-                      : undefined,
-                }}
-              >
-                {(field) => (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-row gap-2 items-center justify-between">
-                      <p className="text-muted-foreground">Minting</p>
-                      {selectedToken && (
-                        <div className="flex flex-row gap-1">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const availableBalance =
-                                selectedToken?.symbol === "vETH"
-                                  ? nativeBalance ?? BigInt(0)
-                                  : tokenBalances?.[0] ?? BigInt(0);
+            {selectedToken ? (
+              <div>
+                {/* A type-safe field component*/}
+                <form.Field
+                  name="amount"
+                  validators={{
+                    onChange: ({ value }) =>
+                      !value
+                        ? "Please enter an amount to mint"
+                        : parseEther(value) < 0
+                        ? "Amount must be greater than 0"
+                        : parseEther(value) >
+                          (selectedToken?.symbol === "vETH"
+                            ? nativeBalance ?? BigInt(0)
+                            : tokenBalances?.[0] ?? BigInt(0))
+                        ? "Amount must be less than or equal to your balance"
+                        : undefined,
+                  }}
+                >
+                  {(field) => (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-row gap-2 items-center justify-between">
+                        <p className="text-muted-foreground">Minting</p>
+                        {selectedToken && (
+                          <div className="flex flex-row gap-1">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const availableBalance =
+                                  selectedToken?.symbol === "vETH"
+                                    ? nativeBalance ?? BigInt(0)
+                                    : tokenBalances?.[0] ?? BigInt(0);
 
-                              const percentageAmount =
-                                (availableBalance * BigInt(25)) / BigInt(100);
-                              field.handleChange(
-                                roundLongDecimals(
-                                  formatEther(percentageAmount),
-                                  6
-                                )
-                              );
-                            }}
-                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
-                          >
-                            25%
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const availableBalance =
-                                selectedToken?.symbol === "vETH"
-                                  ? nativeBalance ?? BigInt(0)
-                                  : tokenBalances?.[0] ?? BigInt(0);
+                                const percentageAmount =
+                                  (availableBalance * BigInt(25)) / BigInt(100);
+                                field.handleChange(
+                                  roundLongDecimals(
+                                    formatEther(percentageAmount),
+                                    6
+                                  )
+                                );
+                              }}
+                              className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                            >
+                              25%
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const availableBalance =
+                                  selectedToken?.symbol === "vETH"
+                                    ? nativeBalance ?? BigInt(0)
+                                    : tokenBalances?.[0] ?? BigInt(0);
 
-                              const percentageAmount =
-                                (availableBalance * BigInt(50)) / BigInt(100);
-                              field.handleChange(
-                                roundLongDecimals(
-                                  formatEther(percentageAmount),
-                                  6
-                                )
-                              );
-                            }}
-                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
-                          >
-                            50%
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const availableBalance =
-                                selectedToken?.symbol === "vETH"
-                                  ? nativeBalance ?? BigInt(0)
-                                  : tokenBalances?.[0] ?? BigInt(0);
+                                const percentageAmount =
+                                  (availableBalance * BigInt(50)) / BigInt(100);
+                                field.handleChange(
+                                  roundLongDecimals(
+                                    formatEther(percentageAmount),
+                                    6
+                                  )
+                                );
+                              }}
+                              className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                            >
+                              50%
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const availableBalance =
+                                  selectedToken?.symbol === "vETH"
+                                    ? nativeBalance ?? BigInt(0)
+                                    : tokenBalances?.[0] ?? BigInt(0);
 
-                              const percentageAmount =
-                                (availableBalance * BigInt(75)) / BigInt(100);
-                              field.handleChange(
-                                roundLongDecimals(
-                                  formatEther(percentageAmount),
-                                  6
-                                )
-                              );
-                            }}
-                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
-                          >
-                            75%
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const availableBalance =
-                                selectedToken?.symbol === "vETH"
-                                  ? nativeBalance ?? BigInt(0)
-                                  : tokenBalances?.[0] ?? BigInt(0);
+                                const percentageAmount =
+                                  (availableBalance * BigInt(75)) / BigInt(100);
+                                field.handleChange(
+                                  roundLongDecimals(
+                                    formatEther(percentageAmount),
+                                    6
+                                  )
+                                );
+                              }}
+                              className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                            >
+                              75%
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const availableBalance =
+                                  selectedToken?.symbol === "vETH"
+                                    ? nativeBalance ?? BigInt(0)
+                                    : tokenBalances?.[0] ?? BigInt(0);
 
-                              // For max, leave a small amount for gas (if ETH)
-                              const maxAmount =
-                                selectedToken?.symbol === "vETH"
-                                  ? availableBalance > BigInt(1e16) // Leave 0.01 ETH for gas
-                                    ? availableBalance - BigInt(1e16)
-                                    : BigInt(0)
-                                  : availableBalance;
+                                // For max, leave a small amount for gas (if ETH)
+                                const maxAmount =
+                                  selectedToken?.symbol === "vETH"
+                                    ? availableBalance > BigInt(1e16) // Leave 0.01 ETH for gas
+                                      ? availableBalance - BigInt(1e16)
+                                      : BigInt(0)
+                                    : availableBalance;
 
-                              field.handleChange(
-                                roundLongDecimals(formatEther(maxAmount), 6)
-                              );
-                            }}
-                            className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
-                          >
-                            Max
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-row gap-2">
-                      {isDesktop ? (
-                        <input
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value || ""}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          className="bg-transparent text-4xl outline-none w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                          type="number"
-                          placeholder="0"
-                          required
-                        />
-                      ) : (
-                        <input
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value || ""}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          className="bg-transparent text-4xl outline-none w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                          type="number"
-                          inputMode="decimal"
-                          pattern="[0-9]*"
-                          placeholder="0"
-                          required
-                        />
-                      )}
-                      <p className="place-self-end text-lg text-muted-foreground">
-                        {selectedToken?.symbol === "vETH"
-                          ? "ETH"
-                          : selectedToken?.symbol === "vDOT"
-                          ? "DOT"
-                          : "-"}
-                      </p>
-                    </div>
-                    <div className="flex flex-row gap-2">
-                      {selectedToken?.symbol === "vETH" ? (
-                        <p className="text-muted-foreground">
-                          {roundLongDecimals(
-                            formatEther(nativeBalance ?? BigInt(0)),
-                            6
-                          )}{" "}
-                          ETH
+                                field.handleChange(
+                                  roundLongDecimals(formatEther(maxAmount), 6)
+                                );
+                              }}
+                              className="bg-transparent border border-muted-foreground text-muted-foreground rounded-md px-2 py-0.5 hover:cursor-pointer hover:bg-muted/10"
+                            >
+                              Max
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        {isDesktop ? (
+                          <input
+                            id={field.name}
+                            name={field.name}
+                            value={field.state.value || ""}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            className="bg-transparent text-4xl outline-none w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            type="number"
+                            placeholder="0"
+                            required
+                          />
+                        ) : (
+                          <input
+                            id={field.name}
+                            name={field.name}
+                            value={field.state.value || ""}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            className="bg-transparent text-4xl outline-none w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            type="number"
+                            inputMode="decimal"
+                            pattern="[0-9]*"
+                            placeholder="0"
+                            required
+                          />
+                        )}
+                        <p className="place-self-end text-lg text-muted-foreground">
+                          {selectedToken?.symbol === "vETH"
+                            ? "ETH"
+                            : selectedToken?.symbol === "vDOT"
+                            ? "DOT"
+                            : "-"}
                         </p>
-                      ) : selectedToken?.symbol === "vDOT" ? (
-                        <p className="text-muted-foreground">
-                          {roundLongDecimals(
-                            formatEther(tokenBalances?.[0] ?? BigInt(0)),
-                            6
-                          )}{" "}
-                          DOT
-                        </p>
-                      ) : (
-                        <p className="text-muted-foreground">-</p>
-                      )}
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        {selectedToken?.symbol === "vETH" ? (
+                          <p className="text-muted-foreground">
+                            {roundLongDecimals(
+                              formatEther(nativeBalance ?? BigInt(0)),
+                              6
+                            )}{" "}
+                            ETH
+                          </p>
+                        ) : selectedToken?.symbol === "vDOT" ? (
+                          <p className="text-muted-foreground">
+                            {roundLongDecimals(
+                              formatEther(tokenBalances?.[0] ?? BigInt(0)),
+                              6
+                            )}{" "}
+                            DOT
+                          </p>
+                        ) : (
+                          <p className="text-muted-foreground">-</p>
+                        )}
+                      </div>
+                      <FieldInfo field={field} />
                     </div>
-                    <FieldInfo field={field} />
-                  </div>
-                )}
-              </form.Field>
-            </div>
+                  )}
+                </form.Field>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <p className="text-muted-foreground">
+                  Please select a token to mint
+                </p>
+              </div>
+            )}
           </div>
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
@@ -414,6 +422,7 @@ export default function MintComponent({
                   }
                 }}
                 disabled={
+                  !selectedToken ||
                   !canSubmit ||
                   isSubmitting ||
                   isPending ||
