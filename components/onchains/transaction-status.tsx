@@ -20,11 +20,18 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ChevronDown, Hash, ExternalLink, Ban, LoaderCircle, CircleCheck, X } from "lucide-react";
+import {
+  ChevronDown,
+  Hash,
+  ExternalLink,
+  Ban,
+  LoaderCircle,
+  CircleCheck,
+  X,
+} from "lucide-react";
 import CopyButton from "@/components/copy-button";
 import { truncateHash } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
-
 
 interface TransactionStatusProps {
   hash?: string;
@@ -66,10 +73,14 @@ export function TransactionStatus({
         <div className="flex flex-row gap-2 items-center">
           <Hash className="w-4 h-4" />
           Transaction Hash
-          <a 
-            className="flex flex-row gap-2 items-center underline underline-offset-4" 
-            href={`${config.chains?.find(chain => chain.id === chainId)?.blockExplorers?.default?.url || config.chains?.[0]?.blockExplorers?.default?.url}/tx/${hash}`} 
-            target="_blank" 
+          <a
+            className="flex flex-row gap-2 items-center underline underline-offset-4"
+            href={`${
+              config.chains?.find((chain) => chain.id === chainId)
+                ?.blockExplorers?.default?.url ||
+              config.chains?.[0]?.blockExplorers?.default?.url
+            }/tx/${hash}`}
+            target="_blank"
             rel="noopener noreferrer"
           >
             {truncateHash(hash)}
@@ -83,28 +94,30 @@ export function TransactionStatus({
           No transaction hash
         </div>
       )}
-      
+
       {!isPending && !isConfirmed && !isConfirming && (
         <div className="flex flex-row gap-2 items-center">
           <Ban className="w-4 h-4" /> No transaction submitted
         </div>
       )}
-      
+
       {isConfirming && (
         <div className="flex flex-row gap-2 items-center text-yellow-500">
-          <LoaderCircle className="w-4 h-4 animate-spin" /> Waiting for confirmation...
+          <LoaderCircle className="w-4 h-4 animate-spin" /> Waiting for
+          confirmation...
         </div>
       )}
-      
+
       {hash && isConfirmed && !isPending && !isConfirming && (
         <div className="flex flex-row gap-2 items-center text-green-500">
           <CircleCheck className="w-4 h-4" /> Transaction confirmed!
         </div>
       )}
-      
+
       {error && (
         <div className="flex flex-row gap-2 items-center text-red-500">
-          <X className="w-4 h-4" /> Error: {(error as BaseError).shortMessage || error.message}
+          <X className="w-4 h-4" /> Error:{" "}
+          {(error as BaseError).shortMessage || error.message}
         </div>
       )}
     </div>
@@ -117,7 +130,7 @@ export function TransactionStatus({
           Transaction status <ChevronDown />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>Transaction status</DialogTitle>
         </DialogHeader>
@@ -127,7 +140,9 @@ export function TransactionStatus({
         {statusContent}
         <DialogFooter>
           <DialogClose asChild>
-            <Button className="hover:cursor-pointer" variant="outline">Close</Button>
+            <Button className="hover:cursor-pointer" variant="outline">
+              Close
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -146,12 +161,12 @@ export function TransactionStatus({
             Follow the transaction status below.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="p-4">
-          {statusContent}
-        </div>
+        <div className="p-4">{statusContent}</div>
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button className="hover:cursor-pointer" variant="outline">Close</Button>
+            <Button className="hover:cursor-pointer" variant="outline">
+              Close
+            </Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
