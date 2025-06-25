@@ -38,21 +38,21 @@ const data = {
       icon: BarChart3,
     },
     {
-      title: "Liquid DOT",
-      url: "/vdot",
+      title: "Liquid Tokens",
+      url: "/vtokens",
       icon: Coins,
       items: [
         {
-          title: "Mint vDOT",
-          url: "/vdot/mint",
+          title: "Mint vTokens",
+          url: "/vtokens/mint",
         },
         {
-          title: "Redeem DOT",
-          url: "/vdot/redeem",
+          title: "Redeem vTokens",
+          url: "/vtokens/redeem",
         },
         {
           title: "My Positions",
-          url: "/vdot/positions",
+          url: "/vtokens/positions",
         },
       ],
     },
