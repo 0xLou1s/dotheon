@@ -52,7 +52,7 @@ export default function MintPage() {
   });
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 bg-amber-500 w-full">
+    <div className="flex flex-col md:flex-row gap-4 w-full">
       <BalancesComponent
         nativeBalance={nativeBalance?.value ?? BigInt(0)}
         isNativeBalanceLoading={isLoadingNativeBalance}

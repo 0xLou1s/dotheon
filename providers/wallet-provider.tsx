@@ -42,8 +42,8 @@ export function WalletProviders({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
+    <WagmiProvider  config={config}>
+      <QueryClientProvider  client={queryClient}>
         <RainbowKitProvider
           initialChain={0}
           showRecentTransactions={true}
