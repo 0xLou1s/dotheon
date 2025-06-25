@@ -52,28 +52,25 @@ export default function MintPage() {
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      <ConnectWalletBtn />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <BalancesComponent
-          nativeBalance={nativeBalance?.value ?? BigInt(0)}
-          isNativeBalanceLoading={isLoadingNativeBalance}
-          refetchNativeBalance={refetchNativeBalance}
-          tokenBalances={
-            tokenBalances?.map((token) => token.result ?? BigInt(0)) ?? []
-          }
-          isTokenBalancesLoading={isTokenBalancesLoading}
-          refetchTokenBalances={refetchTokenBalances}
-        />
-        <MintComponent
-          nativeBalance={nativeBalance?.value ?? BigInt(0)}
-          tokenBalances={
-            tokenBalances?.map((balance) => balance.result) as
-              | [bigint | undefined, bigint | undefined, bigint | undefined]
-              | undefined
-          }
-        />
-      </div>
+    <div className="flex flex-col md:flex-row gap-4 bg-amber-500 w-full">
+      <BalancesComponent
+        nativeBalance={nativeBalance?.value ?? BigInt(0)}
+        isNativeBalanceLoading={isLoadingNativeBalance}
+        refetchNativeBalance={refetchNativeBalance}
+        tokenBalances={
+          tokenBalances?.map((token) => token.result ?? BigInt(0)) ?? []
+        }
+        isTokenBalancesLoading={isTokenBalancesLoading}
+        refetchTokenBalances={refetchTokenBalances}
+      />
+      <MintComponent
+        nativeBalance={nativeBalance?.value ?? BigInt(0)}
+        tokenBalances={
+          tokenBalances?.map((balance) => balance.result) as
+            | [bigint | undefined, bigint | undefined, bigint | undefined]
+            | undefined
+        }
+      />
     </div>
   );
 }
