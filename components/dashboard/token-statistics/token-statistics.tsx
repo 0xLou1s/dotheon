@@ -23,6 +23,7 @@ import { TokenIcon } from "@/components/ui/token-icon";
 import { useTokenData } from "@/hooks/use-token-data";
 import type { ProcessedTokenData } from "@/hooks/use-token-data";
 import { ApyAnalysisDialog } from "./apy-analysis-dialog";
+import Link from "next/link";
 
 export function TokenStatistics() {
   const { data, loading, error } = useTokenData();
@@ -62,9 +63,18 @@ export function TokenStatistics() {
   const renderRow = (token: ProcessedTokenData) => (
     <TableRow key={token.symbol}>
       <TableCell>
-        <div className="flex items-center gap-3 font-medium">
+        <div className="flex items-center gap-4 font-medium">
           <TokenIcon symbol={token.symbol} className="h-10 w-10" />
-          {token.symbol}
+          <div className="flex flex-col items-start gap-2 text-left">
+            <span className="text-md font-semibold">{token.symbol}</span>
+            <button
+              className="flex items-center gap-2 text-xs font-medium cursor-pointer hover:text-primary"
+              onClick={() => handleOpenAnalysis(token)}
+            >
+              Analysis
+              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            </button>
+          </div>
         </div>
       </TableCell>
       <TableCell>${token.price.toFixed(2)}</TableCell>
@@ -73,14 +83,8 @@ export function TokenStatistics() {
         {token.apy}%
       </TableCell>
       <TableCell className="text-right">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => handleOpenAnalysis(token)}
-        >
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          <span className="sr-only">Analysis for {token.symbol}</span>
+        <Button asChild>
+          <Link href={`/vtokens/mint?token=${token.symbol}`}>Mint</Link>
         </Button>
       </TableCell>
     </TableRow>
@@ -117,9 +121,7 @@ export function TokenStatistics() {
                 <TableHead>Price</TableHead>
                 <TableHead>Total Staked</TableHead>
                 <TableHead>APY</TableHead>
-                <TableHead className="pr-6 text-right">
-                  <span className="sr-only">Actions</span>
-                </TableHead>
+                <TableHead className="pr-4 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

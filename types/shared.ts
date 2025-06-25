@@ -10,6 +10,8 @@ export interface BalancesProps {
   export interface MintProps {
     nativeBalance: bigint | undefined;
     tokenBalances: readonly [bigint | undefined, bigint | undefined, bigint | undefined] | undefined;
+    initialTokenSymbol?: string | null;
+    onTokenChange?: (symbol: string) => void;
   }
   
   export interface RedeemProps {

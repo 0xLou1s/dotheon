@@ -26,13 +26,7 @@ export function TokenIcon({
       className={`relative ${className}`}
       style={{ width: size, height: size }}
     >
-      <Image
-        src={src}
-        alt={alt}
-        width={size}
-        height={size}
-        className="rounded-full"
-      />
+      <Image src={src} alt={alt} width={size} height={size} />
     </div>
   );
 }

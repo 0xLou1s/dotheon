@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -44,7 +45,7 @@ interface StakingAsset {
   baseSlug: string;
   unstakingTime: number;
   users: number;
-  apr: number | null;
+  apr: number;
   fee: number;
   price: number;
   exchangeRatio: number;
@@ -63,7 +64,10 @@ const tokens: Token[] = TOKEN_LIST.filter(
 export default function MintComponent({
   nativeBalance,
   tokenBalances,
+  initialTokenSymbol,
+  onTokenChange,
 }: MintProps) {
+  const searchParams = useSearchParams();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [open, setOpen] = useState(false);
@@ -74,10 +78,66 @@ export default function MintComponent({
   const config = useConfig();
   const chainId = useChainId();
   const { address } = useAccount();
+  const router = useRouter();
+  const pathname = usePathname();
   const { data: availableCapabilities } = useCapabilities({
     account: address,
     chainId: chainId,
   });
+
+  // Handle token selection from URL parameter
+  useEffect(() => {
+    const tokenParam = searchParams.get("token");
+
+    if (!tokenParam) return;
+
+    console.log("Initializing from URL parameter:", tokenParam);
+
+    // Handle dot token param
+    if (
+      tokenParam.toLowerCase() === "dot" ||
+      tokenParam.toLowerCase() === "vdot"
+    ) {
+      const dotToken = tokens.find((t) => t.symbol === "vDOT");
+      if (dotToken) {
+        console.log("Setting token to vDOT");
+        setSelectedToken(dotToken);
+      }
+    }
+
+    // Handle eth token param
+    if (
+      tokenParam.toLowerCase() === "eth" ||
+      tokenParam.toLowerCase() === "veth"
+    ) {
+      const ethToken = tokens.find((t) => t.symbol === "vETH");
+      if (ethToken) {
+        console.log("Setting token to vETH");
+        setSelectedToken(ethToken);
+      }
+    }
+  }, [searchParams, tokens, setSelectedToken]);
+
+  // Handle token selection from prop
+  useEffect(() => {
+    if (initialTokenSymbol) {
+      console.log("Initializing from prop:", initialTokenSymbol);
+
+      if (initialTokenSymbol === "vDOT") {
+        const dotToken = tokens.find((t) => t.symbol === "vDOT");
+        if (dotToken) {
+          console.log("Setting token to vDOT from prop");
+          setSelectedToken(dotToken);
+        }
+      } else if (initialTokenSymbol === "vETH") {
+        const ethToken = tokens.find((t) => t.symbol === "vETH");
+        if (ethToken) {
+          console.log("Setting token to vETH from prop");
+          setSelectedToken(ethToken);
+        }
+      }
+    }
+  }, [initialTokenSymbol, tokens]);
 
   // Fetch staking data from API
   useEffect(() => {
@@ -101,11 +161,8 @@ export default function MintComponent({
   const getExchangeRatio = (symbol: string | undefined) => {
     if (!symbol || !stakingData) return null;
 
-    // Remove 'v' prefix to match with API data
-    const tokenSymbol = symbol;
-
     const asset = stakingData.supportedAssets.find(
-      (asset) => asset.symbol === tokenSymbol
+      (asset) => asset.symbol === symbol
     );
 
     return asset?.exchangeRatio || null;
@@ -258,6 +315,13 @@ export default function MintComponent({
     }
   };
 
+  // Log when selectedToken changes
+  useEffect(() => {
+    if (selectedToken) {
+      console.log("Selected token changed to:", selectedToken.symbol);
+    }
+  }, [selectedToken]);
+
   return (
     <div className="flex flex-col gap-4 w-full p-4">
       <div className="flex flex-col gap-2">
@@ -273,23 +337,73 @@ export default function MintComponent({
         }}
       >
         <div className="flex flex-col gap-4">
-          <Select
-            onValueChange={(value) => {
-              const token = tokens.find((token) => token.symbol === value);
-              if (token) {
-                setSelectedToken(token);
-              }
-            }}
-          >
-            <SelectTrigger id="token-selector" className="w-full">
-              <SelectValue placeholder="Select a token" />
-            </SelectTrigger>
-            <SelectContent>
-              {tokens.map((token) => (
-                <SelectMintToken key={token.symbol} token={token} />
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="token-selector-container">
+            <Select
+              onValueChange={(value) => {
+                console.log("Select value changed to:", value);
+                const token = tokens.find((token) => token.symbol === value);
+                if (token) {
+                  console.log("Setting selected token to:", token.symbol);
+                  setSelectedToken(token);
+
+                  // Notify parent component about token change if callback exists
+                  if (onTokenChange) {
+                    onTokenChange(token.symbol);
+                  } else {
+                    // If no callback provided, update URL directly
+                    const params = new URLSearchParams(searchParams.toString());
+
+                    if (token.symbol === "vDOT") {
+                      params.set("token", "dot");
+                    } else if (token.symbol === "vETH") {
+                      params.set("token", "eth");
+                    }
+
+                    // Update the URL without refreshing the page
+                    router.replace(`${pathname}?${params.toString()}`, {
+                      scroll: false,
+                    });
+                  }
+                }
+              }}
+              value={selectedToken?.symbol || ""}
+            >
+              <SelectTrigger
+                id="token-selector"
+                className="w-full text-lg py-6 border-2 focus:ring-2 focus:ring-primary"
+              >
+                {selectedToken ? (
+                  <div className="flex items-center gap-3">
+                    <TokenIcon symbol={selectedToken.symbol} size={28} />
+                    <span className="font-semibold text-xl">
+                      {selectedToken.symbol}
+                    </span>
+                  </div>
+                ) : (
+                  <SelectValue placeholder="Select a token to mint" />
+                )}
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {tokens.map((token) => (
+                  <SelectItem
+                    key={token.symbol}
+                    value={token.symbol}
+                    className="py-3 hover:bg-muted cursor-pointer"
+                  >
+                    <div className="flex flex-row gap-3 items-center justify-start">
+                      <TokenIcon symbol={token.symbol} size={28} />
+                      <div>
+                        <p className="text-lg font-medium">{token.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {token.symbol}
+                        </p>
+                      </div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div className="flex flex-col gap-2 rounded-lg border p-4">
             {selectedToken ? (
               <div>
@@ -598,17 +712,5 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
       )}
       {field.state.meta.isValidating ? "Validating..." : null}
     </>
-  );
-}
-
-function SelectMintToken({ token }: { token: Token }) {
-  return (
-    <SelectItem value={token.symbol}>
-      <div className="flex flex-row gap-2 items-center justify-center">
-        <TokenIcon symbol={token.symbol} size={24} />
-        <p className="text-lg">{token.name}</p>
-        <p className="text-lg text-muted-foreground">{token.symbol}</p>
-      </div>
-    </SelectItem>
   );
 }

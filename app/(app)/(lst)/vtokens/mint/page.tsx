@@ -5,18 +5,61 @@ import { useBalance, useAccount, useReadContracts } from "wagmi";
 import { erc20Abi, Address } from "viem";
 import { TOKEN_LIST } from "@/lib/constants";
 import BalancesComponent from "@/components/onchains/balances-component";
-import ConnectWalletBtn from "@/components/connect-wallet-btn";
 import { useState, useEffect, useRef } from "react";
 import {
   OnboardingTour,
   StartTourButton,
   TourStep,
 } from "@/components/ui/onboarding-tour";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import type { Token } from "@/types/token";
 
 export default function MintPage() {
   const { address, isConnected } = useAccount();
   const [showTour, setShowTour] = useState(false);
   const finalStepRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const tokenParam = searchParams.get("token");
+  const [initialToken, setInitialToken] = useState<string | null>(null);
+
+  // Handle changes to the URL parameters
+  useEffect(() => {
+    if (tokenParam) {
+      console.log("Mint page detected token param:", tokenParam);
+
+      // Set the initial token based on the URL parameter
+      if (
+        tokenParam.toLowerCase() === "dot" ||
+        tokenParam.toLowerCase() === "vdot"
+      ) {
+        setInitialToken("vDOT");
+      } else if (
+        tokenParam.toLowerCase() === "eth" ||
+        tokenParam.toLowerCase() === "veth"
+      ) {
+        setInitialToken("vETH");
+      }
+    }
+  }, [tokenParam]);
+
+  // This function will be called when a token is selected directly on this page
+  const handleSelectToken = (symbol: string) => {
+    setInitialToken(symbol);
+
+    // Update URL to match selection
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (symbol === "vDOT") {
+      params.set("token", "vDOT");
+    } else if (symbol === "vETH") {
+      params.set("token", "vETH");
+    }
+
+    // Update URL without page refresh
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const {
     data: nativeBalance,
@@ -171,6 +214,8 @@ export default function MintPage() {
                 | [bigint | undefined, bigint | undefined, bigint | undefined]
                 | undefined
             }
+            initialTokenSymbol={initialToken}
+            onTokenChange={handleSelectToken}
           />
         </div>
       </div>
