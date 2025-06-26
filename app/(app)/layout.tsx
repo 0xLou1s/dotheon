@@ -42,7 +42,7 @@ export default function AppLayout({
       <div className="w-full">
         <div className="w-full p-4">
           <div className="flex items-center mb-4">
-            <SidebarTrigger />
+            <SidebarTrigger className="mr-2 shadow-none" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>

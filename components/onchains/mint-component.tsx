@@ -370,7 +370,7 @@ export default function MintComponent({
             >
               <SelectTrigger
                 id="token-selector"
-                className="w-full text-lg py-6 border-2 focus:ring-2 focus:ring-primary"
+                className="w-full text-lg py-4 border-2 focus:ring-2 focus:ring-primary"
               >
                 {selectedToken ? (
                   <div className="flex items-center gap-3">
@@ -388,12 +388,11 @@ export default function MintComponent({
                   <SelectItem
                     key={token.symbol}
                     value={token.symbol}
-                    className="py-3 hover:bg-muted cursor-pointer"
+                    className=" hover:bg-muted cursor-pointer"
                   >
                     <div className="flex flex-row gap-3 items-center justify-start">
                       <TokenIcon symbol={token.symbol} size={28} />
                       <div>
-                        <p className="text-lg font-medium">{token.name}</p>
                         <p className="text-sm text-muted-foreground">
                           {token.symbol}
                         </p>

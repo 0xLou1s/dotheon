@@ -250,7 +250,7 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
         </div>
       </div>
       {totalPages > 1 && (
-        <Pagination className="w-full justify-end">
+        <Pagination className="w-full justify-end py-2">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
