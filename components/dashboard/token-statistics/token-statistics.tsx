@@ -64,7 +64,7 @@ export function TokenStatistics() {
     <TableRow key={token.symbol}>
       <TableCell>
         <div className="flex items-center gap-4 font-medium">
-          <TokenIcon symbol={token.symbol} className="h-10 w-10" />
+          <TokenIcon symbol={token.symbol} size={32} />
           <div className="flex flex-col items-start gap-2 text-left">
             <span className="text-md font-semibold">{token.symbol}</span>
             <button
@@ -93,12 +93,12 @@ export function TokenStatistics() {
   return (
     <>
       <Card className="w-full">
-        <CardHeader>
+        <CardHeader className="px-2 py-0">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl font-semibold">
-              Liquid Staking
+              Liquid Staking Tokens
             </CardTitle>
-            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground ml-auto">
               APY
               <TooltipProvider>
                 <Tooltip>
@@ -117,7 +117,7 @@ export function TokenStatistics() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="pl-6">Asset</TableHead>
+                <TableHead className="pl-14">Asset</TableHead>
                 <TableHead>Price</TableHead>
                 <TableHead>Total Staked</TableHead>
                 <TableHead>APY</TableHead>
