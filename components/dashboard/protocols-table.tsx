@@ -33,7 +33,7 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
     key: string;
     direction: "ascending" | "descending";
   }>({
-    key: "tvl",
+    key: "apy",
     direction: "descending",
   });
   const [currentPage, setCurrentPage] = useState(1);
