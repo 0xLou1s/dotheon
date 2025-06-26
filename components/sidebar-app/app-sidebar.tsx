@@ -3,11 +3,8 @@
 import * as React from "react";
 import {
   BarChart3,
-  BookOpen,
   Globe,
-  Info,
   Settings,
-  Trophy,
   Wallet,
   Coins,
   GraduationCap,
@@ -16,7 +13,6 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
@@ -122,9 +118,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.mainItems} />
       </SidebarContent>
-      <SidebarFooter className="text-xs p-4">
-        © {new Date().getFullYear()} Dotheon
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import ConnectWalletBtn from "@/components/connect-wallet-btn";
+import UnavailableMobileScreen from "@/components/temp/unavailable-mobile-screen";
 import { WalletProviders } from "@/providers/wallet-provider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -9,7 +10,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-full flex justify-end">
         <ConnectWalletBtn />
       </div>
-      <div>{children}</div>
+      <div className="hidden md:block">{children}</div>
+      <div className="block md:hidden">
+        <UnavailableMobileScreen />
+      </div>
     </div>
   );
 }

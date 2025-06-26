@@ -51,10 +51,7 @@ export default function RootLayout({
       >
         <Providers>
           <TopLoader />
-          <main className="flex-1 hidden md:block">{children}</main>
-          <main className="flex-1 block md:hidden">
-            <UnavailableMobileScreen />
-          </main>
+          <main className="flex-1">{children}</main>
           <Toaster />
         </Providers>
         <Analytics />
