@@ -7,6 +7,7 @@ import { Manrope, JetBrains_Mono, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/react";
+import UnavailableMobileScreen from "@/components/temp/unavailable-mobile-screen";
 
 const fontSans = Manrope({
   variable: "--font-sans",
@@ -50,7 +51,10 @@ export default function RootLayout({
       >
         <Providers>
           <TopLoader />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 hidden md:block">{children}</main>
+          <main className="flex-1 block md:hidden">
+            <UnavailableMobileScreen />
+          </main>
           <Toaster />
         </Providers>
         <Analytics />

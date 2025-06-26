@@ -283,8 +283,7 @@ export default function DashboardPage() {
             <div className="overflow-x-auto">
               <ProtocolsTable data={dashboardData} />
             </div>
-            {/* Token Statistics Component */}
-            <div className="grid gap-6 md:grid-cols-1">
+            <div className="overflow-x-auto">
               <TokenStatistics />
             </div>
           </TabsContent>

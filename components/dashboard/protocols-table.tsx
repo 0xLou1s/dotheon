@@ -118,7 +118,7 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
       <div className="rounded-md border">
         <div className="w-full overflow-x-auto">
           <div className="min-w-[640px]">
-            <Table>
+            <Table className="bg-card text-card-foreground">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[40px]">#</TableHead>
