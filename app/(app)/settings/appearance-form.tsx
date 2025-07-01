@@ -48,9 +48,17 @@ export function AppearanceForm() {
   }, [theme, form]);
 
   function onSubmit(data: AppearanceFormValues) {
-    setTheme(data.theme);
-    toast("Theme updated successfully");
-    router.refresh();
+    if (!document.startViewTransition) {
+      setTheme(data.theme);
+      toast("Theme updated successfully");
+      router.refresh();
+    } else {
+      document.startViewTransition(() => {
+        setTheme(data.theme);
+        toast("Theme updated successfully");
+        router.refresh();
+      });
+    }
   }
 
   return (
