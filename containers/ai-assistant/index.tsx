@@ -80,7 +80,7 @@ export const mockMessages: Message[] = [
   {
     id: "2",
     from: "assistant",
-    content: `You can mint your token here 👉 [Mint Now](http://localhost:3000/vtokens/mint)
+    content: `You can mint your token here 👉 [Mint Now](/vtokens/mint)
 
 Let me know if you need help with the minting process! 🚀`,
     avatar: "https://github.com/openai.png",
