@@ -49,7 +49,7 @@ export function WalletProviders({ children }: { children: React.ReactNode }) {
           theme={darkTheme({
             accentColor: "#7856ff",
             accentColorForeground: "white",
-            borderRadius: "none",
+            borderRadius: "small",
           })}
           locale="en-US"
         >
