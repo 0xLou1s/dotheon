@@ -6,15 +6,15 @@ import { fetchLSTData, HistoricalDataPoint, Protocol } from "@/lib/lst-api";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MarketOverview } from "@/components/dashboard/market-overview";
-import { TvlTrends } from "@/components/dashboard/tvl-trends/tvl-trends";
-import { ApyTrends } from "@/components/dashboard/apy-trends/apy-trends";
-import ProtocolsTable from "@/components/dashboard/protocols-table";
-import { MarketShare } from "@/components/dashboard/market-share/market-share";
-import { HistoricalPerformance } from "@/components/dashboard/historical-performance/historical-performance";
-import { ChainDistribution } from "@/components/dashboard/chain-distribution/chain-distribution";
-import ProtocolComparison from "@/components/dashboard/protocol-comparison/protocol-comparison";
-import { TokenStatistics } from "@/components/dashboard/token-statistics/token-statistics";
+import { MarketOverview } from "@/containers/dashboard/market-overview";
+import { TvlTrends } from "@/containers/dashboard/tvl-trends/tvl-trends";
+import { ApyTrends } from "@/containers/dashboard/apy-trends/apy-trends";
+import ProtocolsTable from "@/containers/dashboard/protocols-table";
+import { MarketShare } from "@/containers/dashboard/market-share/market-share";
+import { HistoricalPerformance } from "@/containers/dashboard/historical-performance/historical-performance";
+import { ChainDistribution } from "@/containers/dashboard/chain-distribution/chain-distribution";
+import ProtocolComparison from "@/containers/dashboard/protocol-comparison/protocol-comparison";
+import { TokenStatistics } from "@/containers/dashboard/token-statistics/token-statistics";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
