@@ -317,7 +317,9 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
                   handlePageChange(Math.min(totalPages, currentPage + 1))
                 }
                 className={cn(
-                  currentPage === totalPages && "pointer-events-none",
+                  currentPage === totalPages
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer",
                   "border border-border shadow-none"
                 )}
               />
