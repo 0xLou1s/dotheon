@@ -22,6 +22,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface ProtocolsTableProps {
   data: any;
@@ -115,7 +117,7 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
           />
         </div>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-lg border border-border p-2">
         <div className="w-full overflow-x-auto">
           <div className="min-w-[640px]">
             <Table className="bg-card text-card-foreground">
@@ -237,9 +239,19 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
                       {protocol.pools.length}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <ExternalLink className="h-4 w-4" />
-                        <span className="sr-only">View details</span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="size-8 p-0 shadow-none"
+                        asChild
+                      >
+                        <Link
+                          href={`https://defillama.com/protocol/${protocol.name}`}
+                          target="_blank"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="sr-only">View details</span>
+                        </Link>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -255,11 +267,12 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                className={
+                className={cn(
                   currentPage === 1
                     ? "pointer-events-none opacity-50"
-                    : "cursor-pointer"
-                }
+                    : "cursor-pointer",
+                  "border border-border shadow-none"
+                )}
               />
             </PaginationItem>
 
@@ -276,6 +289,10 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
                     <PaginationLink
                       onClick={() => handlePageChange(pageNumber)}
                       isActive={currentPage === pageNumber}
+                      className={cn(
+                        currentPage === pageNumber && "bg-primary/10",
+                        "border border-border shadow-none"
+                      )}
                     >
                       {pageNumber}
                     </PaginationLink>
@@ -299,11 +316,10 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
                 onClick={() =>
                   handlePageChange(Math.min(totalPages, currentPage + 1))
                 }
-                className={
-                  currentPage === totalPages
-                    ? "pointer-events-none opacity-50"
-                    : "cursor-pointer"
-                }
+                className={cn(
+                  currentPage === totalPages && "pointer-events-none",
+                  "border border-border shadow-none"
+                )}
               />
             </PaginationItem>
           </PaginationContent>

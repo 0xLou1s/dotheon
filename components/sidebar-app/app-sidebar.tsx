@@ -8,6 +8,7 @@ import {
   Wallet,
   Coins,
   GraduationCap,
+  Brain,
 } from "lucide-react";
 
 import {
@@ -51,6 +52,11 @@ const data = {
           url: "/vtokens/positions",
         },
       ],
+    },
+    {
+      title: "AI DeFi Assistant",
+      url: "/ai",
+      icon: Brain,
     },
     {
       title: "Learn DeFi",
