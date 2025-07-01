@@ -52,7 +52,7 @@ export default function RootLayout({
         <Providers>
           <TopLoader />
           <main className="flex-1">{children}</main>
-          <Toaster />
+          <Toaster position="top-center" />
         </Providers>
         <Analytics />
       </body>
