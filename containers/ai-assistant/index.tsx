@@ -221,7 +221,7 @@ export function Chat() {
         };
         setMessages((prev) => [...prev, aiMessage]);
       }
-    }, 50);
+    }, 20);
 
     // Reset form
     event.currentTarget.reset();
@@ -276,12 +276,13 @@ export function Chat() {
         <div ref={messagesEndRef} />
       </div>
 
-      <AISuggestions className="py-2 hidden lg:block">
+      <AISuggestions className="py-2 hidden md:flex">
         {suggestions.map((suggestion) => (
           <AISuggestion
             key={suggestion}
             onClick={() => handleSuggestionClick(suggestion)}
             suggestion={suggestion}
+            disabled={isStreaming || isTyping}
           />
         ))}
       </AISuggestions>
