@@ -29,6 +29,10 @@ import {
 } from "lucide-react";
 import type { FormEventHandler } from "react";
 import { AISuggestion, AISuggestions } from "@/components/ai/suggestion";
+import { useAccount } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 // Mock data types
 export type Message = {
@@ -90,9 +94,12 @@ Let me know if you need help with the minting process! 🚀`,
 ];
 
 export function Chat() {
+  const { openConnectModal } = useConnectModal();
+  const { isConnected } = useAccount();
   const [messages, setMessages] = useState<Message[]>(mockMessages);
   const [model, setModel] = useState<string>(mockModels[0].id);
   const [isTyping, setIsTyping] = useState(false);
+  const [currentText, setCurrentText] = useState<string>("");
   const [currentResponse, setCurrentResponse] = useState<string>("");
   const [isStreaming, setIsStreaming] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -131,6 +138,14 @@ export function Chat() {
   };
 
   const handleSuggestionClick = (suggestion: string) => {
+    if (!isConnected) {
+      toast("Please connect your wallet to chat.");
+      setTimeout(() => {
+        openConnectModal?.();
+      }, 1000);
+      return;
+    }
+
     shouldScrollRef.current = true;
 
     const userMessage: Message = {
@@ -288,7 +303,10 @@ export function Chat() {
       </AISuggestions>
 
       <AIInput onSubmit={handleSubmit}>
-        <AIInputTextarea />
+        <AIInputTextarea
+          onChange={(e) => setCurrentText(e.target.value)}
+          value={currentText}
+        />
         <AIInputToolbar>
           <AIInputTools>
             <AIInputButton>
@@ -314,13 +332,20 @@ export function Chat() {
               </AIInputModelSelectContent>
             </AIInputModelSelect>
           </AIInputTools>
-          <AIInputSubmit onClick={isStreaming ? stopStreaming : undefined}>
-            {isStreaming ? (
-              <StopCircleIcon size={16} />
-            ) : (
-              <SendIcon size={16} />
-            )}
-          </AIInputSubmit>
+          {isConnected ? (
+            <AIInputSubmit
+              disabled={!currentText.trim()}
+              onClick={isStreaming ? stopStreaming : undefined}
+            >
+              {isStreaming ? (
+                <StopCircleIcon size={16} />
+              ) : (
+                <SendIcon size={16} />
+              )}
+            </AIInputSubmit>
+          ) : (
+            <Button onClick={openConnectModal}>Connect Wallet To Chat</Button>
+          )}
         </AIInputToolbar>
       </AIInput>
     </div>
