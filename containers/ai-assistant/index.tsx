@@ -334,7 +334,7 @@ export function Chat() {
           </AIInputTools>
           {isConnected ? (
             <AIInputSubmit
-              disabled={!currentText.trim()}
+              disabled={!currentText.trim() && !isStreaming}
               onClick={isStreaming ? stopStreaming : undefined}
             >
               {isStreaming ? (
