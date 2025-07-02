@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Connector } from "wagmi";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -34,4 +35,26 @@ export function formatNumberStringWithThousandSeparators(value: string) {
   }
 
   return Number(value).toLocaleString();
+}
+
+
+export function getWalletName(connector: Connector | undefined) {
+  if (!connector) {
+    return "Unknown";
+  }
+  return connector.name;
+}
+
+export function getWalletIcon(connector: Connector | undefined) {
+  if (!connector) {
+    return null;
+  }
+  return connector.icon;
+}
+
+export function truncateAddress(address: string) {
+  if (!address) {
+    return "Unknown";
+  }
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }

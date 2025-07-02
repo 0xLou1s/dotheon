@@ -14,6 +14,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
@@ -23,11 +24,6 @@ import NavMain from "./nav-main";
 
 // Updated data for Bifrost DeFi Dashboard
 const data = {
-  user: {
-    name: "Bifrost User",
-    email: "user@example.com",
-    avatar: undefined,
-  },
   mainItems: [
     {
       title: "Dashboard",
@@ -126,6 +122,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.mainItems} />
       </SidebarContent>
       <SidebarRail />
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   );
 }

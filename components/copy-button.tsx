@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Copy, Check } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Address } from "viem";
 
 export default function CopyButton({
@@ -14,6 +15,7 @@ export default function CopyButton({
 
   const copy = async () => {
     await navigator.clipboard.writeText(copyText ? copyText : "");
+    toast.success("Copied to clipboard");
     setIsCopied(true);
 
     setTimeout(() => {
@@ -23,7 +25,7 @@ export default function CopyButton({
 
   return (
     <Button
-      className="hover:cursor-pointer"
+      className="hover:cursor-pointer shadow-none"
       variant="ghost"
       size="icon"
       onClick={copy}
