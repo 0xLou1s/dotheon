@@ -14,8 +14,14 @@ const recentActivities = [
     icon: "/eth.svg",
     type: "Buy",
     date: "Nov 28, 2024 11:34 PM",
-    amountBTC: "0.5384",
-    amountUSD: "3980.93",
+    amount: {
+      value: "0.5384",
+      currency: "ETH",
+    },
+    amountUSD: {
+      value: "3980.93",
+      currency: "USDT",
+    },
     badgeColor: "bg-orange-100 text-orange-600 hover:bg-orange-100",
   },
   {
@@ -24,8 +30,14 @@ const recentActivities = [
     icon: "/dot.svg",
     type: "Sell",
     date: "Nov 10, 2024 11:34 PM",
-    amountBTC: "0.5384",
-    amountUSD: "3980.93",
+    amount: {
+      value: "0.5384",
+      currency: "DOT",
+    },
+    amountUSD: {
+      value: "3980.93",
+      currency: "USDT",
+    },
     badgeColor: "bg-blue-100 text-blue-600 hover:bg-blue-100",
   },
   {
@@ -34,8 +46,14 @@ const recentActivities = [
     icon: "/eth.svg",
     type: "Send",
     date: "Sept 04, 2024 11:34 PM",
-    amountBTC: "0.5384",
-    amountUSD: "3980.93",
+    amount: {
+      value: "0.5384",
+      currency: "ETH",
+    },
+    amountUSD: {
+      value: "3980.93",
+      currency: "USDT",
+    },
     badgeColor: "bg-green-100 text-green-600 hover:bg-green-100",
   },
   {
@@ -44,8 +62,14 @@ const recentActivities = [
     icon: "/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:34 PM",
-    amountBTC: "0.5384",
-    amountUSD: "3980.93",
+    amount: {
+      value: "0.5384",
+      currency: "DOT",
+    },
+    amountUSD: {
+      value: "3980.93",
+      currency: "USDT",
+    },
     badgeColor: "bg-orange-100 text-orange-600 hover:bg-orange-100",
   },
   {
@@ -54,8 +78,14 @@ const recentActivities = [
     icon: "/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:35 PM",
-    amountBTC: "0.5384",
-    amountUSD: "3980.93",
+    amount: {
+      value: "0.5384",
+      currency: "DOT",
+    },
+    amountUSD: {
+      value: "3980.93",
+      currency: "USDT",
+    },
     badgeColor: "bg-orange-100 text-orange-600 hover:bg-orange-100",
   },
   {
@@ -64,8 +94,14 @@ const recentActivities = [
     icon: "/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:38 PM",
-    amountBTC: "0.5384",
-    amountUSD: "3980.93",
+    amount: {
+      value: "0.5384",
+      currency: "DOT",
+    },
+    amountUSD: {
+      value: "3980.93",
+      currency: "USDT",
+    },
     badgeColor: "bg-orange-100 text-orange-600 hover:bg-orange-100",
   },
 ];
@@ -96,8 +132,12 @@ export default function RecentActivities() {
               </div>
             </div>
             <div className="text-right">
-              <p className="text-lg font-medium">{activity.amountBTC} BTC</p>
-              <p className="text-muted-foreground">{activity.amountUSD} USD</p>
+              <p className="text-lg font-medium">
+                {activity.amount.value} {activity.amount.currency}
+              </p>
+              <p className="text-muted-foreground">
+                {activity.amountUSD.value} {activity.amountUSD.currency}
+              </p>
             </div>
           </div>
         ))}
