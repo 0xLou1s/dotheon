@@ -237,7 +237,7 @@ export function AppearanceForm() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {(["light", "dark"] as const).map((mode) => (
             <ThemePreview
               key={mode}
