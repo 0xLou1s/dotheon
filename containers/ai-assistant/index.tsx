@@ -319,7 +319,7 @@ export function Chat() {
               <GlobeIcon size={16} />
               <span>Search</span>
             </AIInputButton>
-            <AIInputModelSelect value={model} onValueChange={setModel}>
+            {/* <AIInputModelSelect value={model} onValueChange={setModel}>
               <AIInputModelSelectTrigger>
                 <AIInputModelSelectValue />
               </AIInputModelSelectTrigger>
@@ -330,7 +330,7 @@ export function Chat() {
                   </AIInputModelSelectItem>
                 ))}
               </AIInputModelSelectContent>
-            </AIInputModelSelect>
+            </AIInputModelSelect> */}
           </AIInputTools>
           {isConnected ? (
             <AIInputSubmit
