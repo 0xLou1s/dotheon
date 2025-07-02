@@ -16,6 +16,9 @@ export interface BalancesProps {
   
   export interface RedeemProps {
     tokenBalances: readonly [bigint | undefined, bigint | undefined, bigint | undefined] | undefined;
+    initialTokenSymbol?: string | null;
+    onTokenChange?: (symbol: string) => void;
+    nativeBalance?: bigint;
   }
   
   export interface DepositToVaultProps {
