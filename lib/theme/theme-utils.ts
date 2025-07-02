@@ -57,7 +57,7 @@ export function setThemeMode(mode: "light" | "dark"): void {
   
   try {
     localStorage.setItem("theme-mode", mode);
-    const presetName = getThemePreset() || "modern-minimal";
+    const presetName = getThemePreset() || "notebook";
     applyThemeToDocument(presetName, mode);
   } catch (error) {
     console.error("Error setting theme mode:", error);
@@ -88,7 +88,7 @@ export function initializeTheme(): void {
   
   try {
     const mode = getThemeMode();
-    const presetName = getThemePreset() || "modern-minimal";
+    const presetName = getThemePreset() || "notebook";
     applyThemeToDocument(presetName, mode);
   } catch (error) {
     console.error("Error initializing theme:", error);

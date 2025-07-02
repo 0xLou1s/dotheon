@@ -126,7 +126,7 @@ export const defaultThemeState: ThemeEditorState = {
     dark: defaultDarkThemeStyles,
   },
   currentMode:
-    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches
+    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: light)").matches
       ? "dark"
       : "light",
   hslAdjustments: {

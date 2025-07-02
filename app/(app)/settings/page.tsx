@@ -1,4 +1,5 @@
 import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 import { AppearanceForm } from "./appearance-form";
 import { ThemePresetSelector } from "@/components/theme/theme-preset-selector";
 
@@ -13,8 +14,16 @@ export default function SettingsAppearancePage() {
         </p>
       </div>
       <Separator />
-      <AppearanceForm />
-      <ThemePresetSelector />
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="p-6">
+          <AppearanceForm />
+        </Card>
+
+        <Card className="p-6">
+          <ThemePresetSelector />
+        </Card>
+      </div>
     </div>
   );
 }

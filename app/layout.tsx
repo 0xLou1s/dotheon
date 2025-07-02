@@ -8,8 +8,6 @@ import TopLoader from "@/components/top-loader";
 import { Manrope, JetBrains_Mono, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
-import UnavailableMobileScreen from "@/components/temp/unavailable-mobile-screen";
-import { getInitializeThemeScriptAsString } from "@/lib/theme/initialize-theme";
 import { ThemeScript } from "@/components/theme/theme-script";
 
 const fontSans = Manrope({
