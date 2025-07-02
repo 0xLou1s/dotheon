@@ -2,6 +2,9 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Connector } from "wagmi";
 
+// @ts-expect-error: owned by ngard
+import { isEqual } from "@ngard/tiny-isequal";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -57,4 +60,8 @@ export function truncateAddress(address: string) {
     return "Unknown";
   }
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+export function isDeepEqual(a: unknown, b: unknown): boolean {
+  return isEqual(a, b);
 }

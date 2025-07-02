@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import "@/styles/globals.css";
 import Providers from "@/providers";
+import { cn } from "@/lib/utils";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";
 import TopLoader from "@/components/top-loader";
 import { Manrope, JetBrains_Mono, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
-import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/react";
-import UnavailableMobileScreen from "@/components/temp/unavailable-mobile-screen";
+import { ThemeScript } from "@/components/theme/theme-script";
 
 const fontSans = Manrope({
   variable: "--font-sans",
@@ -25,20 +26,20 @@ const fontHeading = Inter({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Dotheon | DeFi Yield Dashboard & Onboarding Guide for Bifrost",
-    template: "%s | Dotheon",
-  },
-  description: "DeFi Yield Dashboard & Onboarding Guide for Bifrost",
+  title: "Dotheon - DeFi Dashboard for Bifrost",
+  description: "Manage your blockchain assets with Dotheon",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
