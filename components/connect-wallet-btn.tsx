@@ -56,11 +56,6 @@ export default function ConnectWalletBtn() {
                       : chain.name}
                     <IconChevronDown className="size-4" />
                   </Button>
-
-                  <Button onClick={openAccountModal} variant="default">
-                    {/* <img src={account.ensAvatar} alt='' /> */}
-                    {account.displayName}
-                  </Button>
                 </div>
               );
             })()}
