@@ -50,6 +50,11 @@ const data = {
       ],
     },
     {
+      title: "Portfolio Manager",
+      url: "/portfolio-manager",
+      icon: Wallet,
+    },
+    {
       title: "AI DeFi Assistant",
       url: "/ai",
       icon: Brain,
@@ -113,7 +118,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar variant="floating" collapsible="icon" {...props}>
       <SidebarHeader>
         <Logo />
       </SidebarHeader>
