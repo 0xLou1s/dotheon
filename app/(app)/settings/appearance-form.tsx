@@ -47,6 +47,13 @@ const ThemePreview = ({
           accent: "bg-gray-600",
           border: "border-gray-700",
         };
+      default:
+        return {
+          bg: "bg-gray-50",
+          card: "bg-white",
+          accent: "bg-gray-200",
+          border: "border-gray-200",
+        };
     }
   };
 
@@ -102,13 +109,7 @@ const ThemePreview = ({
 
       {/* Label */}
       <div className="mt-2 text-center">
-        <div className="flex items-center justify-center gap-1 mb-1">
-          <span
-            className={isSelected ? "text-foreground" : "text-muted-foreground"}
-          >
-            {getIcon()}
-          </span>
-        </div>
+        <div className="flex items-center justify-center gap-1 mb-1"></div>
         <span
           className={`text-sm font-medium capitalize ${
             isSelected ? "text-foreground" : "text-muted-foreground"
@@ -123,7 +124,7 @@ const ThemePreview = ({
 
 export function AppearanceForm() {
   const { themeState, setThemeState } = useEditorStore();
-  const [currentMode, setCurrentMode] = useState<"light" | "dark" | "system">(
+  const [currentMode, setCurrentMode] = useState<"light" | "dark">(
     themeState.currentMode || "light"
   );
   const [isUpdating, setIsUpdating] = useState(false);
@@ -131,17 +132,14 @@ export function AppearanceForm() {
   // Load saved theme mode on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedMode = localStorage.getItem("theme-mode") as
-        | "light"
-        | "dark"
-        | "system";
+      const savedMode = localStorage.getItem("theme-mode") as "light" | "dark";
       if (savedMode) {
-        setCurrentMode(savedMode);
+        setCurrentMode(savedMode as "light" | "dark");
       }
     }
   }, []);
 
-  const handleThemeModeChange = async (mode: "light" | "dark" | "system") => {
+  const handleThemeModeChange = async (mode: "light" | "dark") => {
     setCurrentMode(mode);
     setIsUpdating(true);
 
@@ -172,8 +170,6 @@ export function AppearanceForm() {
         return <SunIcon className="h-4 w-4" />;
       case "dark":
         return <MoonIcon className="h-4 w-4" />;
-      case "system":
-        return <MonitorIcon className="h-4 w-4" />;
     }
   };
 
@@ -183,8 +179,6 @@ export function AppearanceForm() {
         return "Bright and clean interface";
       case "dark":
         return "Dark theme for comfortable viewing";
-      case "system":
-        return "Automatically matches your system preference";
     }
   };
 
