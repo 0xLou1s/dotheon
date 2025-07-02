@@ -109,13 +109,7 @@ const ThemePreview = ({
 
       {/* Label */}
       <div className="mt-2 text-center">
-        <div className="flex items-center justify-center gap-1 mb-1">
-          <span
-            className={isSelected ? "text-foreground" : "text-muted-foreground"}
-          >
-            {getIcon()}
-          </span>
-        </div>
+        <div className="flex items-center justify-center gap-1 mb-1"></div>
         <span
           className={`text-sm font-medium capitalize ${
             isSelected ? "text-foreground" : "text-muted-foreground"
