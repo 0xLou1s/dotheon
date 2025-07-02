@@ -1,6 +1,5 @@
 "use client";
 
-import MintComponent from "@/components/onchains/mint-component";
 import { useBalance, useAccount, useReadContracts } from "wagmi";
 import { erc20Abi, Address } from "viem";
 import { TOKEN_LIST } from "@/lib/constants";
@@ -12,8 +11,9 @@ import {
   TourStep,
 } from "@/components/ui/onboarding-tour";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import RedeemComponent from "@/components/onchains/redeem-component";
 
-export default function MintPage() {
+export default function RedeemPage() {
   const { address, isConnected } = useAccount();
   const [showTour, setShowTour] = useState(false);
   const finalStepRef = useRef<HTMLDivElement>(null);
@@ -108,7 +108,7 @@ export default function MintPage() {
       popover: {
         title: "Connect Your Wallet",
         description:
-          "First, connect your wallet to access the minting features.",
+          "First, connect your wallet to access the redemption features.",
         side: "bottom",
       },
     },
@@ -122,11 +122,11 @@ export default function MintPage() {
       },
     },
     {
-      element: "#mint-section",
+      element: "#redeem-section",
       popover: {
-        title: "Mint Liquid Tokens",
+        title: "Redeem Liquid Tokens",
         description:
-          "This is where you can mint vDOT and vETH tokens by selecting a token and amount.",
+          "This is where you can redeem vDOT and vETH tokens by selecting a token and amount.",
         side: "left",
       },
     },
@@ -134,7 +134,7 @@ export default function MintPage() {
       element: "#token-selector",
       popover: {
         title: "Select Token",
-        description: "Choose which token you want to mint (vETH or vDOT).",
+        description: "Choose which token you want to redeem (vETH or vDOT).",
         side: "bottom",
       },
     },
@@ -143,16 +143,16 @@ export default function MintPage() {
       popover: {
         title: "Set Amount",
         description:
-          "Enter the amount you want to mint or use the percentage buttons for quick selection.",
+          "Enter the amount you want to redeem or use the Max button for quick selection.",
         side: "top",
       },
     },
     {
       element: "#mint-button",
       popover: {
-        title: "Mint Tokens",
+        title: "Redeem Tokens",
         description:
-          "Click this button to initiate the minting process once you've selected a token and amount.",
+          "Click this button to initiate the redemption process once you've selected a token and amount.",
         side: "top",
       },
     },
@@ -169,10 +169,10 @@ export default function MintPage() {
 
   // Auto-start the tour on first visit
   useEffect(() => {
-    const hasSeenTour = localStorage.getItem("hasSeenMintTour");
+    const hasSeenTour = localStorage.getItem("hasSeenRedeemTour");
     if (!hasSeenTour && isConnected) {
       setShowTour(true);
-      localStorage.setItem("hasSeenMintTour", "true");
+      localStorage.setItem("hasSeenRedeemTour", "true");
     }
   }, [isConnected]);
 
@@ -187,7 +187,7 @@ export default function MintPage() {
   return (
     <div className="flex flex-col w-full">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Mint Liquid Tokens</h1>
+        <h1 className="text-2xl font-bold">Redeem Liquid Tokens</h1>
         <StartTourButton onClick={handleStartTour} />
       </div>
 
@@ -205,8 +205,8 @@ export default function MintPage() {
           />
         </div>
 
-        <div id="mint-section" className="flex-1">
-          <MintComponent
+        <div id="redeem-section" className="flex-1">
+          <RedeemComponent
             nativeBalance={nativeBalance?.value ?? BigInt(0)}
             tokenBalances={
               tokenBalances?.map((balance) => balance.result) as

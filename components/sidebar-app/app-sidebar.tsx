@@ -47,10 +47,6 @@ const data = {
           title: "Redeem vTokens",
           url: "/vtokens/redeem",
         },
-        {
-          title: "My Positions",
-          url: "/vtokens/positions",
-        },
       ],
     },
     {
