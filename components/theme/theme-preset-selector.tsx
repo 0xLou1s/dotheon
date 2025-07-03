@@ -13,12 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronDownIcon,
-  PaletteIcon,
-  CheckIcon,
-  SparklesIcon,
-} from "lucide-react";
+import { ChevronDownIcon, PaletteIcon, CheckIcon } from "lucide-react";
 import Link from "next/link";
 
 // Enhanced ColorBox component with better styling and animations
@@ -37,7 +32,7 @@ const ColorBox = ({
 
   return (
     <motion.div
-      className={`${sizeClasses[size]} rounded-full border-2 border-white shadow-sm ring-1 ring-black/10`}
+      className={`${sizeClasses[size]} border-2 rounded-[4px] border-white shadow-sm ring-1 ring-black/10`}
       style={{ backgroundColor: color }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
