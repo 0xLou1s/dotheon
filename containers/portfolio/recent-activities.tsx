@@ -27,7 +27,7 @@ const recentActivities = [
   {
     id: 2,
     coin: "Polkadot",
-    icon: "/coins/coins/dot.svg",
+    icon: "/coins/dot.svg",
     type: "Sell",
     date: "Nov 10, 2024 11:34 PM",
     amount: {
@@ -59,7 +59,7 @@ const recentActivities = [
   {
     id: 4,
     coin: "Polkadot",
-    icon: "/coins/coins/dot.svg",
+    icon: "/coins/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:34 PM",
     amount: {
