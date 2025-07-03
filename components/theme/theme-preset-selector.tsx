@@ -19,6 +19,7 @@ import {
   CheckIcon,
   SparklesIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 // Enhanced ColorBox component with better styling and animations
 const ColorBox = ({
@@ -60,7 +61,7 @@ const ColorPalette = ({
 
   return (
     <div className="flex gap-1">
-      {["primary", "secondary", "accent"].map((key, index) => (
+      {["primary", "secondary", "accent", "background"].map((key, index) => (
         <motion.div
           key={key}
           initial={{ opacity: 0, scale: 0 }}
@@ -167,10 +168,20 @@ export function ThemePresetSelector() {
         <DropdownMenuContent className="w-80 p-2" align="start">
           <div className="p-2 border-b border-border mb-2">
             <p className="text-sm font-medium text-foreground">
-              Available Themes
+              Themes available
             </p>
             <p className="text-xs text-muted-foreground">
               Click to apply a new theme
+            </p>
+            <p className="text-xs text-muted-foreground mt-2">
+              Powered by{" "}
+              <Link
+                className="text-primary underline font-bold"
+                href="https://tweakcn.com"
+                target="_blank"
+              >
+                Tweakcn
+              </Link>
             </p>
           </div>
 
