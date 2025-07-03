@@ -7,10 +7,10 @@ type TokenIconProps = {
 };
 
 const tokenImageMap: Record<string, string> = {
-  ETH: "/eth.svg",
-  DOT: "/dot.svg",
-  vETH: "/veth.svg",
-  vDOT: "/vdot.svg",
+  ETH: "/coins/eth.svg",
+  DOT: "/coins/dot.svg",
+  vETH: "/coins/eth.svg",
+  vDOT: "/coins/vdot.svg",
 };
 
 export function TokenIcon({

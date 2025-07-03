@@ -11,7 +11,7 @@ const recentActivities = [
   {
     id: 1,
     coin: "Ethereum",
-    icon: "/eth.svg",
+    icon: "/coins/eth.svg",
     type: "Buy",
     date: "Nov 28, 2024 11:34 PM",
     amount: {
@@ -27,7 +27,7 @@ const recentActivities = [
   {
     id: 2,
     coin: "Polkadot",
-    icon: "/dot.svg",
+    icon: "/coins/coins/dot.svg",
     type: "Sell",
     date: "Nov 10, 2024 11:34 PM",
     amount: {
@@ -43,7 +43,7 @@ const recentActivities = [
   {
     id: 3,
     coin: "Ethereum",
-    icon: "/eth.svg",
+    icon: "/coins/eth.svg",
     type: "Send",
     date: "Sept 04, 2024 11:34 PM",
     amount: {
@@ -59,7 +59,7 @@ const recentActivities = [
   {
     id: 4,
     coin: "Polkadot",
-    icon: "/dot.svg",
+    icon: "/coins/coins/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:34 PM",
     amount: {
@@ -75,7 +75,7 @@ const recentActivities = [
   {
     id: 5,
     coin: "Polkadot",
-    icon: "/dot.svg",
+    icon: "/coins/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:35 PM",
     amount: {
@@ -91,7 +91,7 @@ const recentActivities = [
   {
     id: 6,
     coin: "Polkadot",
-    icon: "/dot.svg",
+    icon: "/coins/dot.svg",
     type: "Buy",
     date: "Nov 12, 2024 11:38 PM",
     amount: {

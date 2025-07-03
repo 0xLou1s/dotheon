@@ -174,13 +174,6 @@ export interface PoolData {
   
       const responseData = await response.json()
   
-      // Log the response for debugging
-      console.log("API response structure:", {
-        type: typeof responseData,
-        isArray: Array.isArray(responseData),
-        isEmpty: Object.keys(responseData).length === 0,
-        hasData: responseData.data ? true : false,
-      })
   
       // Handle empty object response
       if (typeof responseData === "object" && Object.keys(responseData).length === 0) {
