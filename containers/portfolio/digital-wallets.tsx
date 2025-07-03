@@ -20,7 +20,7 @@ export default function DigitalWallets() {
         <Card className="flex flex-col gap-2 p-4">
           <div className="flex gap-2">
             <Image
-              src="/eth.svg"
+              src="/coins/eth.svg"
               alt="Ethereum Wallet"
               width={24}
               height={24}
@@ -37,7 +37,7 @@ export default function DigitalWallets() {
         <Card className="flex flex-col gap-2 p-4">
           <div className="flex gap-2">
             <Image
-              src="/dot.svg"
+              src="/coins/dot.svg"
               alt="Ethereum Wallet"
               width={24}
               height={24}

@@ -26,8 +26,6 @@ export default function MintPage() {
   // Handle changes to the URL parameters
   useEffect(() => {
     if (tokenParam) {
-      console.log("Mint page detected token param:", tokenParam);
-
       // Set the initial token based on the URL parameter
       if (
         tokenParam.toLowerCase() === "dot" ||

@@ -20,13 +20,13 @@ const coins = [
     id: "ethereum",
     name: "Ethereum",
     symbol: "ETH",
-    icon: "/eth.svg",
+    icon: "/coins/eth.svg",
   },
   {
     id: "polkadot",
     name: "Polkadot",
     symbol: "DOT",
-    icon: "/dot.svg",
+    icon: "/coins/dot.svg",
   },
 ];
 
