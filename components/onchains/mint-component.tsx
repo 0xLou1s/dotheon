@@ -91,8 +91,6 @@ export default function MintComponent({
 
     if (!tokenParam) return;
 
-    console.log("Initializing from URL parameter:", tokenParam);
-
     // Handle dot token param
     if (
       tokenParam.toLowerCase() === "dot" ||
@@ -100,7 +98,6 @@ export default function MintComponent({
     ) {
       const dotToken = tokens.find((t) => t.symbol === "vDOT");
       if (dotToken) {
-        console.log("Setting token to vDOT");
         setSelectedToken(dotToken);
       }
     }
@@ -112,7 +109,6 @@ export default function MintComponent({
     ) {
       const ethToken = tokens.find((t) => t.symbol === "vETH");
       if (ethToken) {
-        console.log("Setting token to vETH");
         setSelectedToken(ethToken);
       }
     }
@@ -121,18 +117,15 @@ export default function MintComponent({
   // Handle token selection from prop
   useEffect(() => {
     if (initialTokenSymbol) {
-      console.log("Initializing from prop:", initialTokenSymbol);
 
       if (initialTokenSymbol === "vDOT") {
         const dotToken = tokens.find((t) => t.symbol === "vDOT");
         if (dotToken) {
-          console.log("Setting token to vDOT from prop");
           setSelectedToken(dotToken);
         }
       } else if (initialTokenSymbol === "vETH") {
         const ethToken = tokens.find((t) => t.symbol === "vETH");
         if (ethToken) {
-          console.log("Setting token to vETH from prop");
           setSelectedToken(ethToken);
         }
       }
@@ -315,13 +308,6 @@ export default function MintComponent({
     }
   };
 
-  // Log when selectedToken changes
-  useEffect(() => {
-    if (selectedToken) {
-      console.log("Selected token changed to:", selectedToken.symbol);
-    }
-  }, [selectedToken]);
-
   return (
     <div className="flex flex-col gap-4 w-full p-4">
       <div className="flex flex-col gap-2">
@@ -340,10 +326,8 @@ export default function MintComponent({
           <div className="token-selector-container">
             <Select
               onValueChange={(value) => {
-                console.log("Select value changed to:", value);
                 const token = tokens.find((token) => token.symbol === value);
                 if (token) {
-                  console.log("Setting selected token to:", token.symbol);
                   setSelectedToken(token);
 
                   // Notify parent component about token change if callback exists
