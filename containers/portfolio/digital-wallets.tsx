@@ -28,7 +28,7 @@ export default function DigitalWallets() {
             <h2 className="text-md ">Ethereum Wallet</h2>
           </div>
           <div className="flex gap-2">
-            <h2 className="text-md ">4.620910</h2>
+            <h2 className="text-md ">0,3992</h2>
             <Badge variant="outline">
               <span className="text-xs">ETH</span>
             </Badge>

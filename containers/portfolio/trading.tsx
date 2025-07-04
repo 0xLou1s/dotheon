@@ -96,7 +96,7 @@ export default function Trading() {
       {/* Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-md font-medium">Trading</h1>
-        <p className=" text-3xl font-bold">$46,200</p>
+        <p className=" text-3xl font-bold">$998,70</p>
       </div>
       {/* Content */}
       <Tabs defaultValue="buy" className="w-full">

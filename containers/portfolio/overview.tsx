@@ -38,7 +38,7 @@ export default function Overview() {
         </div>
         {/* Content */}
         <div className="flex flex-col gap-2">
-          <h2 className="text-3xl font-bold">$46,200</h2>
+          <h2 className="text-3xl font-bold">$998,70</h2>
           <p className="text-muted-foreground">Total Balance</p>
         </div>
 

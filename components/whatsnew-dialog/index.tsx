@@ -10,13 +10,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { RocketIcon, ChevronRight, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { Badge } from "../ui/badge";
 
 interface WhatsNewSlide {
   title: string;
   description: string;
   linkText?: string;
   linkUrl?: string;
-  linkMediaEmbed?: string;
+  linkImageEmbed?: string;
+  linkVideoEmbed?: string;
   badge?: string;
 }
 
@@ -25,15 +28,41 @@ const defaultSlides: WhatsNewSlide[] = [
     title: "Support for Multiple Themes",
     description:
       "You can now switch between different themes to suit your preferences",
-    linkMediaEmbed:
+    linkVideoEmbed:
       "https://player.cloudinary.com/embed/?cloud_name=dx14grc8x&public_id=0704_qiyxk5&profile=dotheon&player[posterOptions][transformation][start_offset]=0",
+    badge: "New",
+  },
+  {
+    title: "Mint LST Token ( vDot , vETH )",
+    description:
+      "You can now mint LST token ( vDot , vETH ) to earn rewards from the protocol. Available on Testnet",
+    linkImageEmbed:
+      "https://res.cloudinary.com/dx14grc8x/image/upload/v1751621543/Screenshot_2025-07-04_at_16.31.10_aflkzh.png",
+    badge: "New",
+  },
+  {
+    title: "Redeem LST Token ( vDot , vETH )",
+    description:
+      "You can now redeem LST token ( vDot , vETH ) to get back your original assets. Available on Testnet",
+    linkImageEmbed:
+      "https://res.cloudinary.com/dx14grc8x/image/upload/v1751621544/Screenshot_2025-07-04_at_16.31.37_qcwaas.png",
     badge: "New",
   },
   {
     title: "Portfolio Management",
     description:
-      "Track your portfolio performance with advanced analytics, real-time visualizations, and comprehensive reporting tools. This feature is developing and will be available soon.",
-    badge: "Coming Soon",
+      "Track your portfolio performance with real-time visualizations, and comprehensive reporting tools. This feature is developing and will be available soon.",
+    linkImageEmbed:
+      "https://res.cloudinary.com/dx14grc8x/image/upload/v1751621545/Screenshot_2025-07-04_at_16.31.51_yjpfmp.png",
+    badge: "Next Update",
+  },
+  {
+    title: "AI DeFi Assistant",
+    description:
+      "You can now use AI to help you make decisions about your portfolio. This feature is developing and will be available soon.",
+    linkImageEmbed:
+      "https://res.cloudinary.com/dx14grc8x/image/upload/v1751621543/Screenshot_2025-07-04_at_16.31.59_oe6ohd.png",
+    badge: "Next Update",
   },
 ];
 
@@ -78,11 +107,11 @@ export function WhatsNewDialog({
       {/* Body */}
       <div className="flex-1 flex flex-col gap-12">
         {/* Media embed */}
-        {slides[currentSlide].linkMediaEmbed ? (
+        {slides[currentSlide].linkVideoEmbed ? (
           <div className="mb-2 rounded-xl overflow-hidden shadow-xl bg-muted/50 border">
             <div className="aspect-video">
               <iframe
-                src={`${slides[currentSlide].linkMediaEmbed}&autoplay=true&mute=true`}
+                src={`${slides[currentSlide].linkVideoEmbed}&autoplay=true&mute=true`}
                 width="100%"
                 height="100%"
                 allowFullScreen
@@ -90,15 +119,25 @@ export function WhatsNewDialog({
               />
             </div>
           </div>
-        ) : (
-          <div className="mb-8" />
-        )}
+        ) : null}
+        {slides[currentSlide].linkImageEmbed ? (
+          <div className="mb-2 rounded-xl overflow-hidden shadow-xl bg-muted/50 border">
+            <Image
+              className="w-full h-full object-cover aspect-video"
+              src={slides[currentSlide].linkImageEmbed}
+              alt={slides[currentSlide].title}
+              width={1000}
+              height={1000}
+            />
+          </div>
+        ) : null}
 
         {/* Content */}
         <div
           className={cn(
             "space-y-2 transition-all",
-            !slides[currentSlide].linkMediaEmbed &&
+            !slides[currentSlide].linkImageEmbed &&
+              !slides[currentSlide].linkVideoEmbed &&
               "flex-1 flex flex-col justify-center"
           )}
         >
@@ -113,6 +152,12 @@ export function WhatsNewDialog({
 
       {/* Footer */}
       <div className="border-t bg-muted/30 backdrop-blur-sm p-6 mt-6">
+        {/* Progress bar */}
+        <div className="flex justify-center gap-3 mb-4">
+          <Badge variant="outline" className="bg-primary/10 text-primary">
+            {slides[currentSlide].badge}
+          </Badge>
+        </div>
         <div className="flex justify-center gap-3 mb-4">
           {slides.map((_, index) => (
             <button
@@ -129,7 +174,7 @@ export function WhatsNewDialog({
           ))}
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-4 items-start lg:flex-row justify-between lg:items-center">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary/10">
               <RocketIcon className="size-5 text-primary" />
@@ -144,7 +189,7 @@ export function WhatsNewDialog({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between gap-3 w-full lg:w-auto">
             {currentSlide > 0 && (
               <Button
                 variant="outline"
@@ -154,7 +199,10 @@ export function WhatsNewDialog({
                 Previous
               </Button>
             )}
-            <Button onClick={handleNext}>
+            <Button
+              onClick={handleNext}
+              className={cn(currentSlide < slides.length - 1 ? "ml-auto" : "")}
+            >
               {currentSlide < slides.length - 1 ? <>Next</> : "Done"}
             </Button>
           </div>
