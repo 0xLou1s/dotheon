@@ -14,6 +14,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar-app/app-sidebar";
+import AnnouncementBar from "@/components/announcement-bar";
 
 function generateBreadcrumbs(pathname: string) {
   const paths = pathname.split("/").filter(Boolean);
@@ -40,7 +41,8 @@ export default function AppLayout({
     <div className="flex w-full min-h-screen">
       <AppSidebar />
       <div className="w-full">
-        <div className="w-full p-4">
+        <div className="w-full py-2 px-4">
+          <AnnouncementBar />
           <div className="flex items-center mb-4">
             <SidebarTrigger className="mr-2 shadow-none" />
             <Breadcrumb>
@@ -72,6 +74,7 @@ export default function AppLayout({
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+
           <div>{children}</div>
         </div>
       </div>
