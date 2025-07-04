@@ -5,6 +5,7 @@ import { useBalance, useAccount, useReadContracts } from "wagmi";
 import { erc20Abi, Address } from "viem";
 import { TOKEN_LIST } from "@/lib/constants";
 import BalancesComponent from "@/components/onchains/balances-component";
+import RewardCalculator from "@/components/onchains/reward-calculator";
 import { useState, useEffect, useRef } from "react";
 import {
   OnboardingTour,
@@ -12,10 +13,13 @@ import {
   TourStep,
 } from "@/components/ui/onboarding-tour";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { CalculatorIcon } from "lucide-react";
 
 export default function MintPage() {
   const { address, isConnected } = useAccount();
   const [showTour, setShowTour] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
   const finalStepRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -155,6 +159,15 @@ export default function MintPage() {
       },
     },
     {
+      element: "#reward-calculator-button",
+      popover: {
+        title: "Reward Calculator",
+        description:
+          "Use this calculator to estimate potential rewards from staking.",
+        side: "left",
+      },
+    },
+    {
       element: "#tour-finish",
       popover: {
         title: "You're All Set!",
@@ -186,7 +199,19 @@ export default function MintPage() {
     <div className="flex flex-col w-full">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Mint Liquid Tokens</h1>
-        <StartTourButton onClick={handleStartTour} />
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            id="reward-calculator-button"
+            onClick={() => setShowCalculator(true)}
+            className="flex items-center gap-2"
+          >
+            <CalculatorIcon className="h-4 w-4" />
+            Reward Calculator
+          </Button>
+          <StartTourButton onClick={handleStartTour} />
+        </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 w-full">
@@ -221,6 +246,13 @@ export default function MintPage() {
         id="tour-finish"
         ref={finalStepRef}
         className="fixed bottom-5 right-5 opacity-0 pointer-events-none"
+      />
+
+      {/* Reward Calculator Modal */}
+      <RewardCalculator
+        isOpen={showCalculator}
+        onClose={() => setShowCalculator(false)}
+        initialTokenSymbol={initialToken || undefined}
       />
 
       <OnboardingTour

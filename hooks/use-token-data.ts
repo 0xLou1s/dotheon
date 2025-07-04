@@ -55,6 +55,7 @@ export interface ProcessedTokenData {
   symbol: string
   price: number
   supply: number
+  fee: number
   apy: string // This will be the main displayed APY (e.g., totalAPY or APR)
   apyDetails: ApyDetails
 }
@@ -120,6 +121,7 @@ export function useTokenData() {
               symbol: tokenAsset.symbol,
               price: tokenAsset.price,
               supply: tokenAsset.supply,
+              fee: tokenAsset.fee,
               apy: mainApy,
               apyDetails: apyDetails,
             }

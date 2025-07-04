@@ -91,7 +91,7 @@ export function ApyAnalysisDialog({
           <DialogTitle className="text-2xl font-semibold text-slate-900 dark:text-white flex items-center gap-2">
             <span>
               <Image
-                src={`/${tokenSymbol.toLowerCase()}.svg`}
+                src={`/coins/${tokenSymbol.toLowerCase()}.svg`}
                 alt={tokenSymbol}
                 width={24}
                 height={24}
