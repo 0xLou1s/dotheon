@@ -55,10 +55,7 @@ export type Model = {
   description?: string;
 };
 
-const suggestions = [
-  "How can I mint a new token?",
-  "How does the bonding curve work when minting?",
-];
+const suggestions = ["How can I mint vToken?", "Price of vTokens today?"];
 
 export function Chat() {
   const { openConnectModal } = useConnectModal();
