@@ -10,11 +10,6 @@ import { AIResponse } from "@/components/ai/response";
 import {
   AIInput,
   AIInputButton,
-  AIInputModelSelect,
-  AIInputModelSelectContent,
-  AIInputModelSelectItem,
-  AIInputModelSelectTrigger,
-  AIInputModelSelectValue,
   AIInputSubmit,
   AIInputTextarea,
   AIInputToolbar,
@@ -177,8 +172,8 @@ export function Chat() {
     }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    if (!isConnected) {
+  const handleSuggestionClick = async (suggestion: string) => {
+    if (!isConnected || !address) {
       toast("Please connect your wallet to chat.");
       setTimeout(() => {
         openConnectModal?.();
@@ -192,8 +187,10 @@ export function Chat() {
       id: Date.now().toString(),
       from: "user",
       content: suggestion,
-      avatar: address as string,
-      name: truncateAddress(address as string),
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${
+        address + "dotheon"
+      }`,
+      name: truncateAddress(address),
       timestamp: new Date().toISOString(),
     };
 
@@ -202,31 +199,78 @@ export function Chat() {
     setIsStreaming(true);
     setCurrentResponse("");
 
-    // Simulate token streaming
-    let currentIndex = 0;
-    streamIntervalRef.current = setInterval(() => {
-      if (currentIndex < mockAIResponse.length) {
-        setCurrentResponse((prev) => prev + mockAIResponse[currentIndex]);
-        currentIndex++;
-      } else {
-        if (streamIntervalRef.current) {
-          clearInterval(streamIntervalRef.current);
-        }
-        setIsStreaming(false);
-        setIsTyping(false);
+    try {
+      // Format messages for the API
+      const formattedMessages = messages.map((msg) => ({
+        role: msg.from === "user" ? "user" : "assistant",
+        content: [
+          {
+            type: "text",
+            text: msg.content,
+          },
+        ],
+      }));
 
-        // Add the complete response as a message
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          from: "assistant",
-          content: mockAIResponse,
-          avatar: "https://github.com/openai.png",
-          name: "OpenAI",
-          timestamp: new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: [
+            ...formattedMessages,
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: suggestion,
+                },
+              ],
+            },
+          ],
+          walletAddress: address,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
       }
-    }, 50);
+
+      // Simulate streaming for now
+      let currentIndex = 0;
+      const aiResponseText = data.response;
+
+      streamIntervalRef.current = setInterval(() => {
+        if (currentIndex < aiResponseText.length) {
+          setCurrentResponse((prev) => prev + aiResponseText[currentIndex]);
+          currentIndex++;
+        } else {
+          if (streamIntervalRef.current) {
+            clearInterval(streamIntervalRef.current);
+          }
+          setIsStreaming(false);
+          setIsTyping(false);
+
+          const aiMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            from: "assistant",
+            content: aiResponseText,
+            avatar: "/assets/logo.jpg",
+            name: "Dotheon Assistant",
+            timestamp: new Date().toISOString(),
+          };
+          setMessages((prev) => [...prev, aiMessage]);
+        }
+      }, 20);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to get AI response");
+      setIsTyping(false);
+      setIsStreaming(false);
+    }
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
@@ -294,7 +338,7 @@ export function Chat() {
         throw new Error(data.error || "Failed to get response");
       }
 
-      // Simulate streaming for now - we can implement real streaming later
+      // Simulate streaming for now
       let currentIndex = 0;
       const aiResponseText = data.response;
 
@@ -314,7 +358,7 @@ export function Chat() {
             from: "assistant",
             content: aiResponseText,
             avatar: "/assets/logo.jpg",
-            name: "Gemini",
+            name: "Dotheon Assistant",
             timestamp: new Date().toISOString(),
           };
           setMessages((prev) => [...prev, aiMessage]);
@@ -404,18 +448,6 @@ export function Chat() {
               <GlobeIcon size={16} />
               <span>Search</span>
             </AIInputButton>
-            {/* <AIInputModelSelect value={model} onValueChange={setModel}>
-              <AIInputModelSelectTrigger>
-                <AIInputModelSelectValue />
-              </AIInputModelSelectTrigger>
-              <AIInputModelSelectContent>
-                {mockModels.map((model) => (
-                  <AIInputModelSelectItem key={model.id} value={model.id}>
-                    {model.name}
-                  </AIInputModelSelectItem>
-                ))}
-              </AIInputModelSelectContent>
-            </AIInputModelSelect> */}
           </AIInputTools>
           {isConnected ? (
             <AIInputSubmit
