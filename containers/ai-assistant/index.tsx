@@ -29,6 +29,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { truncateAddress } from "@/lib/utils";
+import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 
 // Mock data types
 export type Message = {
@@ -69,6 +70,16 @@ export function Chat() {
   const streamIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const shouldScrollRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const { isListening, startListening, stopListening, isSupported } =
+    useSpeechRecognition({
+      onResult: (transcript) => {
+        setCurrentText((prev) => prev + transcript);
+      },
+      onError: (error) => {
+        toast.error(`Speech recognition error: ${error}`);
+      },
+    });
 
   // Load chat history when wallet connects
   useEffect(() => {
@@ -408,7 +419,11 @@ export function Chat() {
             <AIInputButton>
               <PlusIcon size={16} />
             </AIInputButton>
-            <AIInputButton>
+            <AIInputButton
+              onClick={isListening ? stopListening : startListening}
+              disabled={!isSupported}
+              className={isListening ? "text-red-500" : ""}
+            >
               <MicIcon size={16} />
             </AIInputButton>
             <AIInputButton disabled>

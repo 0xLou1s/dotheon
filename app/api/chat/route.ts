@@ -7,13 +7,13 @@ import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
 
 // Create a custom provider instance
 const google = createGoogleGenerativeAI({
-  apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+  apiKey: process.env.GOOGLE_API_KEY,
 });
 
 export async function POST(req: Request) {
   try {
     // Check if API key is configured
-    if (!process.env.NEXT_PUBLIC_GOOGLE_API_KEY) {
+    if (!process.env.GOOGLE_API_KEY) {
       console.error("Google API key is not configured");
       return NextResponse.json(
         { error: "API key not configured" },
