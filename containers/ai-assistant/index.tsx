@@ -60,40 +60,10 @@ const suggestions = [
   "How does the bonding curve work when minting?",
 ];
 
-// Mock data
-export const mockModels: Model[] = [
-  { id: "gpt-4", name: "GPT-4", description: "Most capable model" },
-];
-
-// Mock AI response
-const mockAIResponse = `Chat with AI Assistant is developing, please wait for the release of the AI Assistant. Get in touch with me on [Twitter](https://x.com/dotheon) if you have any questions.`;
-
-export const mockMessages: Message[] = [
-  {
-    id: "1",
-    from: "user",
-    content: "Can you show me how to mint?",
-    avatar: "https://www.lou1s.fun/lou1s-avt.png",
-    name: "Lou1s",
-    timestamp: "2024-03-20T10:01:00Z",
-  },
-  {
-    id: "2",
-    from: "assistant",
-    content: `You can mint your token here 👉 [Mint Now](/vtokens/mint)
-
-Let me know if you need help with the minting process! 🚀`,
-    avatar: "https://github.com/openai.png",
-    name: "OpenAI",
-    timestamp: "2024-03-20T10:01:05Z",
-  },
-];
-
 export function Chat() {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [model, setModel] = useState<string>(mockModels[0].id);
   const [isTyping, setIsTyping] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [currentText, setCurrentText] = useState<string>("");
