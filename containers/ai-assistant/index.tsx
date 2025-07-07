@@ -17,6 +17,8 @@ import {
 } from "@/components/ai/input";
 import {
   GlobeIcon,
+  Loader2,
+  MessageCircle,
   MicIcon,
   PlusIcon,
   SendIcon,
@@ -31,6 +33,8 @@ import { toast } from "sonner";
 import { truncateAddress } from "@/lib/utils";
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 import { ComponentMap } from "@/lib/ai/tools";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import EmptyState from "./empty-state";
 
 interface Message {
   id: string;
@@ -62,6 +66,7 @@ const suggestions = [
 export function Chat() {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -91,6 +96,7 @@ export function Chat() {
           const data = await response.json();
 
           if (response.ok && data.messages) {
+            setIsLoadingMessages(true);
             const formattedMessages: Message[] = data.messages.map(
               (msg: any) => ({
                 id: msg._id || Date.now().toString() + Math.random(),
@@ -112,6 +118,7 @@ export function Chat() {
             );
 
             setMessages(formattedMessages);
+            setIsLoadingMessages(false);
           }
         } catch (error) {
           console.error("Error loading chat history:", error);
@@ -409,8 +416,14 @@ export function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full space-y-4">
+    <div className="flex flex-col h-full w-full space-y-2">
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4">
+        {isLoadingMessages && (
+          <div className="flex justify-center items-center h-full">
+            <Loader2 className="w-4 h-4 animate-spin" />
+          </div>
+        )}
+        {messages.length === 0 && !isLoadingMessages && <EmptyState />}
         {messages.map((message) => (
           <AIMessage key={message.id} from={message.from}>
             <AIMessageContent>
@@ -430,22 +443,10 @@ export function Chat() {
             <AIMessageAvatar src="/assets/logo.jpg" name="Dotheon Assistant" />
           </AIMessage>
         )}
-        {isTyping && !isStreaming && (
-          <AIMessage from="assistant">
-            <AIMessageContent>
-              <div className="flex space-x-2">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
-              </div>
-            </AIMessageContent>
-            <AIMessageAvatar src="/assets/logo.jpg" name="Dotheon Assistant" />
-          </AIMessage>
-        )}
         <div ref={messagesEndRef} />
       </div>
 
-      <AISuggestions className="py-2 hidden md:flex">
+      <AISuggestions className="hidden md:flex">
         {suggestions.map((suggestion) => (
           <AISuggestion
             key={suggestion}
