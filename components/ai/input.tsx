@@ -93,7 +93,7 @@ export type AIInputTextareaProps = ComponentProps<typeof Textarea> & {
 export const AIInputTextarea = ({
   onChange,
   className,
-  placeholder = "What would you like to know?",
+  placeholder = "Type your question... but don't type your private key. 😉",
   minHeight = 48,
   maxHeight = 164,
   ...props
