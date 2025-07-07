@@ -250,7 +250,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center justify-between border-b px-6 py-4">
+      <div className="flex flex-col lg:flex-row text-left lg:text-left lg:items-center justify-between border-b px-6 py-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
             Liquid Staking Market Dashboard
@@ -259,7 +259,7 @@ export default function DashboardPage() {
             Comprehensive data on liquid staking protocols
           </p>
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground pt-4 lg:pt-0">
           Data provided by <span className="font-medium">DefiLlama</span>
         </div>
       </div>
