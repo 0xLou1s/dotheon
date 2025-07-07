@@ -111,7 +111,6 @@ export function Chat() {
               })
             );
 
-            console.log("Formatted messages:", formattedMessages);
             setMessages(formattedMessages);
           }
         } catch (error) {
@@ -243,7 +242,7 @@ export function Chat() {
             avatar: "/assets/logo.jpg",
             name: "Dotheon Assistant",
             timestamp: new Date().toISOString(),
-            toolName: data.toolInvocations[0].toolName,
+            toolName: data.toolName,
           };
           setMessages((prev) => [...prev, aiMessage]);
         }
@@ -325,10 +324,33 @@ export function Chat() {
       // Simulate streaming for now
       let currentIndex = 0;
       const aiResponseText = data.response;
+      const toolName = data.toolName;
+
+      // Create the AI message object first
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        from: "assistant",
+        content: "", // Start empty, will be filled during streaming
+        avatar: "/assets/logo.jpg",
+        name: "Dotheon Assistant",
+        timestamp: new Date().toISOString(),
+        toolName: toolName,
+      };
+
+      // Add the message to the list immediately
+      setMessages((prev) => [...prev, aiMessage]);
 
       streamIntervalRef.current = setInterval(() => {
         if (currentIndex < aiResponseText.length) {
-          setCurrentResponse((prev) => prev + aiResponseText[currentIndex]);
+          // Update only the content of the AI message
+          setMessages((prev) => {
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            if (lastMessage.id === aiMessage.id) {
+              lastMessage.content = aiResponseText.slice(0, currentIndex + 1);
+            }
+            return newMessages;
+          });
           currentIndex++;
         } else {
           if (streamIntervalRef.current) {
@@ -337,16 +359,15 @@ export function Chat() {
           setIsStreaming(false);
           setIsTyping(false);
 
-          const aiMessage: Message = {
-            id: (Date.now() + 1).toString(),
-            from: "assistant",
-            content: aiResponseText,
-            avatar: "/assets/logo.jpg",
-            name: "Dotheon Assistant",
-            timestamp: new Date().toISOString(),
-            toolName: data.toolName,
-          };
-          setMessages((prev) => [...prev, aiMessage]);
+          // Final update to ensure complete message
+          setMessages((prev) => {
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            if (lastMessage.id === aiMessage.id) {
+              lastMessage.content = aiResponseText;
+            }
+            return newMessages;
+          });
         }
       }, 20);
     } catch (error) {
@@ -356,7 +377,6 @@ export function Chat() {
       toast.error(errorMessage);
       setIsTyping(false);
       setIsStreaming(false);
-      // Clear the interval if it exists
       if (streamIntervalRef.current) {
         clearInterval(streamIntervalRef.current);
       }
@@ -396,6 +416,7 @@ export function Chat() {
             <AIMessageContent>
               <AIResponse>{message.content}</AIResponse>
               {message.from === "assistant" &&
+                message.content &&
                 renderToolComponent(message.toolName)}
             </AIMessageContent>
             <AIMessageAvatar src={message.avatar} name={message.name} />
