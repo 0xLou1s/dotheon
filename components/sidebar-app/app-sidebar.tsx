@@ -17,10 +17,12 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Logo } from "./logo";
 import NavUser from "./nav-user";
 import NavMain from "./nav-main";
+import Marketing from "./marketing";
 
 // Updated data for Bifrost DeFi Dashboard
 const data = {
@@ -113,6 +115,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { open } = useSidebar();
   return (
     <Sidebar variant="floating" collapsible="icon" {...props}>
       <SidebarHeader>
@@ -123,6 +126,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
+        {open && <Marketing />}
         <NavUser />
       </SidebarFooter>
     </Sidebar>
