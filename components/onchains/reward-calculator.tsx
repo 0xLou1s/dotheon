@@ -11,8 +11,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { useTokenData } from "@/hooks/use-token-data";
-import type { ProcessedTokenData } from "@/hooks/use-token-data";
+import { useBifrostData } from "@/hooks/use-bifrost-data";
+import { useTokenPrices } from "@/hooks/use-token-prices";
 import { TokenIcon } from "@/components/ui/token-icon";
 import {
   Tooltip,
@@ -20,6 +20,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { HelpCircle } from "lucide-react";
+import { VSTAKING_AVAILABLE } from "@/lib/vstaking-available";
+import { formatCurrency } from "@/lib/utils";
 
 interface RewardCalculatorProps {
   isOpen: boolean;
@@ -34,53 +36,70 @@ const RewardCalculator = ({
 }: RewardCalculatorProps) => {
   const [amount, setAmount] = useState<string>("1000");
   const [deductCommission, setDeductCommission] = useState<boolean>(true);
-  const { data: tokenData, loading } = useTokenData();
-  const [selectedToken, setSelectedToken] = useState<ProcessedTokenData | null>(
-    null
-  );
+  const {
+    loading: loadingBifrost,
+    getAllTokens,
+    getTokenData,
+  } = useBifrostData();
+  const { loading: loadingPrices, getTokenPrice } = useTokenPrices();
+  const [selectedToken, setSelectedToken] = useState<string | null>(null);
 
   // Set the selected token based on initialTokenSymbol or default to first DOT token
   useEffect(() => {
-    if (loading || !tokenData || tokenData.length === 0) return;
+    if (loadingBifrost) return;
+
+    const tokens = getAllTokens().filter(
+      ({ symbol }) =>
+        VSTAKING_AVAILABLE[symbol as keyof typeof VSTAKING_AVAILABLE]
+    );
+
+    if (tokens.length === 0) return;
 
     if (initialTokenSymbol) {
-      const token = tokenData.find(
+      const token = tokens.find(
         (t) => t.symbol.toLowerCase() === initialTokenSymbol.toLowerCase()
       );
       if (token) {
-        setSelectedToken(token);
+        setSelectedToken(token.symbol);
         return;
       }
     }
 
     // Default to first DOT-related token
-    const dotToken = tokenData.find((t) => t.symbol.includes("DOT"));
+    const dotToken = tokens.find((t) => t.symbol.includes("DOT"));
     if (dotToken) {
-      setSelectedToken(dotToken);
+      setSelectedToken(dotToken.symbol);
     } else {
-      setSelectedToken(tokenData[0]);
+      setSelectedToken(tokens[0].symbol);
     }
-  }, [tokenData, loading, initialTokenSymbol]);
+  }, [loadingBifrost, initialTokenSymbol]);
 
   if (!selectedToken) return null;
 
-  // Use fee from token data with a default value if undefined
-  const commissionRate =
-    selectedToken.fee !== undefined ? selectedToken.fee : 0;
+  const tokenData = getTokenData(selectedToken);
+  if (!tokenData) return null;
 
   // Calculate effective APY
-  const baseAPY = Number.parseFloat(selectedToken.apy);
-  const effectiveAPY = deductCommission
-    ? baseAPY * (1 - commissionRate / 100)
-    : baseAPY;
+  const baseAPY = Number(tokenData.apyBase || tokenData.apy || "0");
+  const rewardAPY = Number(tokenData.apyReward || "0");
+  const mevAPY = Number(tokenData.mevApy || "0");
+  const gasAPY = Number(tokenData.gasFeeApy || "0");
+
+  const totalAPY = tokenData.totalApy
+    ? Number(tokenData.totalApy)
+    : baseAPY + rewardAPY + mevAPY + gasAPY;
+
+  const effectiveAPY = totalAPY;
 
   // Calculate rewards
   const calculateRewards = () => {
     const tokenAmount = Number.parseFloat(amount) || 0;
-    const tokenPrice = selectedToken.price;
     const dailyReward = tokenAmount * (effectiveAPY / 100 / 365);
     const monthlyReward = dailyReward * 30;
     const annualReward = tokenAmount * (effectiveAPY / 100);
+
+    // Get token price for the vToken
+    const tokenPrice = getTokenPrice(selectedToken);
 
     return {
       daily: {
@@ -99,6 +118,10 @@ const RewardCalculator = ({
   };
 
   const rewards = calculateRewards();
+  const availableTokens = getAllTokens().filter(
+    ({ symbol }) =>
+      VSTAKING_AVAILABLE[symbol as keyof typeof VSTAKING_AVAILABLE]
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -112,16 +135,14 @@ const RewardCalculator = ({
           <div className="space-y-2">
             <Label className="text-sm">Select Token</Label>
             <div className="flex flex-wrap gap-1">
-              {tokenData?.slice(0, 4).map((token) => (
+              {availableTokens.map((token) => (
                 <Button
                   key={token.symbol}
                   variant={
-                    selectedToken.symbol === token.symbol
-                      ? "default"
-                      : "outline"
+                    selectedToken === token.symbol ? "default" : "outline"
                   }
                   size="sm"
-                  onClick={() => setSelectedToken(token)}
+                  onClick={() => setSelectedToken(token.symbol)}
                   className="h-8 px-2 text-xs"
                 >
                   <TokenIcon symbol={token.symbol} size={12} />
@@ -135,7 +156,7 @@ const RewardCalculator = ({
           <div className="space-y-2">
             <div className="flex items-center gap-1">
               <Label htmlFor="tokenAmount" className="text-sm">
-                {selectedToken.symbol.replace("v", "")} Amount
+                {selectedToken.replace("v", "")} Amount
               </Label>
               <Tooltip>
                 <TooltipTrigger>
@@ -143,8 +164,8 @@ const RewardCalculator = ({
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
                   <p>
-                    Enter the amount of {selectedToken.symbol.replace("v", "")}{" "}
-                    you want to stake.
+                    Enter the amount of {selectedToken.replace("v", "")} you
+                    want to stake.
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -155,37 +176,6 @@ const RewardCalculator = ({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               className="h-9"
-            />
-          </div>
-
-          {/* Commission Toggle */}
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-1">
-                <Label htmlFor="commission" className="text-sm">
-                  Deduct Commission
-                </Label>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>
-                      Commission of {commissionRate?.toFixed(2) || "0.00"}% is
-                      deducted from your rewards. Toggle this to see rewards
-                      with or without commission.
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {commissionRate?.toFixed(2) || "0.00"}%
-              </p>
-            </div>
-            <Switch
-              id="commission"
-              checked={deductCommission}
-              onCheckedChange={setDeductCommission}
             />
           </div>
 
@@ -212,11 +202,11 @@ const RewardCalculator = ({
             {/* Daily Rewards */}
             <div className="flex items-center justify-between py-2 border-b">
               <div className="flex items-center gap-2">
-                <TokenIcon symbol={selectedToken.symbol} size={16} />
+                <TokenIcon symbol={selectedToken} size={16} />
                 <div>
                   <p className="text-sm font-medium">Daily</p>
                   <p className="text-xs text-muted-foreground">
-                    ${rewards.daily.usd.toFixed(2)}
+                    {formatCurrency(rewards.daily.usd)}
                   </p>
                 </div>
               </div>
@@ -228,11 +218,11 @@ const RewardCalculator = ({
             {/* Monthly Rewards */}
             <div className="flex items-center justify-between py-2 border-b">
               <div className="flex items-center gap-2">
-                <TokenIcon symbol={selectedToken.symbol} size={16} />
+                <TokenIcon symbol={selectedToken} size={16} />
                 <div>
                   <p className="text-sm font-medium">Monthly</p>
                   <p className="text-xs text-muted-foreground">
-                    ${rewards.monthly.usd.toFixed(2)}
+                    {formatCurrency(rewards.monthly.usd)}
                   </p>
                 </div>
               </div>
@@ -244,11 +234,11 @@ const RewardCalculator = ({
             {/* Annual Rewards */}
             <div className="flex items-center justify-between py-2 border-b">
               <div className="flex items-center gap-2">
-                <TokenIcon symbol={selectedToken.symbol} size={16} />
+                <TokenIcon symbol={selectedToken} size={16} />
                 <div>
                   <p className="text-sm font-medium">Annual</p>
                   <p className="text-xs text-muted-foreground">
-                    ${rewards.annual.usd.toFixed(2)}
+                    {formatCurrency(rewards.annual.usd)}
                   </p>
                 </div>
               </div>
@@ -261,27 +251,23 @@ const RewardCalculator = ({
           {/* APY Info */}
           <div className="flex items-center justify-between pt-2">
             <div className="flex items-center gap-1">
-              <p className="text-sm font-medium">Effective APY</p>
+              <p className="text-sm font-medium">Total APY</p>
               <Tooltip>
                 <TooltipTrigger>
                   <HelpCircle className="h-4 w-4 text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Effective APY Calculation:</p>
-                  {deductCommission ? (
-                    <p className="mt-1">
-                      Base APY × (1 - Commission/100) = {baseAPY.toFixed(2)}% ×
-                      (1 - {commissionRate.toFixed(2)}%/100) ={" "}
-                      {effectiveAPY.toFixed(2)}%
-                    </p>
-                  ) : (
-                    <p className="mt-1">Base APY = {baseAPY.toFixed(2)}%</p>
-                  )}
+                  <p>APY Breakdown:</p>
+                  <ul className="list-disc pl-4 mt-1 space-y-1">
+                    <li>Base APY: {baseAPY.toFixed(2)}%</li>
+                    {rewardAPY > 0 && (
+                      <li>Reward APY: {rewardAPY.toFixed(2)}%</li>
+                    )}
+                    {mevAPY > 0 && <li>MEV APY: {mevAPY.toFixed(2)}%</li>}
+                    {gasAPY > 0 && <li>Gas APY: {gasAPY.toFixed(2)}%</li>}
+                  </ul>
                 </TooltipContent>
               </Tooltip>
-              <p className="text-xs text-muted-foreground">
-                {deductCommission ? "After commission" : "Before commission"}
-              </p>
             </div>
             <p className="text-lg font-bold">{effectiveAPY.toFixed(2)}%</p>
           </div>
