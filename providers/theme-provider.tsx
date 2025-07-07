@@ -42,23 +42,16 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   };
 
   const handleThemeToggle = (coords?: Coords) => {
-    const root = document.documentElement;
     const newMode = themeState.currentMode === "light" ? "dark" : "light";
 
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (!document.startViewTransition || prefersReducedMotion) {
+    if (!document.startViewTransition) {
       handleThemeChange(newMode);
       return;
     }
-
-    if (coords) {
-      root.style.setProperty("--x", `${coords.x}px`);
-      root.style.setProperty("--y", `${coords.y}px`);
-    }
-
     document.startViewTransition(() => {
       handleThemeChange(newMode);
     });
