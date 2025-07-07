@@ -30,19 +30,17 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { truncateAddress } from "@/lib/utils";
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
+import { ComponentMap } from "@/lib/ai/tools";
 
-// Mock data types
-export type Message = {
+interface Message {
   id: string;
   from: "user" | "assistant";
   content: string;
   avatar: string;
   name: string;
   timestamp: string;
-  codeBlocks?: CodeBlock[];
-  isTyping?: boolean;
-  tokens?: string[];
-};
+  toolName?: string;
+}
 
 export type CodeBlock = {
   language: string;
@@ -56,7 +54,10 @@ export type Model = {
   description?: string;
 };
 
-const suggestions = ["How can I mint vToken?", "Price of vTokens today?"];
+const suggestions = [
+  "How can I mint vToken on Bifrost?",
+  "Show me the statistics for all vToken",
+];
 
 export function Chat() {
   const { openConnectModal } = useConnectModal();
@@ -92,8 +93,8 @@ export function Chat() {
           if (response.ok && data.messages) {
             const formattedMessages: Message[] = data.messages.map(
               (msg: any) => ({
-                id: Date.now().toString() + Math.random(),
-                from: msg.role,
+                id: msg._id || Date.now().toString() + Math.random(),
+                from: msg.role as "user" | "assistant",
                 content: msg.content,
                 avatar:
                   msg.role === "user"
@@ -106,8 +107,11 @@ export function Chat() {
                     ? truncateAddress(address)
                     : "Dotheon Assistant",
                 timestamp: msg.timestamp,
+                toolName: msg.toolName,
               })
             );
+
+            console.log("Formatted messages:", formattedMessages);
             setMessages(formattedMessages);
           }
         } catch (error) {
@@ -239,6 +243,7 @@ export function Chat() {
             avatar: "/assets/logo.jpg",
             name: "Dotheon Assistant",
             timestamp: new Date().toISOString(),
+            toolName: data.toolInvocations[0].toolName,
           };
           setMessages((prev) => [...prev, aiMessage]);
         }
@@ -275,6 +280,7 @@ export function Chat() {
     setIsTyping(true);
     setIsStreaming(true);
     setCurrentResponse("");
+    setCurrentText("");
 
     try {
       // Format messages for the API
@@ -338,6 +344,7 @@ export function Chat() {
             avatar: "/assets/logo.jpg",
             name: "Dotheon Assistant",
             timestamp: new Date().toISOString(),
+            toolName: data.toolName,
           };
           setMessages((prev) => [...prev, aiMessage]);
         }
@@ -349,10 +356,11 @@ export function Chat() {
       toast.error(errorMessage);
       setIsTyping(false);
       setIsStreaming(false);
+      // Clear the interval if it exists
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+      }
     }
-
-    // Reset form
-    event.currentTarget.reset();
   };
 
   // Cleanup interval on unmount
@@ -364,6 +372,22 @@ export function Chat() {
     };
   }, []);
 
+  const renderToolComponent = (toolName: string | undefined) => {
+    if (!toolName) return null;
+
+    const Component = ComponentMap[toolName];
+    if (!Component) {
+      console.warn(`No component found for tool: ${toolName}`);
+      return null;
+    }
+
+    return (
+      <div className="mt-4">
+        <Component />
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col h-full w-full space-y-4">
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4">
@@ -371,6 +395,8 @@ export function Chat() {
           <AIMessage key={message.id} from={message.from}>
             <AIMessageContent>
               <AIResponse>{message.content}</AIResponse>
+              {message.from === "assistant" &&
+                renderToolComponent(message.toolName)}
             </AIMessageContent>
             <AIMessageAvatar src={message.avatar} name={message.name} />
           </AIMessage>
