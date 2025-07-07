@@ -213,10 +213,12 @@ export function ThemePresetSelector() {
                         <p className="text-xs text-muted-foreground">
                           {presetName.includes("light")
                             ? "Light theme"
-                            : presetName.includes("notebook")
-                            ? "Clean & minimal"
-                            : presetName.includes("vibrant")
-                            ? "Bold & colorful"
+                            : presetName.includes("dotheon")
+                            ? "Dotheon theme"
+                            : presetName.includes("openguild")
+                            ? "Open Guild theme"
+                            : presetName.includes("buildstation")
+                            ? "Build Station theme"
                             : "Beautiful theme"}
                         </p>
                       </div>
