@@ -280,10 +280,10 @@ export default function DashboardPage() {
               <TvlTrends data={dashboardData} />
               <ApyTrends data={dashboardData} />
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <ProtocolsTable data={dashboardData} />
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <TokenStatistics />
             </div>
           </TabsContent>
