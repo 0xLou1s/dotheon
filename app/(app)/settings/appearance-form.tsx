@@ -4,13 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEditorStore } from "@/store/editor-store";
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
-import {
-  MoonIcon,
-  SunIcon,
-  MonitorIcon,
-  CheckIcon,
-  SettingsIcon,
-} from "lucide-react";
+import { MoonIcon, SunIcon, CheckIcon, SettingsIcon } from "lucide-react";
 
 // Simple theme preview component
 const ThemePreview = ({
@@ -154,13 +148,6 @@ export function AppearanceForm() {
     if (typeof window !== "undefined") {
       localStorage.setItem("theme-mode", mode);
     }
-
-    setIsUpdating(false);
-  };
-
-  const handleUpdatePreferences = async () => {
-    setIsUpdating(true);
-    await new Promise((resolve) => setTimeout(resolve, 500));
     setIsUpdating(false);
   };
 
