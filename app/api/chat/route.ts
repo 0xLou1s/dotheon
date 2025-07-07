@@ -1,30 +1,63 @@
-import { generateText } from "ai";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db/mongodb";
 import { ChatMessage } from "@/lib/db/models/ChatMessage";
+import { generateText } from "ai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
+import { tools } from '@/lib/ai/tools';
+import type { Message } from "ai";
 
-// Create a custom provider instance
+interface ToolCall {
+  toolName: string;
+  toolCallId: string;
+  args: any;
+}
+
+interface AIResponse {
+  text: string;
+  toolCalls?: ToolCall[];
+}
+
 const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_API_KEY,
 });
 
+async function chat(messages: any[]): Promise<AIResponse> {
+  await connectDB();
+
+  const formattedMessages = messages.map(msg => ({
+    role: msg.role,
+    content: msg.content[0]?.text || msg.content,
+    id: msg.id || Date.now().toString()
+  }));
+
+  const result = await generateText({
+    model: google("gemini-2.0-flash"),
+    system: SYSTEM_PROMPT,
+    messages: formattedMessages,
+    tools,
+    providerOptions: {
+      google: {
+        safetySettings: [
+          {
+            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+        ],
+      },
+    },
+  });
+
+  return result;
+}
+
 export async function POST(req: Request) {
   try {
-    // Check if API key is configured
-    if (!process.env.GOOGLE_API_KEY) {
-      console.error("Google API key is not configured");
-      return NextResponse.json(
-        { error: "API key not configured" },
-        { status: 500 }
-      );
-    }
-
     const { messages, walletAddress } = await req.json();
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+
+    if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
-        { error: "Invalid messages format" },
+        { error: "Messages are required and must be an array" },
         { status: 400 }
       );
     }
@@ -36,59 +69,92 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log("Processing messages:", messages);
+    const result = await chat(messages);
 
-    try {
-      // Connect to MongoDB
-      await connectDB();
+    const toolCalls = result.toolCalls?.map((call: ToolCall) => ({
+      toolName: call.toolName,
+      toolCallId: call.toolCallId,
+      args: call.args
+    })) || [];
 
-      const { text } = await generateText({
-        model: google("gemini-2.0-flash"),
-        system: SYSTEM_PROMPT,
-        messages,
-        providerOptions: {
-          google: {
-            safetySettings: [
-              {
-                category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-                threshold: "BLOCK_MEDIUM_AND_ABOVE",
-              },
-            ],
-          },
-        },
-      });
+    let responseText = result.text;
+    if ((!responseText || responseText.trim() === '') && toolCalls.length > 0) {
+      responseText = "Here's the information you requested:";
+    }
 
-      // Store the conversation in MongoDB
-      const chatSession = await ChatMessage.findOneAndUpdate(
-        { walletAddress },
-        {
-          $push: {
-            messages: [
-              {
-                role: "user",
-                content: messages[messages.length - 1].content[0].text,
-                timestamp: new Date(),
-              },
-              {
-                role: "assistant",
-                content: text,
-                timestamp: new Date(),
-              },
-            ],
-          },
-        },
-        { upsert: true, new: true }
-      );
-
-      console.log("Received response from Gemini and stored in DB");
-      return NextResponse.json({ response: text });
-    } catch (modelError) {
-      console.error("Gemini API error:", modelError);
+    if (!responseText || responseText.trim() === '') {
+      console.error("Empty response from Gemini API");
       return NextResponse.json(
-        { error: "Error calling Gemini API" },
+        { error: "Empty response from AI" },
         { status: 500 }
       );
     }
+
+    const userMessage = messages[messages.length - 1];
+    // Safely extract user content
+    let userContent = '';
+    if (typeof userMessage.content === 'string') {
+      userContent = userMessage.content;
+    } else if (Array.isArray(userMessage.content) && userMessage.content[0]?.text) {
+      userContent = userMessage.content[0].text;
+    } else if (userMessage.content && typeof userMessage.content === 'object') {
+      userContent = userMessage.content.text || JSON.stringify(userMessage.content);
+    }
+
+    if (!userContent || userContent.trim() === '') {
+      console.error("Empty user message content");
+      return NextResponse.json(
+        { error: "Invalid user message" },
+        { status: 400 }
+      );
+    }
+
+    const toolName = toolCalls.length > 0 ? toolCalls[0].toolName : null;
+
+    // Create new messages
+    const newUserMessage = {
+      role: "user" as const,
+      content: userContent,
+      timestamp: new Date()
+    };
+
+    const newAssistantMessage = {
+      role: "assistant" as const,
+      content: responseText.trim(),
+      timestamp: new Date(),
+      toolName
+    };
+
+    // Find and update the chat session
+    const updatedSession = await ChatMessage.findOneAndUpdate(
+      { walletAddress },
+      {
+        $push: {
+          messages: {
+            $each: [newUserMessage, newAssistantMessage]
+          }
+        }
+      },
+      {
+        new: true,
+        upsert: true,
+        runValidators: true
+      }
+    );
+
+    // Verify the messages were saved
+    const lastMessage = updatedSession.messages[updatedSession.messages.length - 1];
+    console.log("Last saved message:", {
+      role: lastMessage.role,
+      content: lastMessage.content,
+      toolName: lastMessage.toolName
+    });
+
+    return NextResponse.json({ 
+      response: responseText.trim(),
+      toolName
+    });
+
   } catch (error) {
     console.error("Error in chat route:", error);
     return NextResponse.json(
@@ -101,7 +167,7 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const walletAddress = searchParams.get("walletAddress");
+    const walletAddress = searchParams.get('walletAddress');
 
     if (!walletAddress) {
       return NextResponse.json(
@@ -111,9 +177,14 @@ export async function GET(req: Request) {
     }
 
     await connectDB();
-    const chatSession = await ChatMessage.findOne({ walletAddress });
 
-    return NextResponse.json({ messages: chatSession?.messages || [] });
+    const chatSession = await ChatMessage.findOne({ walletAddress });
+    
+    if (!chatSession) {
+      return NextResponse.json({ messages: [] });
+    }
+
+    return NextResponse.json({ messages: chatSession.messages });
   } catch (error) {
     console.error("Error fetching chat history:", error);
     return NextResponse.json(
@@ -121,4 +192,4 @@ export async function GET(req: Request) {
       { status: 500 }
     );
   }
-} 
+}
