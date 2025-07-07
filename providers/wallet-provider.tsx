@@ -47,7 +47,7 @@ export function WalletProviders({ children }: { children: React.ReactNode }) {
           initialChain={0}
           showRecentTransactions={true}
           theme={darkTheme({
-            accentColor: "#7856ff",
+            accentColor: "#ff8800",
             accentColorForeground: "white",
             borderRadius: "small",
           })}

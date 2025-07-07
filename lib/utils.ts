@@ -65,3 +65,16 @@ export function truncateAddress(address: string) {
 export function isDeepEqual(a: unknown, b: unknown): boolean {
   return isEqual(a, b);
 }
+
+export function formatCurrency(value: number): string {
+  if (value >= 1000000000) {
+    return `$ ${(value / 1000000000).toFixed(4)} B`;
+  }
+  if (value >= 1000000) {
+    return `$ ${(value / 1000000).toFixed(4)} M`;
+  }
+  if (value >= 1000) {
+    return `$ ${(value / 1000).toFixed(4)} K`;
+  }
+  return `$ ${value.toFixed(4)}`;
+}

@@ -10,11 +10,6 @@ import { AIResponse } from "@/components/ai/response";
 import {
   AIInput,
   AIInputButton,
-  AIInputModelSelect,
-  AIInputModelSelectContent,
-  AIInputModelSelectItem,
-  AIInputModelSelectTrigger,
-  AIInputModelSelectValue,
   AIInputSubmit,
   AIInputTextarea,
   AIInputToolbar,
@@ -33,6 +28,8 @@ import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { truncateAddress } from "@/lib/utils";
+import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 
 // Mock data types
 export type Message = {
@@ -59,53 +56,69 @@ export type Model = {
   description?: string;
 };
 
-const suggestions = [
-  "How can I mint a new token?",
-  "How does the bonding curve work when minting?",
-];
-
-// Mock data
-export const mockModels: Model[] = [
-  { id: "gpt-4", name: "GPT-4", description: "Most capable model" },
-];
-
-// Mock AI response
-const mockAIResponse = `Chat with AI Assistant is developing, please wait for the release of the AI Assistant. Get in touch with me on [Twitter](https://x.com/dotheon) if you have any questions.`;
-
-export const mockMessages: Message[] = [
-  {
-    id: "1",
-    from: "user",
-    content: "Can you show me how to mint?",
-    avatar: "https://www.lou1s.fun/lou1s-avt.png",
-    name: "Lou1s",
-    timestamp: "2024-03-20T10:01:00Z",
-  },
-  {
-    id: "2",
-    from: "assistant",
-    content: `You can mint your token here 👉 [Mint Now](/vtokens/mint)
-
-Let me know if you need help with the minting process! 🚀`,
-    avatar: "https://github.com/openai.png",
-    name: "OpenAI",
-    timestamp: "2024-03-20T10:01:05Z",
-  },
-];
+const suggestions = ["How can I mint vToken?", "Price of vTokens today?"];
 
 export function Chat() {
   const { openConnectModal } = useConnectModal();
-  const { isConnected } = useAccount();
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
-  const [model, setModel] = useState<string>(mockModels[0].id);
+  const { isConnected, address } = useAccount();
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const [currentText, setCurrentText] = useState<string>("");
   const [currentResponse, setCurrentResponse] = useState<string>("");
-  const [isStreaming, setIsStreaming] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const streamIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const shouldScrollRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const { isListening, startListening, stopListening, isSupported } =
+    useSpeechRecognition({
+      onResult: (transcript) => {
+        setCurrentText((prev) => prev + transcript);
+      },
+      onError: (error) => {
+        toast.error(`Speech recognition error: ${error}`);
+      },
+    });
+
+  // Load chat history when wallet connects
+  useEffect(() => {
+    const loadChatHistory = async () => {
+      if (isConnected && address) {
+        try {
+          const response = await fetch(`/api/chat?walletAddress=${address}`);
+          const data = await response.json();
+
+          if (response.ok && data.messages) {
+            const formattedMessages: Message[] = data.messages.map(
+              (msg: any) => ({
+                id: Date.now().toString() + Math.random(),
+                from: msg.role,
+                content: msg.content,
+                avatar:
+                  msg.role === "user"
+                    ? `https://api.dicebear.com/7.x/bottts/svg?seed=${
+                        address + "dotheon"
+                      }`
+                    : "/assets/logo.jpg",
+                name:
+                  msg.role === "user"
+                    ? truncateAddress(address)
+                    : "Dotheon Assistant",
+                timestamp: msg.timestamp,
+              })
+            );
+            setMessages(formattedMessages);
+          }
+        } catch (error) {
+          console.error("Error loading chat history:", error);
+          toast.error("Failed to load chat history");
+        }
+      }
+    };
+
+    loadChatHistory();
+  }, [isConnected, address]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current && shouldScrollRef.current) {
@@ -129,16 +142,16 @@ export function Chat() {
         id: (Date.now() + 1).toString(),
         from: "assistant",
         content: currentResponse,
-        avatar: "https://github.com/openai.png",
-        name: "OpenAI",
+        avatar: "/assets/logo.jpg",
+        name: "Dotheon Assistant",
         timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, aiMessage]);
     }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    if (!isConnected) {
+  const handleSuggestionClick = async (suggestion: string) => {
+    if (!isConnected || !address) {
       toast("Please connect your wallet to chat.");
       setTimeout(() => {
         openConnectModal?.();
@@ -152,8 +165,10 @@ export function Chat() {
       id: Date.now().toString(),
       from: "user",
       content: suggestion,
-      avatar: "https://www.lou1s.fun/lou1s-avt.png",
-      name: "Lou1s",
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${
+        address + "dotheon"
+      }`,
+      name: truncateAddress(address),
       timestamp: new Date().toISOString(),
     };
 
@@ -162,39 +177,86 @@ export function Chat() {
     setIsStreaming(true);
     setCurrentResponse("");
 
-    // Simulate token streaming
-    let currentIndex = 0;
-    streamIntervalRef.current = setInterval(() => {
-      if (currentIndex < mockAIResponse.length) {
-        setCurrentResponse((prev) => prev + mockAIResponse[currentIndex]);
-        currentIndex++;
-      } else {
-        if (streamIntervalRef.current) {
-          clearInterval(streamIntervalRef.current);
-        }
-        setIsStreaming(false);
-        setIsTyping(false);
+    try {
+      // Format messages for the API
+      const formattedMessages = messages.map((msg) => ({
+        role: msg.from === "user" ? "user" : "assistant",
+        content: [
+          {
+            type: "text",
+            text: msg.content,
+          },
+        ],
+      }));
 
-        // Add the complete response as a message
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          from: "assistant",
-          content: mockAIResponse,
-          avatar: "https://github.com/openai.png",
-          name: "OpenAI",
-          timestamp: new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: [
+            ...formattedMessages,
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: suggestion,
+                },
+              ],
+            },
+          ],
+          walletAddress: address,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
       }
-    }, 50);
+
+      // Simulate streaming for now
+      let currentIndex = 0;
+      const aiResponseText = data.response;
+
+      streamIntervalRef.current = setInterval(() => {
+        if (currentIndex < aiResponseText.length) {
+          setCurrentResponse((prev) => prev + aiResponseText[currentIndex]);
+          currentIndex++;
+        } else {
+          if (streamIntervalRef.current) {
+            clearInterval(streamIntervalRef.current);
+          }
+          setIsStreaming(false);
+          setIsTyping(false);
+
+          const aiMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            from: "assistant",
+            content: aiResponseText,
+            avatar: "/assets/logo.jpg",
+            name: "Dotheon Assistant",
+            timestamp: new Date().toISOString(),
+          };
+          setMessages((prev) => [...prev, aiMessage]);
+        }
+      }, 20);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to get AI response");
+      setIsTyping(false);
+      setIsStreaming(false);
+    }
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const message = formData.get("message") as string;
 
-    if (!message.trim()) return;
+    if (!message.trim() || !address) return;
 
     shouldScrollRef.current = true;
 
@@ -202,8 +264,10 @@ export function Chat() {
       id: Date.now().toString(),
       from: "user",
       content: message,
-      avatar: "https://www.lou1s.fun/lou1s-avt.png",
-      name: "Hayden Bleasel",
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${
+        address + "dotheon"
+      }`,
+      name: truncateAddress(address),
       timestamp: new Date().toISOString(),
     };
 
@@ -212,31 +276,80 @@ export function Chat() {
     setIsStreaming(true);
     setCurrentResponse("");
 
-    // Simulate token streaming
-    let currentIndex = 0;
-    streamIntervalRef.current = setInterval(() => {
-      if (currentIndex < mockAIResponse.length) {
-        setCurrentResponse((prev) => prev + mockAIResponse[currentIndex]);
-        currentIndex++;
-      } else {
-        if (streamIntervalRef.current) {
-          clearInterval(streamIntervalRef.current);
-        }
-        setIsStreaming(false);
-        setIsTyping(false);
+    try {
+      // Format messages for the API
+      const formattedMessages = messages.map((msg) => ({
+        role: msg.from === "user" ? "user" : "assistant",
+        content: [
+          {
+            type: "text",
+            text: msg.content,
+          },
+        ],
+      }));
 
-        // Add the complete response as a message
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          from: "assistant",
-          content: mockAIResponse,
-          avatar: "https://github.com/openai.png",
-          name: "OpenAI",
-          timestamp: new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: [
+            ...formattedMessages,
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: message,
+                },
+              ],
+            },
+          ],
+          walletAddress: address,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
       }
-    }, 20);
+
+      // Simulate streaming for now
+      let currentIndex = 0;
+      const aiResponseText = data.response;
+
+      streamIntervalRef.current = setInterval(() => {
+        if (currentIndex < aiResponseText.length) {
+          setCurrentResponse((prev) => prev + aiResponseText[currentIndex]);
+          currentIndex++;
+        } else {
+          if (streamIntervalRef.current) {
+            clearInterval(streamIntervalRef.current);
+          }
+          setIsStreaming(false);
+          setIsTyping(false);
+
+          const aiMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            from: "assistant",
+            content: aiResponseText,
+            avatar: "/assets/logo.jpg",
+            name: "Dotheon Assistant",
+            timestamp: new Date().toISOString(),
+          };
+          setMessages((prev) => [...prev, aiMessage]);
+        }
+      }, 20);
+    } catch (error) {
+      console.error("Error:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to get AI response";
+      toast.error(errorMessage);
+      setIsTyping(false);
+      setIsStreaming(false);
+    }
 
     // Reset form
     event.currentTarget.reset();
@@ -267,10 +380,7 @@ export function Chat() {
             <AIMessageContent>
               <AIResponse>{currentResponse}</AIResponse>
             </AIMessageContent>
-            <AIMessageAvatar
-              src="https://github.com/openai.png"
-              name="OpenAI"
-            />
+            <AIMessageAvatar src="/assets/logo.jpg" name="Dotheon Assistant" />
           </AIMessage>
         )}
         {isTyping && !isStreaming && (
@@ -282,10 +392,7 @@ export function Chat() {
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
               </div>
             </AIMessageContent>
-            <AIMessageAvatar
-              src="https://github.com/openai.png"
-              name="OpenAI"
-            />
+            <AIMessageAvatar src="/assets/logo.jpg" name="Dotheon Assistant" />
           </AIMessage>
         )}
         <div ref={messagesEndRef} />
@@ -312,25 +419,17 @@ export function Chat() {
             <AIInputButton>
               <PlusIcon size={16} />
             </AIInputButton>
-            <AIInputButton>
+            <AIInputButton
+              onClick={isListening ? stopListening : startListening}
+              disabled={!isSupported}
+              className={isListening ? "text-red-500" : ""}
+            >
               <MicIcon size={16} />
             </AIInputButton>
             <AIInputButton disabled>
               <GlobeIcon size={16} />
               <span>Search</span>
             </AIInputButton>
-            {/* <AIInputModelSelect value={model} onValueChange={setModel}>
-              <AIInputModelSelectTrigger>
-                <AIInputModelSelectValue />
-              </AIInputModelSelectTrigger>
-              <AIInputModelSelectContent>
-                {mockModels.map((model) => (
-                  <AIInputModelSelectItem key={model.id} value={model.id}>
-                    {model.name}
-                  </AIInputModelSelectItem>
-                ))}
-              </AIInputModelSelectContent>
-            </AIInputModelSelect> */}
           </AIInputTools>
           {isConnected ? (
             <AIInputSubmit

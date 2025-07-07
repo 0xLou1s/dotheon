@@ -119,146 +119,146 @@ export default function ProtocolsTable({ data }: ProtocolsTableProps) {
       </div>
       <div className="rounded-lg border border-border p-2">
         <div className="w-full overflow-x-auto">
-          <div className="min-w-[640px]">
-            <Table className="bg-card text-card-foreground">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[40px]">#</TableHead>
-                  <TableHead className="w-[200px]">Protocol</TableHead>
-                  <TableHead
-                    className="w-[120px] cursor-pointer hover:bg-muted/50"
-                    onClick={() => requestSort("tvl")}
-                  >
-                    TVL{" "}
-                    {getClassNamesFor("tvl") === "ascending" ? (
-                      <ArrowUp className="inline h-4 w-4" />
-                    ) : (
-                      <ArrowDown className="inline h-4 w-4" />
-                    )}
-                  </TableHead>
-                  <TableHead
-                    className="w-[100px] cursor-pointer hover:bg-muted/50"
-                    onClick={() => requestSort("apy")}
-                  >
-                    APY{" "}
-                    {getClassNamesFor("apy") === "ascending" ? (
-                      <ArrowUp className="inline h-4 w-4" />
-                    ) : (
-                      <ArrowDown className="inline h-4 w-4" />
-                    )}
-                  </TableHead>
-                  <TableHead
-                    className="hidden md:table-cell w-[120px] cursor-pointer hover:bg-muted/50"
-                    onClick={() => requestSort("change_24h")}
-                  >
-                    24h{" "}
-                    {getClassNamesFor("change_24h") === "ascending" ? (
-                      <ArrowUp className="inline h-4 w-4" />
-                    ) : (
-                      <ArrowDown className="inline h-4 w-4" />
-                    )}
-                  </TableHead>
-                  <TableHead
-                    className="hidden md:table-cell w-[120px] cursor-pointer hover:bg-muted/50"
-                    onClick={() => requestSort("change_7d")}
-                  >
-                    7d{" "}
-                    {getClassNamesFor("change_7d") === "ascending" ? (
-                      <ArrowUp className="inline h-4 w-4" />
-                    ) : (
-                      <ArrowDown className="inline h-4 w-4" />
-                    )}
-                  </TableHead>
-                  <TableHead
-                    className="hidden md:table-cell w-[80px] cursor-pointer hover:bg-muted/50"
-                    onClick={() => requestSort("pools.length")}
-                  >
-                    Pools{" "}
-                    {getClassNamesFor("pools.length") === "ascending" ? (
-                      <ArrowUp className="inline h-4 w-4" />
-                    ) : (
-                      <ArrowDown className="inline h-4 w-4" />
-                    )}
-                  </TableHead>
-                  <TableHead className="w-[60px] text-right">Details</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {displayedProtocols.map((protocol, index) => (
-                  <TableRow
-                    key={protocol.name}
-                    className={
-                      protocol.name.toLowerCase().includes("bifrost")
-                        ? "bg-primary/5"
-                        : ""
-                    }
-                  >
-                    <TableCell className="font-medium">
-                      {startIndex + index + 1}
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
-                        <span className="truncate">{protocol.name}</span>
-                        {protocol.name.toLowerCase().includes("bifrost") && (
-                          <Badge
-                            variant="outline"
-                            className="shrink-0 bg-primary/10 text-primary hover:bg-primary/20"
-                          >
-                            Bifrost
-                          </Badge>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>{formatCurrency(protocol.tvl)}</TableCell>
-                    <TableCell>{formatPercentage(protocol.apy)}</TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <span
-                        className={
-                          protocol.change_24h >= 0
-                            ? "text-green-600"
-                            : "text-red-600"
-                        }
-                      >
-                        {protocol.change_24h >= 0 ? "+" : ""}
-                        {formatPercentage(protocol.change_24h)}
-                      </span>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <span
-                        className={
-                          protocol.change_7d >= 0
-                            ? "text-green-600"
-                            : "text-red-600"
-                        }
-                      >
-                        {protocol.change_7d >= 0 ? "+" : ""}
-                        {formatPercentage(protocol.change_7d)}
-                      </span>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {protocol.pools.length}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="size-8 p-0 shadow-none"
-                        asChild
-                      >
-                        <Link
-                          href={`https://defillama.com/protocol/${protocol.name}`}
-                          target="_blank"
+          <Table className="bg-card text-card-foreground">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[40px]">#</TableHead>
+                <TableHead className="lg:w-[200px]">Protocol</TableHead>
+                <TableHead
+                  className="w-[120px] cursor-pointer hover:bg-muted/50"
+                  onClick={() => requestSort("tvl")}
+                >
+                  TVL{" "}
+                  {getClassNamesFor("tvl") === "ascending" ? (
+                    <ArrowUp className="inline h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="inline h-4 w-4" />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="w-[100px] cursor-pointer hover:bg-muted/50"
+                  onClick={() => requestSort("apy")}
+                >
+                  APY{" "}
+                  {getClassNamesFor("apy") === "ascending" ? (
+                    <ArrowUp className="inline h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="inline h-4 w-4" />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="hidden lg:table-cell w-[120px] cursor-pointer hover:bg-muted/50"
+                  onClick={() => requestSort("change_24h")}
+                >
+                  24h{" "}
+                  {getClassNamesFor("change_24h") === "ascending" ? (
+                    <ArrowUp className="inline h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="inline h-4 w-4" />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="hidden lg:table-cell w-[120px] cursor-pointer hover:bg-muted/50"
+                  onClick={() => requestSort("change_7d")}
+                >
+                  7d{" "}
+                  {getClassNamesFor("change_7d") === "ascending" ? (
+                    <ArrowUp className="inline h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="inline h-4 w-4" />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="hidden lg:table-cell w-[80px] cursor-pointer hover:bg-muted/50"
+                  onClick={() => requestSort("pools.length")}
+                >
+                  Pools{" "}
+                  {getClassNamesFor("pools.length") === "ascending" ? (
+                    <ArrowUp className="inline h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="inline h-4 w-4" />
+                  )}
+                </TableHead>
+                <TableHead className="hidden lg:table-cell w-[60px] text-right">
+                  Details
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {displayedProtocols.map((protocol, index) => (
+                <TableRow
+                  key={protocol.name}
+                  className={
+                    protocol.name.toLowerCase().includes("bifrost")
+                      ? "bg-primary/5"
+                      : ""
+                  }
+                >
+                  <TableCell className="font-medium">
+                    {startIndex + index + 1}
+                  </TableCell>
+                  <TableCell className="font-medium max-w-[100px] lg:max-w-[200px]">
+                    <div className="flex items-center gap-2">
+                      <span className="truncate">{protocol.name}</span>
+                      {protocol.name.toLowerCase().includes("bifrost") && (
+                        <Badge
+                          variant="outline"
+                          className="shrink-0 bg-primary/10 text-primary hover:bg-primary/20"
                         >
-                          <ExternalLink className="h-4 w-4" />
-                          <span className="sr-only">View details</span>
-                        </Link>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                          Bifrost
+                        </Badge>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>{formatCurrency(protocol.tvl)}</TableCell>
+                  <TableCell>{formatPercentage(protocol.apy)}</TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    <span
+                      className={
+                        protocol.change_24h >= 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {protocol.change_24h >= 0 ? "+" : ""}
+                      {formatPercentage(protocol.change_24h)}
+                    </span>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    <span
+                      className={
+                        protocol.change_7d >= 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {protocol.change_7d >= 0 ? "+" : ""}
+                      {formatPercentage(protocol.change_7d)}
+                    </span>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {protocol.pools.length}
+                  </TableCell>
+                  <TableCell className="hidden lg:table-cell text-right">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="size-8 p-0 shadow-none"
+                      asChild
+                    >
+                      <Link
+                        href={`https://defillama.com/protocol/${protocol.name}`}
+                        target="_blank"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        <span className="sr-only">View details</span>
+                      </Link>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </div>
       {totalPages > 1 && (
