@@ -419,11 +419,15 @@ export function Chat() {
     <div className="flex flex-col h-full w-full space-y-2">
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4">
         {isLoadingMessages && (
-          <div className="flex justify-center items-center h-full">
-            <Loader2 className="w-4 h-4 animate-spin" />
+          <div className="flex justify-center items-center h-[70%]">
+            <div className="flex flex-col items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <p className="text-sm text-muted-foreground">Loading...</p>
+            </div>
           </div>
         )}
         {messages.length === 0 && !isLoadingMessages && <EmptyState />}
+
         {messages.map((message) => (
           <AIMessage key={message.id} from={message.from}>
             <AIMessageContent>
