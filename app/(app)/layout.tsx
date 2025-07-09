@@ -16,6 +16,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar-app/app-sidebar";
 import AnnouncementBar from "@/components/announcement-bar";
 import { SessionWhatsNewDialog } from "@/components/whatsnew-dialog/session-dialog";
+import { AIChatWidget } from "@/containers/ai-assistant/ai-chat-widget";
 
 function generateBreadcrumbs(pathname: string) {
   const paths = pathname.split("/").filter(Boolean);
@@ -42,7 +43,7 @@ export default function AppLayout({
     <div className="flex w-full min-h-screen">
       {/* What's New Dialog - Shows automatically on first session visit */}
       <SessionWhatsNewDialog version="1.0" showEachSession={true} />
-
+      <AIChatWidget />
       <AppSidebar />
       <div className="w-full">
         <div className="w-full py-2 px-4">
