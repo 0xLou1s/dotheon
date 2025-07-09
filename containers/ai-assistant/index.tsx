@@ -119,6 +119,12 @@ export function Chat() {
 
             setMessages(formattedMessages);
             setIsLoadingMessages(false);
+            // Scroll to bottom after messages are loaded
+            setTimeout(() => {
+              if (messagesEndRef.current) {
+                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+              }
+            }, 100);
           }
         } catch (error) {
           console.error("Error loading chat history:", error);
@@ -141,6 +147,13 @@ export function Chat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Initial scroll when component mounts
+  useEffect(() => {
+    if (!isLoadingMessages && messages.length > 0 && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isLoadingMessages, messages.length]);
 
   const stopStreaming = () => {
     if (streamIntervalRef.current) {
@@ -399,7 +412,10 @@ export function Chat() {
     };
   }, []);
 
-  const renderToolComponent = (toolName: string | undefined) => {
+  const renderToolComponent = (
+    toolName: string | undefined,
+    toolResult?: any
+  ) => {
     if (!toolName) return null;
 
     const Component = ComponentMap[toolName];
@@ -410,7 +426,7 @@ export function Chat() {
 
     return (
       <div className="mt-4">
-        <Component />
+        <Component {...toolResult} />
       </div>
     );
   };
