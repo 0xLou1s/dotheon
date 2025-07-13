@@ -33,6 +33,8 @@ import { useWallet } from "@/hooks/use-wallet";
 import { truncateAddress } from "@/lib/utils";
 import Link from "next/link";
 import CopyButton from "../copy-button";
+import NetworkSelector from "../network-selector";
+import { useEffect, useState } from "react";
 
 export default function NavUser() {
   const { isMobile } = useSidebar();
@@ -43,16 +45,33 @@ export default function NavUser() {
     connectWallet,
     disconnectWallet,
     connectedChain,
+    chains,
   } = useWallet();
+  const [networkName, setNetworkName] = useState("Unknown");
 
   const isConnected = !!wallet && !!account;
   const address = account?.address;
 
   // Get network name from connected chain
-  const networkName = connectedChain
-    ? // @ts-ignore - The connectedChain from SubWallet Connect has a label property
-      connectedChain.label || "Unknown"
-    : "Unknown";
+  useEffect(() => {
+    if (!connectedChain || !chains) {
+      setNetworkName("Unknown");
+      return;
+    }
+
+    // Find the matching chain in the chains array
+    const matchingChain = chains.find(
+      (chain) =>
+        chain.id === connectedChain.id &&
+        chain.namespace === connectedChain.namespace
+    );
+
+    if (matchingChain && matchingChain.label) {
+      setNetworkName(matchingChain.label);
+    } else {
+      setNetworkName("Unknown");
+    }
+  }, [connectedChain, chains]);
 
   return (
     <SidebarMenu>
@@ -115,6 +134,16 @@ export default function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+
+            {isConnected && (
+              <>
+                <div className="px-2 py-2">
+                  <NetworkSelector />
+                </div>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
             <DropdownMenuGroup>
               <DropdownMenuItem disabled>
                 <Sparkles />

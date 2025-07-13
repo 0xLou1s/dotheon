@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWallet } from "@/hooks/use-wallet";
+import NetworkSelector from "@/components/network-selector";
 
 export default function WalletPage() {
   const { wallet, walletType } = useWallet();
@@ -28,6 +29,20 @@ export default function WalletPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1">
           <WalletInfo />
+
+          {wallet && (
+            <Card className="mt-4">
+              <CardHeader>
+                <CardTitle>Network Selection</CardTitle>
+                <CardDescription>
+                  Switch between available networks for your wallet
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <NetworkSelector />
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         <div className="md:col-span-2">

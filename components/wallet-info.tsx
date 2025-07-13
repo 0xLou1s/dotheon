@@ -9,6 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatBalance } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
 
 export default function WalletInfo() {
   const {
@@ -22,7 +24,48 @@ export default function WalletInfo() {
     connectWallet,
     disconnectWallet,
     connectedChain,
+    chains,
   } = useWallet();
+  const [networkName, setNetworkName] = useState("Unknown");
+  const [networkToken, setNetworkToken] = useState("");
+
+  // Update network information when connected chain changes
+  useEffect(() => {
+    if (!connectedChain || !chains) {
+      setNetworkName("Unknown");
+      setNetworkToken("");
+      return;
+    }
+
+    // Find the matching chain in the chains array
+    const matchingChain = chains.find(
+      (chain) =>
+        chain.id === connectedChain.id &&
+        chain.namespace === connectedChain.namespace
+    );
+
+    if (matchingChain) {
+      console.log("WalletInfo - Found matching chain:", matchingChain);
+      if (matchingChain.label) {
+        setNetworkName(matchingChain.label);
+      } else {
+        setNetworkName("Unknown");
+      }
+
+      if (matchingChain.token) {
+        setNetworkToken(matchingChain.token);
+      } else {
+        setNetworkToken("");
+      }
+    } else {
+      console.log(
+        "WalletInfo - No matching chain found for:",
+        connectedChain.id
+      );
+      setNetworkName("Unknown");
+      setNetworkToken("");
+    }
+  }, [connectedChain, chains]);
 
   if (!wallet || !account) {
     return (
@@ -69,17 +112,32 @@ export default function WalletInfo() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Connected Wallet</CardTitle>
-        <CardDescription>
-          {wallet.label} ({getWalletTypeLabel()})
-        </CardDescription>
+        <div className="flex justify-between items-center">
+          <CardTitle>Connected Wallet</CardTitle>
+          <Badge variant={walletType === "substrate" ? "secondary" : "default"}>
+            {getWalletTypeLabel()}
+          </Badge>
+        </div>
+        <CardDescription>{wallet.label}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
           <h3 className="text-sm font-medium text-muted-foreground mb-1">
             Network
           </h3>
-          <p className="font-medium">{connectedChain?.label || "Unknown"}</p>
+          <div className="flex items-center gap-2">
+            {networkToken && (
+              <img
+                src={`/coins/${networkToken.toLowerCase()}.svg`}
+                alt={networkName}
+                className="w-5 h-5"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            )}
+            <p className="font-medium">{networkName}</p>
+          </div>
         </div>
 
         <div>
@@ -96,7 +154,7 @@ export default function WalletInfo() {
           <h3 className="text-sm font-medium text-muted-foreground mb-1">
             Balance
           </h3>
-          <p className="font-medium">{getFormattedBalance()}</p>
+          <div className="font-medium">{getFormattedBalance()}</div>
         </div>
 
         <Button
