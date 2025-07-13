@@ -2,11 +2,11 @@ import Image from "next/image";
 import { useChainId } from "wagmi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatEther } from "viem";
-import { roundLongDecimals } from "@/lib/utils";
+import { formatBalance } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RefreshCcw } from "lucide-react";
 import type { BalancesProps } from "@/types/shared";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TokenIcon } from "@/components/ui/token-icon";
 
 export default function BalancesComponent({
@@ -20,16 +20,39 @@ export default function BalancesComponent({
   const chainId = useChainId();
   const [isRefetching, setIsRefetching] = useState(false);
 
+  // Debug logging
+  useEffect(() => {
+    console.log("BalancesComponent - Native Balance:", nativeBalance);
+    console.log("BalancesComponent - Token Balances:", tokenBalances);
+  }, [nativeBalance, tokenBalances]);
+
   async function handleRefetchAllBalances() {
     try {
       setIsRefetching(true);
-      await Promise.all([refetchNativeBalance(), refetchTokenBalances()]);
+      await Promise.all([refetchNativeBalance?.(), refetchTokenBalances?.()]);
     } catch (error) {
       console.error("Error refreshing balances:", error);
     } finally {
       setIsRefetching(false);
     }
   }
+
+  // Helper function to get network name
+  const getNetworkName = (chainId: number) => {
+    switch (chainId) {
+      case 11155111:
+        return "Sepolia";
+      case 84532:
+        return "Base Sepolia";
+      default:
+        return "Unknown Network";
+    }
+  };
+
+  const networkName = getNetworkName(chainId);
+
+  // Safely get token balances
+  const safeTokenBalances = Array.isArray(tokenBalances) ? tokenBalances : [];
 
   return (
     <div className="flex flex-col gap-4 w-full p-4">
@@ -41,7 +64,9 @@ export default function BalancesComponent({
             variant="ghost"
             size="icon"
             onClick={handleRefetchAllBalances}
-            disabled={isRefetching}
+            disabled={
+              isRefetching || isNativeBalanceLoading || isTokenBalancesLoading
+            }
           >
             <RefreshCcw
               className={`w-4 h-4 ${isRefetching ? "animate-spin" : ""}`}
@@ -54,32 +79,32 @@ export default function BalancesComponent({
         <TokenBalanceItem
           symbol="ETH"
           name="Ethereum"
-          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
-          balance={nativeBalance as bigint}
+          networkName={networkName}
+          balance={nativeBalance}
           isLoading={isNativeBalanceLoading}
         />
 
         <TokenBalanceItem
           symbol="DOT"
           name="Polkadot"
-          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
-          balance={tokenBalances?.[0] as bigint}
+          networkName={networkName}
+          balance={safeTokenBalances[0]}
           isLoading={isTokenBalancesLoading}
         />
 
         <TokenBalanceItem
           symbol="vETH"
           name="Voucher ETH"
-          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
-          balance={tokenBalances?.[1] as bigint}
+          networkName={networkName}
+          balance={safeTokenBalances[1]}
           isLoading={isTokenBalancesLoading}
         />
 
         <TokenBalanceItem
           symbol="vDOT"
           name="Voucher DOT"
-          networkName={chainId === 11155111 ? "Sepolia" : "Base Sepolia"}
-          balance={tokenBalances?.[2] as bigint}
+          networkName={networkName}
+          balance={safeTokenBalances[2]}
           isLoading={isTokenBalancesLoading}
         />
       </div>
@@ -91,7 +116,7 @@ interface TokenBalanceItemProps {
   symbol: string;
   name: string;
   networkName: string;
-  balance: bigint;
+  balance: bigint | undefined | null;
   isLoading: boolean;
 }
 
@@ -102,6 +127,18 @@ function TokenBalanceItem({
   balance,
   isLoading,
 }: TokenBalanceItemProps) {
+  // Format balance with proper error handling
+  const displayBalance = () => {
+    if (!balance) return "0";
+    try {
+      const formatted = formatEther(balance);
+      return (+formatted).toFixed(6);
+    } catch (error) {
+      console.error("Error formatting balance:", error);
+      return "0";
+    }
+  };
+
   return (
     <div className="flex flex-row justify-between gap-2">
       <div className="flex flex-row gap-4 items-center justify-center">
@@ -113,11 +150,7 @@ function TokenBalanceItem({
       </div>
       <div className="flex flex-col text-right">
         <div className="text-md">
-          {isLoading ? (
-            <Skeleton className="w-12 h-4" />
-          ) : (
-            roundLongDecimals(formatEther(balance || BigInt(0)), 6)
-          )}
+          {isLoading ? <Skeleton className="w-12 h-4" /> : displayBalance()}
         </div>
         <p className="text-muted-foreground">{symbol}</p>
       </div>

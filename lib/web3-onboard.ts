@@ -71,7 +71,7 @@ export default init({
       namespace: 'evm',
       token: 'ETH',
       label: 'Sepolia',
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL_SEPOLIA || 'https://ethereum-sepolia.publicnode.com',
+      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL_SEPOLIA || 'https://sepolia.basescan.org',
       decimal: 18
     },
     {

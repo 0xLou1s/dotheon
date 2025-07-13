@@ -2,24 +2,80 @@
 
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Web3OnboardProvider } from "@subwallet-connect/react";
+import {
+  Web3OnboardProvider,
+  useConnectWallet,
+} from "@subwallet-connect/react";
 import web3Onboard from "@/lib/web3-onboard";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { sepolia, baseSepolia } from "wagmi/chains";
+import { Toaster } from "sonner";
+import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 
 // Create a client for React Query
 const queryClient = new QueryClient();
 
-export function WalletProviders({ children }: { children: React.ReactNode }) {
+// Create a wagmi config
+const wagmiConfig = createConfig({
+  chains: [sepolia, baseSepolia],
+  transports: {
+    [baseSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_BASE_SEPOLIA!),
+    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_SEPOLIA!),
+  },
+});
+
+// Chain ID mapping between SubWallet Connect and Wagmi
+const chainIdMapping: { [key: string]: number } = {
+  "0xaa36a7": sepolia.id, // Sepolia
+  "0x14a34": baseSepolia.id, // Base Sepolia
+};
+
+function NetworkSynchronizer({ children }: { children: React.ReactNode }) {
+  const [{ wallet }] = useConnectWallet();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
+  React.useEffect(() => {
+    if (wallet?.provider) {
+      // Listen for chain changes
+      wallet.provider.on("chainChanged", (chainId: string) => {
+        if (chainIdMapping[chainId]) {
+          console.log("Chain changed in SubWallet:", chainId);
+        }
+      });
+
+      return () => {
+        wallet.provider.removeListener("chainChanged", () => {});
+      };
+    }
+  }, [wallet]);
+
+  if (!mounted) return null;
+  return <>{children}</>;
+}
+
+export function WalletProviders({ children }: { children: React.ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Web3OnboardProvider web3Onboard={web3Onboard}>
-        {mounted && children}
-      </Web3OnboardProvider>
-    </QueryClientProvider>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        {/* <RainbowKitProvider
+          initialChain={0}
+          showRecentTransactions={true}
+          theme={darkTheme({
+            accentColor: "#ff8800",
+            accentColorForeground: "white",
+            borderRadius: "small",
+          })}
+          locale="en-US"
+        > */}
+        <Web3OnboardProvider web3Onboard={web3Onboard}>
+          <NetworkSynchronizer>{children}</NetworkSynchronizer>
+        </Web3OnboardProvider>
+        {/* </RainbowKitProvider> */}
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
