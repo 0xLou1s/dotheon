@@ -145,7 +145,7 @@ export function useWallet() {
   // Handle wallet disconnection
   const disconnectWallet = async () => {
     if (!wallet) return;
-    
+      
     try {
       await disconnect({ label: wallet.label, type: wallet.type });
       

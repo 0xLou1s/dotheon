@@ -11,6 +11,7 @@ import { WagmiProvider, createConfig, http } from "wagmi";
 import { sepolia, baseSepolia } from "wagmi/chains";
 import { Toaster } from "sonner";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { useWalletSync } from "@/hooks/use-wallet-sync";
 
 // Create a client for React Query
 const queryClient = new QueryClient();
@@ -34,6 +35,9 @@ function NetworkSynchronizer({ children }: { children: React.ReactNode }) {
   const [{ wallet }] = useConnectWallet();
   const [mounted, setMounted] = React.useState(false);
 
+  // Use the wallet sync hook
+  useWalletSync();
+
   React.useEffect(() => {
     setMounted(true);
   }, []);
@@ -47,8 +51,16 @@ function NetworkSynchronizer({ children }: { children: React.ReactNode }) {
         }
       });
 
+      // Listen for account changes
+      wallet.provider.on("accountsChanged", (accounts: string[]) => {
+        if (!accounts || accounts.length === 0) {
+          console.log("SubWallet disconnected");
+        }
+      });
+
       return () => {
         wallet.provider.removeListener("chainChanged", () => {});
+        wallet.provider.removeListener("accountsChanged", () => {});
       };
     }
   }, [wallet]);
