@@ -1,7 +1,9 @@
 import { useConnectWallet, useSetChain } from '@subwallet-connect/react';
 import { useEffect, useState } from 'react';
 import { SubstrateApi, POLKADOT_NETWORKS } from '@/lib/substrate-api';
+// @ts-ignore
 import { Account } from '@subwallet-connect/core/dist/types';
+import { toast } from "sonner";
 
 type WalletType = 'evm' | 'substrate' | null;
 type ChainInfo = {
@@ -107,8 +109,8 @@ export function useWallet() {
           console.log("No network info found, using chain info from chains array");
           setChainInfo({
             id: currentChain.id,
-            name: currentChain.label,
-            token: currentChain.token,
+            name: currentChain.label as any,
+            token: currentChain.token as any,
             decimals: currentChain.decimal || 18
           });
         }
@@ -117,8 +119,8 @@ export function useWallet() {
         console.log("Using EVM chain info directly");
         setChainInfo({
           id: currentChain.id,
-          name: currentChain.label,
-          token: currentChain.token,
+          name: currentChain.label as any,
+          token: currentChain.token as any,
           decimals: currentChain.decimal || 18
         });
       }
@@ -207,8 +209,10 @@ export function useWallet() {
       });
       
       console.log("Chain switched successfully");
+      toast.success("Network switched successfully");
     } catch (error) {
       console.error('Error switching chain:', error);
+      toast.error("Failed to switch network");
     }
   };
 
