@@ -47,11 +47,11 @@ const data = {
         },
       ],
     },
-    // {
-    //   title: "Portfolio Manager",
-    //   url: "/portfolio-manager",
-    //   icon: Wallet,
-    // },
+    {
+      title: "Wallet",
+      url: "/wallet",
+      icon: Wallet,
+    },
     {
       title: "AI DeFi Assistant",
       url: "/ai",

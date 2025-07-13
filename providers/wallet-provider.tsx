@@ -1,36 +1,11 @@
 "use client";
 
 import * as React from "react";
-import {
-  RainbowKitProvider,
-  getDefaultWallets,
-  getDefaultConfig,
-  darkTheme,
-} from "@rainbow-me/rainbowkit";
-import { trustWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
-import { sepolia, baseSepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider, http } from "wagmi";
+import { Web3OnboardProvider } from "@subwallet-connect/react";
+import web3Onboard from "@/lib/web3-onboard";
 
-const { wallets } = getDefaultWallets();
-
-const config = getDefaultConfig({
-  appName: process.env.NEXT_PUBLIC_WALLET_APP_NAME!,
-  projectId: process.env.NEXT_PUBLIC_WALLET_PROJECT_ID!,
-  wallets: [
-    ...wallets,
-    {
-      groupName: "Other",
-      wallets: [trustWallet, ledgerWallet],
-    },
-  ],
-  chains: [baseSepolia, sepolia],
-  transports: {
-    [baseSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_BASE_SEPOLIA!),
-    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL_SEPOLIA!),
-  },
-});
-
+// Create a client for React Query
 const queryClient = new QueryClient();
 
 export function WalletProviders({ children }: { children: React.ReactNode }) {
@@ -41,21 +16,10 @@ export function WalletProviders({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          initialChain={0}
-          showRecentTransactions={true}
-          theme={darkTheme({
-            accentColor: "#ff8800",
-            accentColorForeground: "white",
-            borderRadius: "small",
-          })}
-          locale="en-US"
-        >
-          {mounted && children}
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <QueryClientProvider client={queryClient}>
+      <Web3OnboardProvider web3Onboard={web3Onboard}>
+        {mounted && children}
+      </Web3OnboardProvider>
+    </QueryClientProvider>
   );
 }

@@ -78,3 +78,36 @@ export function formatCurrency(value: number): string {
   }
   return `$ ${value.toFixed(4)}`;
 }
+
+/**
+ * Format a balance with the appropriate number of decimals and token symbol
+ * @param balance The balance as a string
+ * @param decimals The number of decimals for the token
+ * @param symbol The token symbol
+ * @param displayDecimals The number of decimals to display (default: 4)
+ * @returns Formatted balance string with token symbol
+ */
+export function formatBalance(
+  balance: string,
+  decimals: number,
+  symbol: string,
+  displayDecimals: number = 4
+): string {
+  if (!balance) return `0 ${symbol}`;
+  
+  try {
+    // Convert balance to a number with the correct decimal places
+    const balanceNum = Number(balance) / Math.pow(10, decimals);
+    
+    // Format the number with the specified number of decimal places
+    const formattedBalance = balanceNum.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: displayDecimals
+    });
+    
+    return `${formattedBalance} ${symbol}`;
+  } catch (error) {
+    console.error('Error formatting balance:', error);
+    return `0 ${symbol}`;
+  }
+}

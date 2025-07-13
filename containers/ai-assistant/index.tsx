@@ -26,8 +26,7 @@ import {
 } from "lucide-react";
 import type { FormEventHandler } from "react";
 import { AISuggestion, AISuggestions } from "@/components/ai/suggestion";
-import { useAccount } from "wagmi";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useWallet } from "@/hooks/use-wallet";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { truncateAddress } from "@/lib/utils";
@@ -64,8 +63,10 @@ const suggestions = [
 ];
 
 export function Chat() {
-  const { openConnectModal } = useConnectModal();
-  const { isConnected, address } = useAccount();
+  const { wallet, account, connectWallet } = useWallet();
+  const isConnected = !!wallet && !!account;
+  const address = account?.address;
+
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -177,7 +178,7 @@ export function Chat() {
     if (!isConnected || !address) {
       toast("Please connect your wallet to chat.");
       setTimeout(() => {
-        openConnectModal?.();
+        connectWallet();
       }, 1000);
       return;
     }
@@ -511,7 +512,7 @@ export function Chat() {
               )}
             </AIInputSubmit>
           ) : (
-            <Button onClick={openConnectModal}>Connect Wallet To Chat</Button>
+            <Button onClick={connectWallet}>Connect Wallet To Chat</Button>
           )}
         </AIInputToolbar>
       </AIInput>
