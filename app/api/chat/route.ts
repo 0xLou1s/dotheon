@@ -31,22 +31,29 @@ async function chat(messages: any[]): Promise<AIResponse> {
     id: msg.id || Date.now().toString(),
   }));
 
-  const result = await generateText({
-    model: google("gemini-2.0-flash"),
-    system: SYSTEM_PROMPT,
-    messages: formattedMessages,
-    tools,
-    providerOptions: {
-      google: {
-        safetySettings: [
-          {
-            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE",
-          },
-        ],
+      const result = await generateText({
+      model: google("gemini-2.0-flash"),
+      system: SYSTEM_PROMPT,
+      messages: formattedMessages,
+      tools,
+      providerOptions: {
+        google: {
+          safetySettings: [
+            {
+              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE",
+            },
+          ],
+        },
       },
-    },
-  });
+    });
+
+    console.log("AI Response:", {
+      text: result.text,
+      toolCalls: result.toolCalls,
+      toolCallsCount: result.toolCalls?.length || 0,
+      lastUserMessage: formattedMessages[formattedMessages.length - 1]?.content
+    });
 
   return result;
 }
@@ -80,6 +87,19 @@ export async function POST(req: Request) {
     let responseText: string = typeof result.text === "string" ? result.text : "";
 
     let toolName = toolCalls.length > 0 ? toolCalls[0].toolName : null;
+    
+    // Fallback: Force trigger tools based on user message content
+    if (!toolName) {
+      const lastUserMessage = messages[messages.length - 1]?.content?.[0]?.text?.toLowerCase() || "";
+      
+      if (lastUserMessage.includes('mint') || lastUserMessage.includes('stake') || lastUserMessage.includes('staking')) {
+        toolName = 'mintVToken';
+        console.log("Fallback: Forcing mintVToken tool based on user message");
+      } else if (lastUserMessage.includes('redeem') || lastUserMessage.includes('unstake') || lastUserMessage.includes('unstaking')) {
+        toolName = 'redeemVToken';
+        console.log("Fallback: Forcing redeemVToken tool based on user message");
+      }
+    }
 
     // if Gemini didn't return text but did call a tool → execute tool manually
     if ((!responseText || responseText.trim() === "") && toolCalls.length > 0) {

@@ -1,6 +1,8 @@
 import { tool as createTool } from "ai";
 import { z } from "zod";
 import { TokenStatistics } from "@/containers/dashboard/token-statistics/token-statistics";
+import ChatMint from "@/components/widget-call-tool/chat-mint";
+import ChatRedeem from "@/components/widget-call-tool/chat-redeem";
 
 const tokenList = [
     'vDOT', 'vETH', 'vKSM', 'vPHA', 'vASTR',
@@ -9,12 +11,6 @@ const tokenList = [
     'MANTA', 'BNC', 'MOVR', 'GLMR', 'FIL',
     'ALL'
   ] as const;
-
-const baseMetrics = [
-  "price",
-  "apy",
-  "tvl",
-];
 
 
 export const vTokenInfoTool = createTool({
@@ -88,12 +84,51 @@ export const getVTokenPrice = createTool({
       }
   });
 
+export const mintVTokenTool = createTool({
+  description: "CRITICAL: Use this tool whenever users mention ANY of these: mint, stake, staking, convert to vToken, DOT to vDOT, ETH to vETH, I want to mint, help me mint. This tool shows the minting interface for liquid staking.",
+  parameters: z.object({}),
+  execute: async () => {
+    return {
+      text: `I'll help you mint vTokens! Dotheon currently supports minting DOT to vDOT and ETH to vETH. For other tokens, please visit [Bifrost VStaking](https://app.bifrost.io/vstaking).
+
+Here's the minting interface:`,
+      toolName: "mintVToken",
+      toolResult: {
+        initialToken: 'vDOT',
+        initialAmount: ""
+      }
+    };
+  },
+});
+
+export const redeemVTokenTool = createTool({
+  description: "CRITICAL: Use this tool whenever users mention ANY of these: redeem, unstake, unstaking, convert back, get back, vDOT to DOT, vETH to ETH, I want to redeem, help me redeem. This tool shows the redemption interface for liquid staking.",
+  parameters: z.object({}),
+  execute: async () => {
+    return {
+      text: `I'll help you redeem vTokens! Dotheon currently supports redeeming vDOT back to DOT and vETH back to ETH. For other tokens, please visit [Bifrost VStaking](https://app.bifrost.io/vstaking).
+
+Here's the redemption interface:`,
+      toolName: "redeemVToken",
+      toolResult: {
+        initialToken: 'vDOT',
+        initialAmount: ""
+      }
+    };
+  },
+});
+
+
 export const tools = {
   displayVTokenInfo: vTokenInfoTool,
   getVTokenPrice: getVTokenPrice,
+  mintVToken: mintVTokenTool,
+  redeemVToken: redeemVTokenTool,
 };
 
 export const ComponentMap: Record<string, React.ComponentType<any>> = {
   displayVTokenInfo: TokenStatistics,
+  mintVToken: ChatMint,
+  redeemVToken: ChatRedeem,
 };
 
