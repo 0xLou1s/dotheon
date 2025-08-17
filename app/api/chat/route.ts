@@ -89,37 +89,47 @@ export async function POST(req: Request) {
     let toolName = toolCalls.length > 0 ? toolCalls[0].toolName : null;
     
     // Fallback: Force trigger tools based on user message content
+    let toolResult: any = null;
     if (!toolName) {
       const lastUserMessage = messages[messages.length - 1]?.content?.[0]?.text?.toLowerCase() || "";
       
       if (lastUserMessage.includes('mint') || lastUserMessage.includes('stake') || lastUserMessage.includes('staking')) {
         toolName = 'mintVToken';
+        toolResult = {
+          initialToken: 'vDOT',
+          initialAmount: ""
+        };
         console.log("Fallback: Forcing mintVToken tool based on user message");
       } else if (lastUserMessage.includes('redeem') || lastUserMessage.includes('unstake') || lastUserMessage.includes('unstaking')) {
         toolName = 'redeemVToken';
+        toolResult = {
+          initialToken: 'vDOT',
+          initialAmount: ""
+        };
         console.log("Fallback: Forcing redeemVToken tool based on user message");
       }
     }
 
-    // if Gemini didn't return text but did call a tool → execute tool manually
-    if ((!responseText || responseText.trim() === "") && toolCalls.length > 0) {
-      const toolCall = toolCalls[0];
+    // // if Gemini didn't return text but did call a tool → execute tool manually
+    // if ((!responseText || responseText.trim() === "") && toolCalls.length > 0) {
+    //   const toolCall = toolCalls[0];
 
-      if (toolCall.toolName in tools) {
-        const toolKey = toolCall.toolName as keyof typeof tools;
-        const toolFn = tools[toolKey] as Tool<any, any>;
+    //   if (toolCall.toolName in tools) {
+    //     const toolKey = toolCall.toolName as keyof typeof tools;
+    //     const toolFn = tools[toolKey] as Tool<any, any>;
 
-        if (toolFn && typeof toolFn.execute === "function") {
-          const toolResult = await toolFn.execute(toolCall.args, {
-            toolCallId: toolCall.toolCallId,
-            messages
-          } as ToolExecutionOptions) as { text?: string };
-          responseText = toolResult?.text || "Here's the information you requested.";
-        } else {
-          responseText = "Tool not implemented or invalid.";
-        }
-      }
-    }
+    //     if (toolFn && typeof toolFn.execute === "function") {
+    //       const result = await toolFn.execute(toolCall.args, {
+    //         toolCallId: toolCall.toolCallId,
+    //         messages
+    //       } as ToolExecutionOptions);
+    //       responseText = result?.text || "Here's the information you requested.";
+    //       toolResult = result; // Set toolResult from tool execution
+    //     } else {
+    //       responseText = "Tool not implemented or invalid.";
+    //     }
+    //   }
+    // }
 
     if (!responseText || responseText.trim() === "") {
       console.error("Empty response from Gemini or tool.");
@@ -159,6 +169,7 @@ export async function POST(req: Request) {
       content: responseText.trim(),
       timestamp: new Date(),
       toolName,
+      toolResult,
     };
 
     const updatedSession = await ChatMessage.findOneAndUpdate(
@@ -187,6 +198,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       response: responseText.trim(),
       toolName,
+      toolResult,
     });
 
   } catch (error) {
