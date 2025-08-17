@@ -33,7 +33,6 @@ import { toast } from "sonner";
 import { truncateAddress } from "@/lib/utils";
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 import { ComponentMap } from "@/lib/ai/tools";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import EmptyState from "./empty-state";
 
 interface Message {
@@ -59,8 +58,9 @@ export type Model = {
 };
 
 const suggestions = [
-  "How can I mint vToken on Bifrost?",
   "Show me the statistics for all vToken",
+  "I want to mint vToken",
+  "Help me redeem my vToken",
 ];
 
 export function Chat() {
@@ -424,9 +424,15 @@ export function Chat() {
       return null;
     }
 
+    // Handle different tool result structures
+    let props = toolResult;
+    if (toolResult && typeof toolResult === "object" && toolResult.toolResult) {
+      props = toolResult.toolResult;
+    }
+
     return (
       <div className="mt-4">
-        <Component {...toolResult} />
+        <Component {...props} />
       </div>
     );
   };
