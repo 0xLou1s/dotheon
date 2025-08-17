@@ -85,7 +85,7 @@ export const getVTokenPrice = createTool({
   });
 
 export const mintVTokenTool = createTool({
-  description: "CRITICAL: Use this tool whenever users mention ANY of these: mint, stake, staking, convert to vToken, DOT to vDOT, ETH to vETH, I want to mint, help me mint. This tool shows the minting interface for liquid staking.",
+  description: "This tool displays the minting interface for liquid staking. ALWAYS use this tool when users want to: mint vTokens, stake tokens, convert DOT to vDOT, convert ETH to vETH, or any staking-related request. Do not ask users to specify which token - show them the interface directly.",
   parameters: z.object({}),
   execute: async () => {
     return {
@@ -102,7 +102,7 @@ Here's the minting interface:`,
 });
 
 export const redeemVTokenTool = createTool({
-  description: "CRITICAL: Use this tool whenever users mention ANY of these: redeem, unstake, unstaking, convert back, get back, vDOT to DOT, vETH to ETH, I want to redeem, help me redeem. This tool shows the redemption interface for liquid staking.",
+  description: "This tool displays the redemption interface for liquid staking. ALWAYS use this tool when users want to: redeem vTokens, unstake tokens, convert vDOT back to DOT, convert vETH back to ETH, or any unstaking-related request. Do not ask users to specify which token - show them the interface directly.",
   parameters: z.object({}),
   execute: async () => {
     return {
