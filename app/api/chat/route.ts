@@ -110,26 +110,26 @@ export async function POST(req: Request) {
       }
     }
 
-    // // if Gemini didn't return text but did call a tool → execute tool manually
-    // if ((!responseText || responseText.trim() === "") && toolCalls.length > 0) {
-    //   const toolCall = toolCalls[0];
+    // if Gemini didn't return text but did call a tool → execute tool manually
+    if ((!responseText || responseText.trim() === "") && toolCalls.length > 0) {
+      const toolCall = toolCalls[0];
 
-    //   if (toolCall.toolName in tools) {
-    //     const toolKey = toolCall.toolName as keyof typeof tools;
-    //     const toolFn = tools[toolKey] as Tool<any, any>;
+      if (toolCall.toolName in tools) {
+        const toolKey = toolCall.toolName as keyof typeof tools;
+        const toolFn = tools[toolKey] as Tool<any, any>;
 
-    //     if (toolFn && typeof toolFn.execute === "function") {
-    //       const result = await toolFn.execute(toolCall.args, {
-    //         toolCallId: toolCall.toolCallId,
-    //         messages
-    //       } as ToolExecutionOptions);
-    //       responseText = result?.text || "Here's the information you requested.";
-    //       toolResult = result; // Set toolResult from tool execution
-    //     } else {
-    //       responseText = "Tool not implemented or invalid.";
-    //     }
-    //   }
-    // }
+        if (toolFn && typeof toolFn.execute === "function") {
+          const result = await toolFn.execute(toolCall.args, {
+            toolCallId: toolCall.toolCallId,
+            messages
+          } as ToolExecutionOptions);
+          responseText = result?.text || "Here's the information you requested.";
+          toolResult = result; // Set toolResult from tool execution
+        } else {
+          responseText = "Tool not implemented or invalid.";
+        }
+      }
+    }
 
     if (!responseText || responseText.trim() === "") {
       console.error("Empty response from Gemini or tool.");
