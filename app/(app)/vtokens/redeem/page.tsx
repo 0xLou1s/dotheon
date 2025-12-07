@@ -31,8 +31,10 @@ export default function RedeemPage() {
     refetch: refetchNativeBalance,
   } = useBalance({
     address: address,
-    enabled: !!address,
     chainId: chainId,
+    query: {
+      enabled: !!address,
+    },
   });
 
   const dotToken = TOKEN_LIST.find((token) => token.symbol === "DOT");
@@ -49,8 +51,10 @@ export default function RedeemPage() {
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [address as Address],
-    enabled: !!address && !!dotToken,
     chainId: chainId,
+    query: {
+      enabled: !!address && !!dotToken,
+    },
   });
 
   const {
@@ -62,8 +66,10 @@ export default function RedeemPage() {
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [address as Address],
-    enabled: !!address && !!vethToken,
     chainId: chainId,
+    query: {
+      enabled: !!address && !!vethToken,
+    },
   });
 
   const {
@@ -75,8 +81,10 @@ export default function RedeemPage() {
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [address as Address],
-    enabled: !!address && !!vdotToken,
     chainId: chainId,
+    query: {
+      enabled: !!address && !!vdotToken,
+    },
   });
 
   // Combine loading states
@@ -209,7 +217,7 @@ export default function RedeemPage() {
       <div className="flex flex-col md:flex-row gap-4 w-full">
         <div id="balance-section" className="flex-1">
           <BalancesComponent
-            nativeBalance={nativeBalance?.value}
+            nativeBalance={nativeBalance?.value ?? BigInt(0)}
             isNativeBalanceLoading={isLoadingNativeBalance}
             refetchNativeBalance={refetchNativeBalance}
             tokenBalances={

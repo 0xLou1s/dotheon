@@ -61,7 +61,8 @@ export default function NetworkSelector() {
 
     const filteredNetworks = chains
       .filter((chain) => {
-        const matches = chain.namespace === walletType;
+        const matches =
+          chain.namespace === walletType && chain.label && chain.token;
         console.log(
           `Chain ${chain.label} (${chain.namespace}) matches wallet type ${walletType}: ${matches}`
         );
@@ -69,10 +70,10 @@ export default function NetworkSelector() {
       })
       .map((chain) => ({
         id: chain.id,
-        name: chain.label,
+        name: chain.label!,
         namespace: chain.namespace as "evm" | "substrate",
-        token: chain.token,
-        icon: `/coins/${chain.token.toLowerCase()}.svg`,
+        token: chain.token!,
+        icon: `/coins/${chain.token!.toLowerCase()}.svg`,
       }));
 
     console.log("NetworkSelector - Available networks:", filteredNetworks);
@@ -96,10 +97,12 @@ export default function NetworkSelector() {
     const matchingChain = chains.find(
       (chain) =>
         chain.id === connectedChain.id &&
-        chain.namespace === connectedChain.namespace
+        chain.namespace === connectedChain.namespace &&
+        chain.label &&
+        chain.token
     );
 
-    if (matchingChain) {
+    if (matchingChain && matchingChain.label && matchingChain.token) {
       const network = {
         id: matchingChain.id,
         name: matchingChain.label,
