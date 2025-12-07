@@ -17,6 +17,7 @@ import { AppSidebar } from "@/components/sidebar-app/app-sidebar";
 import AnnouncementBar from "@/components/announcement-bar";
 import { SessionWhatsNewDialog } from "@/components/whatsnew-dialog/session-dialog";
 import { AIChatWidget } from "@/containers/ai-assistant/ai-chat-widget";
+// import { AIChatWidget } from "@/containers/ai-assistant/ai-chat-widget";
 
 function generateBreadcrumbs(pathname: string) {
   const paths = pathname.split("/").filter(Boolean);

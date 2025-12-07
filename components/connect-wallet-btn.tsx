@@ -31,9 +31,9 @@ export default function ConnectWalletBtn() {
               if (!connected) {
                 return (
                   <Button
-                    id="wallet-connect-button"
                     onClick={openConnectModal}
                     variant="default"
+                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
                   >
                     Connect Wallet
                   </Button>
@@ -42,7 +42,11 @@ export default function ConnectWalletBtn() {
 
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} variant="destructive">
+                  <Button
+                    onClick={openChainModal}
+                    variant="destructive"
+                    className="rounded-none bg-foreground text-background hover:bg-foreground/90"
+                  >
                     Wrong network
                   </Button>
                 );
@@ -51,10 +55,13 @@ export default function ConnectWalletBtn() {
               return (
                 <div className="flex items-center gap-2">
                   <Button onClick={openChainModal} variant="default">
-                    {chain.name && chain.name.length > 10
-                      ? `${chain.name.slice(0, 5)}..${chain.name.slice(-5)}`
-                      : chain.name}
+                    {chain.name}
                     <IconChevronDown className="size-4" />
+                  </Button>
+
+                  <Button onClick={openAccountModal} variant="default">
+                    <img src={account.ensAvatar} alt="" />
+                    {account.displayName}
                   </Button>
                 </div>
               );

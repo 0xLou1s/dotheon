@@ -29,18 +29,49 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useAccount, useDisconnect } from "wagmi";
-import { useChainModal, useConnectModal } from "@rainbow-me/rainbowkit";
-import { getWalletName, truncateAddress } from "@/lib/utils";
+import { useWallet } from "@/hooks/use-wallet";
+import { truncateAddress } from "@/lib/utils";
 import Link from "next/link";
 import CopyButton from "../copy-button";
+import NetworkSelector from "../network-selector";
+import { useEffect, useState } from "react";
 
 export default function NavUser() {
   const { isMobile } = useSidebar();
-  const { openConnectModal } = useConnectModal();
-  const { openChainModal } = useChainModal();
-  const { isConnected, address, connector, chain } = useAccount();
-  const { disconnect } = useDisconnect();
+  const {
+    wallet,
+    account,
+    walletType,
+    connectWallet,
+    disconnectWallet,
+    connectedChain,
+    chains,
+  } = useWallet();
+  const [networkName, setNetworkName] = useState("Unknown");
+
+  const isConnected = !!wallet && !!account;
+  const address = account?.address;
+
+  // Get network name from connected chain
+  useEffect(() => {
+    if (!connectedChain || !chains) {
+      setNetworkName("Unknown");
+      return;
+    }
+
+    // Find the matching chain in the chains array
+    const matchingChain = chains.find(
+      (chain) =>
+        chain.id === connectedChain.id &&
+        chain.namespace === connectedChain.namespace
+    );
+
+    if (matchingChain && matchingChain.label) {
+      setNetworkName(matchingChain.label);
+    } else {
+      setNetworkName("Unknown");
+    }
+  }, [connectedChain, chains]);
 
   return (
     <SidebarMenu>
@@ -55,7 +86,8 @@ export default function NavUser() {
                     {truncateAddress(address)}
                   </span>
                   <span className="truncate text-xs">
-                    {getWalletName(connector)}
+                    {wallet?.label} (
+                    {walletType === "substrate" ? "Polkadot" : "EVM"})
                   </span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4" />
@@ -63,7 +95,7 @@ export default function NavUser() {
             </DropdownMenuTrigger>
           ) : (
             <SidebarMenuButton
-              onClick={() => openConnectModal?.()}
+              onClick={() => connectWallet()}
               size="lg"
               className="group/nav data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90"
             >
@@ -93,7 +125,8 @@ export default function NavUser() {
                       {truncateAddress(address!)}
                     </span>
                     <span className="truncate text-xs">
-                      {getWalletName(connector)}
+                      {wallet?.label} (
+                      {walletType === "substrate" ? "Polkadot" : "EVM"})
                     </span>
                   </div>
                   <CopyButton copyText={address!} />
@@ -101,6 +134,16 @@ export default function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+
+            {isConnected && (
+              <>
+                <div className="px-2 py-2">
+                  <NetworkSelector />
+                </div>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
             <DropdownMenuGroup>
               <DropdownMenuItem disabled>
                 <Sparkles />
@@ -109,19 +152,21 @@ export default function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => openChainModal?.()}>
-                <Plug />
-                Current Network : {chain?.name}
+              <DropdownMenuItem asChild>
+                <Link href="/wallet">
+                  <Plug />
+                  Network: {networkName}
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/portfolio-manager">
+                <Link href="/wallet">
                   <Wallet />
-                  Portfolio Manager
+                  Wallet Manager
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => disconnect()}>
+            <DropdownMenuItem onClick={() => disconnectWallet()}>
               <LogOut />
               Log out
             </DropdownMenuItem>

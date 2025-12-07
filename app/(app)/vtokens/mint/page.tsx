@@ -1,7 +1,7 @@
 "use client";
 
 import MintComponent from "@/components/onchains/mint-component";
-import { useBalance, useAccount, useReadContracts } from "wagmi";
+import { useBalance, useAccount, useContractRead } from "wagmi";
 import { erc20Abi, Address } from "viem";
 import { TOKEN_LIST } from "@/lib/constants";
 import BalancesComponent from "@/components/onchains/balances-component";
@@ -15,9 +15,11 @@ import {
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { CalculatorIcon } from "lucide-react";
+import { useChainId } from "wagmi";
 
 export default function MintPage() {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const [showTour, setShowTour] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
   const finalStepRef = useRef<HTMLDivElement>(null);
@@ -27,10 +29,79 @@ export default function MintPage() {
   const tokenParam = searchParams.get("token");
   const [initialToken, setInitialToken] = useState<string | null>(null);
 
+  const {
+    data: nativeBalance,
+    isLoading: isLoadingNativeBalance,
+    refetch: refetchNativeBalance,
+  } = useBalance({
+    address: address,
+    chainId: chainId,
+    query: {
+      enabled: !!address,
+    },
+  });
+
+  const dotToken = TOKEN_LIST.find((token) => token.symbol === "DOT");
+  const vethToken = TOKEN_LIST.find((token) => token.symbol === "vETH");
+  const vdotToken = TOKEN_LIST.find((token) => token.symbol === "vDOT");
+
+  // Individual contract reads for each token
+  const {
+    data: dotBalance,
+    isLoading: isDotLoading,
+    refetch: refetchDot,
+  } = useContractRead({
+    address: dotToken?.address as Address,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [address as Address],
+    chainId: chainId,
+    query: {
+      enabled: !!address && !!dotToken,
+    },
+  });
+
+  const {
+    data: vethBalance,
+    isLoading: isVethLoading,
+    refetch: refetchVeth,
+  } = useContractRead({
+    address: vethToken?.address as Address,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [address as Address],
+    chainId: chainId,
+    query: {
+      enabled: !!address && !!vethToken,
+    },
+  });
+
+  const {
+    data: vdotBalance,
+    isLoading: isVdotLoading,
+    refetch: refetchVdot,
+  } = useContractRead({
+    address: vdotToken?.address as Address,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [address as Address],
+    chainId: chainId,
+    query: {
+      enabled: !!address && !!vdotToken,
+    },
+  });
+
+  // Combine loading states
+  const isTokenBalancesLoading = isDotLoading || isVethLoading || isVdotLoading;
+
+  // Combine refetch functions
+  const refetchTokenBalances = async () => {
+    await Promise.all([refetchDot(), refetchVeth(), refetchVdot()]);
+  };
+
   // Handle changes to the URL parameters
   useEffect(() => {
     if (tokenParam) {
-      // Set the initial token based on the URL parameter
       if (
         tokenParam.toLowerCase() === "dot" ||
         tokenParam.toLowerCase() === "vdot"
@@ -48,60 +119,14 @@ export default function MintPage() {
   // This function will be called when a token is selected directly on this page
   const handleSelectToken = (symbol: string) => {
     setInitialToken(symbol);
-
-    // Update URL to match selection
     const params = new URLSearchParams(searchParams.toString());
-
     if (symbol === "vDOT") {
       params.set("token", "vDOT");
     } else if (symbol === "vETH") {
       params.set("token", "vETH");
     }
-
-    // Update URL without page refresh
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
-
-  const {
-    data: nativeBalance,
-    isLoading: isLoadingNativeBalance,
-    refetch: refetchNativeBalance,
-  } = useBalance({
-    address: address,
-  });
-
-  const {
-    data: tokenBalances,
-    isLoading: isTokenBalancesLoading,
-    refetch: refetchTokenBalances,
-  } = useReadContracts({
-    contracts: [
-      // DOT
-      {
-        abi: erc20Abi,
-        address: TOKEN_LIST.filter((token) => token.symbol === "DOT")[0]
-          .address as Address,
-        functionName: "balanceOf",
-        args: [address as Address],
-      },
-      // vETH
-      {
-        abi: erc20Abi,
-        address: TOKEN_LIST.filter((token) => token.symbol === "vETH")[0]
-          .address as Address,
-        functionName: "balanceOf",
-        args: [address as Address],
-      },
-      // vDOT
-      {
-        abi: erc20Abi,
-        address: TOKEN_LIST.filter((token) => token.symbol === "vDOT")[0]
-          .address as Address,
-        functionName: "balanceOf",
-        args: [address as Address],
-      },
-    ],
-  });
 
   // Define the tour steps
   const tourSteps: TourStep[] = [
@@ -221,7 +246,7 @@ export default function MintPage() {
             isNativeBalanceLoading={isLoadingNativeBalance}
             refetchNativeBalance={refetchNativeBalance}
             tokenBalances={
-              tokenBalances?.map((token) => token.result ?? BigInt(0)) ?? []
+              [dotBalance, vethBalance, vdotBalance] as [bigint, bigint, bigint]
             }
             isTokenBalancesLoading={isTokenBalancesLoading}
             refetchTokenBalances={refetchTokenBalances}
@@ -230,11 +255,9 @@ export default function MintPage() {
 
         <div id="mint-section" className="flex-1">
           <MintComponent
-            nativeBalance={nativeBalance?.value ?? BigInt(0)}
+            nativeBalance={nativeBalance?.value}
             tokenBalances={
-              tokenBalances?.map((balance) => balance.result) as
-                | [bigint | undefined, bigint | undefined, bigint | undefined]
-                | undefined
+              [dotBalance, vethBalance, vdotBalance] as [bigint, bigint, bigint]
             }
             initialTokenSymbol={initialToken}
             onTokenChange={handleSelectToken}

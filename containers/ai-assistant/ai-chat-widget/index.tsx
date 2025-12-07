@@ -23,8 +23,7 @@ import {
   BotMessageSquare,
 } from "lucide-react";
 import type { FormEventHandler } from "react";
-import { useAccount } from "wagmi";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useWallet } from "@/hooks/use-wallet";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { truncateAddress } from "@/lib/utils";
@@ -52,8 +51,10 @@ interface Message {
 
 export function AIChatWidget() {
   const pathname = usePathname();
-  const { openConnectModal } = useConnectModal();
-  const { isConnected, address } = useAccount();
+  const { wallet, account, connectWallet } = useWallet();
+  const isConnected = !!wallet && !!account;
+  const address = account?.address;
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -450,7 +451,7 @@ export function AIChatWidget() {
                     </AIInputSubmit>
                   ) : (
                     <Button
-                      onClick={openConnectModal}
+                      onClick={connectWallet}
                       className="transition-all duration-200 hover:scale-105 active:scale-95"
                     >
                       Connect Wallet
