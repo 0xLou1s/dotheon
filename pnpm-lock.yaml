@@ -76,25 +76,25 @@ importers:
         version: 3.7.0
       '@subwallet-connect/injected-wallets':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@subwallet-connect/polkadot-js':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@subwallet-connect/react':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@subwallet-connect/subwallet-polkadot':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@subwallet-connect/talisman':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@subwallet-connect/walletconnect':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@subwallet-connect/walletconnect-polkadot':
         specifier: ^1.0.8
-        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@tabler/icons-react':
         specifier: ^3.31.0
         version: 3.31.0(react@19.1.0)
@@ -109,7 +109,7 @@ importers:
         version: 4.0.0
       '@vercel/analytics':
         specifier: ^1.5.0
-        version: 1.5.0(next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(svelte@3.59.2)
+        version: 1.5.0(next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(svelte@3.59.2)
       ai:
         specifier: ^4.3.16
         version: 4.3.16(react@19.1.0)(zod@3.24.3)
@@ -144,17 +144,17 @@ importers:
         specifier: ^12.23.0
         version: 12.23.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next:
-        specifier: 15.3.6
-        version: 15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 15.3.8
+        version: 15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       nextjs-toploader:
         specifier: ^3.8.16
-        version: 3.8.16(next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 3.8.16(next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       nuqs:
         specifier: ^2.4.3
-        version: 2.4.3(next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        version: 2.4.3(next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -871,8 +871,8 @@ packages:
   '@napi-rs/wasm-runtime@0.2.9':
     resolution: {integrity: sha512-OKRBiajrrxB9ATokgEQoG87Z25c67pCpYcCwmXYX8PBftC9pBfN18gnm/fh1wurSLEKIAt+QRFLFCQISrb66Jg==}
 
-  '@next/env@15.3.6':
-    resolution: {integrity: sha512-/cK+QPcfRbDZxmI/uckT4lu9pHCfRIPBLqy88MhE+7Vg5hKrEYc333Ae76dn/cw2FBP2bR/GoK/4DU+U7by/Nw==}
+  '@next/env@15.3.8':
+    resolution: {integrity: sha512-SAfHg0g91MQVMPioeFeDjE+8UPF3j3BvHjs8ZKJAUz1BG7eMPvfCKOAgNWJ6s1MLNeP6O2InKQRTNblxPWuq+Q==}
 
   '@next/eslint-plugin-next@15.3.1':
     resolution: {integrity: sha512-oEs4dsfM6iyER3jTzMm4kDSbrQJq8wZw5fmT6fg2V3SMo+kgG+cShzLfEV20senZzv8VF+puNLheiGPlBGsv2A==}
@@ -2439,6 +2439,7 @@ packages:
 
   '@walletconnect/ethereum-provider@2.20.0':
     resolution: {integrity: sha512-TSu1nr+AzCjM5u7xdnWTGX8ryKuHHb1Za56BD6UU0UPS7ZC2fZ99TVa5Q3Sng9JyksY5p99Iwg7fOtlozc3QYQ==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/events@1.0.1':
     resolution: {integrity: sha512-NPTqaoi0oPBVNuLv7qPaJazmGHs5JGyO8eEAk5VGKmJzDR7AHzD4k6ilox5kxk1iwiOnFopBOOMLs86Oa76HpQ==}
@@ -2493,9 +2494,11 @@ packages:
 
   '@walletconnect/sign-client@2.19.2':
     resolution: {integrity: sha512-a/K5PRIFPCjfHq5xx3WYKHAAF8Ft2I1LtxloyibqiQOoUtNLfKgFB1r8sdMvXM7/PADNPe4iAw4uSE6PrARrfg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/sign-client@2.20.0':
     resolution: {integrity: sha512-5Ao9RVGsgpMTLjVByFfjMbX7RwJM0HvKV7P9ONJwPPo4OiviNyneeOufr2KKZhuwF+QUu5mTE0Lj/euGWSNaOQ==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/time@1.0.2':
     resolution: {integrity: sha512-uzdd9woDcJ1AaBZRhqy5rNC9laqWGErfc4dxA9a87mPdKOgWMD85mcFo9dIYIts/Jwocfwn07EC6EzclKubk/g==}
@@ -2508,9 +2511,11 @@ packages:
 
   '@walletconnect/universal-provider@2.19.2':
     resolution: {integrity: sha512-LkKg+EjcSUpPUhhvRANgkjPL38wJPIWumAYD8OK/g4OFuJ4W3lS/XTCKthABQfFqmiNbNbVllmywiyE44KdpQg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/universal-provider@2.20.0':
     resolution: {integrity: sha512-kzMWXao+RyWfv46nS/owJ99/QhObGkYHhpMxdzl4bae98JXdQ0xhmov3Rvy3GRt5csgJXldoM2VO44B/Fsuj4Q==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/utils@2.19.2':
     resolution: {integrity: sha512-VU5CcUF4sZDg8a2/ov29OJzT3KfLuZqJUM0GemW30dlipI5fkpb0VPenZK7TcdLPXc1LN+Q+7eyTqHRoAu/BIA==}
@@ -4245,8 +4250,8 @@ packages:
   next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
 
-  next@15.3.6:
-    resolution: {integrity: sha512-oI6D1zbbsh6JzzZFDCSHnnx6Qpvd1fSkVJu/5d8uluqnxzuoqtodVZjYvNovooznUq8udSAiKp7MbwlfZ8Gm6w==}
+  next@15.3.8:
+    resolution: {integrity: sha512-L+4c5Hlr84fuaNADZbB9+ceRX9/CzwxJ+obXIGHupboB/Q1OLbSUapFs4bO8hnS/E6zV/JDX7sG1QpKVR2bguA==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
     hasBin: true
     peerDependencies:
@@ -6362,7 +6367,7 @@ snapshots:
       '@tybys/wasm-util': 0.9.0
     optional: true
 
-  '@next/env@15.3.6': {}
+  '@next/env@15.3.8': {}
 
   '@next/eslint-plugin-next@15.3.1':
     dependencies:
@@ -6586,13 +6591,13 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/extension-inject@0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@polkadot/extension-inject@0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@polkadot/api': 16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@polkadot/rpc-provider': 10.13.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@polkadot/types': 10.13.1
-      '@polkadot/util': 12.6.2
-      '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
+      '@polkadot/util': 13.5.3
+      '@polkadot/util-crypto': 12.6.2(@polkadot/util@13.5.3)
       '@polkadot/x-global': 12.6.2
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -6603,7 +6608,7 @@ snapshots:
   '@polkadot/keyring@12.6.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2)':
     dependencies:
       '@polkadot/util': 12.6.2
-      '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
+      '@polkadot/util-crypto': 12.6.2(@polkadot/util@13.5.3)
       tslib: 2.8.1
 
   '@polkadot/keyring@13.5.3(@polkadot/util-crypto@13.5.3(@polkadot/util@13.5.3))(@polkadot/util@13.5.3)':
@@ -6655,7 +6660,7 @@ snapshots:
       '@polkadot/types': 10.13.1
       '@polkadot/types-support': 10.13.1
       '@polkadot/util': 12.6.2
-      '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
+      '@polkadot/util-crypto': 12.6.2(@polkadot/util@13.5.3)
       '@polkadot/x-fetch': 12.6.2
       '@polkadot/x-global': 12.6.2
       '@polkadot/x-ws': 12.6.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)
@@ -6776,10 +6781,23 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@polkadot/networks': 12.6.2
       '@polkadot/util': 12.6.2
-      '@polkadot/wasm-crypto': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-crypto': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@12.6.2)
       '@polkadot/x-bigint': 12.6.2
-      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
+      '@scure/base': 1.2.5
+      tslib: 2.8.1
+
+  '@polkadot/util-crypto@12.6.2(@polkadot/util@13.5.3)':
+    dependencies:
+      '@noble/curves': 1.9.0
+      '@noble/hashes': 1.8.0
+      '@polkadot/networks': 12.6.2
+      '@polkadot/util': 13.5.3
+      '@polkadot/wasm-crypto': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/x-bigint': 12.6.2
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       '@scure/base': 1.2.5
       tslib: 2.8.1
 
@@ -6789,10 +6807,10 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@polkadot/networks': 13.5.3
       '@polkadot/util': 13.5.3
-      '@polkadot/wasm-crypto': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-crypto': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
       '@polkadot/x-bigint': 13.5.3
-      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       '@scure/base': 1.2.5
       tslib: 2.8.1
 
@@ -6816,18 +6834,25 @@ snapshots:
       bn.js: 5.2.2
       tslib: 2.8.1
 
-  '@polkadot/wasm-bridge@7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))':
+  '@polkadot/wasm-bridge@7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
     dependencies:
       '@polkadot/util': 12.6.2
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@12.6.2)
-      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       tslib: 2.8.1
 
-  '@polkadot/wasm-bridge@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))':
+  '@polkadot/wasm-bridge@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
     dependencies:
       '@polkadot/util': 13.5.3
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
-      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
+      tslib: 2.8.1
+
+  '@polkadot/wasm-bridge@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
+    dependencies:
+      '@polkadot/util': 13.5.3
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       tslib: 2.8.1
 
   '@polkadot/wasm-crypto-asmjs@7.4.1(@polkadot/util@12.6.2)':
@@ -6840,24 +6865,34 @@ snapshots:
       '@polkadot/util': 13.5.3
       tslib: 2.8.1
 
-  '@polkadot/wasm-crypto-init@7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))':
+  '@polkadot/wasm-crypto-init@7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
     dependencies:
       '@polkadot/util': 12.6.2
-      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-crypto-asmjs': 7.4.1(@polkadot/util@12.6.2)
       '@polkadot/wasm-crypto-wasm': 7.4.1(@polkadot/util@12.6.2)
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@12.6.2)
-      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       tslib: 2.8.1
 
-  '@polkadot/wasm-crypto-init@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))':
+  '@polkadot/wasm-crypto-init@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
     dependencies:
       '@polkadot/util': 13.5.3
-      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-crypto-asmjs': 7.4.1(@polkadot/util@13.5.3)
       '@polkadot/wasm-crypto-wasm': 7.4.1(@polkadot/util@13.5.3)
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
-      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
+      tslib: 2.8.1
+
+  '@polkadot/wasm-crypto-init@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
+    dependencies:
+      '@polkadot/util': 13.5.3
+      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
+      '@polkadot/wasm-crypto-asmjs': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/wasm-crypto-wasm': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       tslib: 2.8.1
 
   '@polkadot/wasm-crypto-wasm@7.4.1(@polkadot/util@12.6.2)':
@@ -6872,26 +6907,37 @@ snapshots:
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
       tslib: 2.8.1
 
-  '@polkadot/wasm-crypto@7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))':
+  '@polkadot/wasm-crypto@7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
     dependencies:
       '@polkadot/util': 12.6.2
-      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-crypto-asmjs': 7.4.1(@polkadot/util@12.6.2)
-      '@polkadot/wasm-crypto-init': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-crypto-init': 7.4.1(@polkadot/util@12.6.2)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-crypto-wasm': 7.4.1(@polkadot/util@12.6.2)
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@12.6.2)
-      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       tslib: 2.8.1
 
-  '@polkadot/wasm-crypto@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))':
+  '@polkadot/wasm-crypto@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
     dependencies:
       '@polkadot/util': 13.5.3
-      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-crypto-asmjs': 7.4.1(@polkadot/util@13.5.3)
-      '@polkadot/wasm-crypto-init': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)))
+      '@polkadot/wasm-crypto-init': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
       '@polkadot/wasm-crypto-wasm': 7.4.1(@polkadot/util@13.5.3)
       '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
-      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))
+      '@polkadot/x-randomvalues': 12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
+      tslib: 2.8.1
+
+  '@polkadot/wasm-crypto@7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))':
+    dependencies:
+      '@polkadot/util': 13.5.3
+      '@polkadot/wasm-bridge': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
+      '@polkadot/wasm-crypto-asmjs': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/wasm-crypto-init': 7.4.1(@polkadot/util@13.5.3)(@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3)))
+      '@polkadot/wasm-crypto-wasm': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/x-randomvalues': 13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))
       tslib: 2.8.1
 
   '@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2)':
@@ -6934,17 +6980,24 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))':
+  '@polkadot/x-randomvalues@12.6.2(@polkadot/util@12.6.2)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))':
     dependencies:
       '@polkadot/util': 12.6.2
-      '@polkadot/wasm-util': 7.4.1(@polkadot/util@12.6.2)
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
       '@polkadot/x-global': 12.6.2
       tslib: 2.8.1
 
-  '@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@12.6.2))':
+  '@polkadot/x-randomvalues@12.6.2(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))':
     dependencies:
       '@polkadot/util': 13.5.3
-      '@polkadot/wasm-util': 7.4.1(@polkadot/util@12.6.2)
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
+      '@polkadot/x-global': 12.6.2
+      tslib: 2.8.1
+
+  '@polkadot/x-randomvalues@13.5.3(@polkadot/util@13.5.3)(@polkadot/wasm-util@7.4.1(@polkadot/util@13.5.3))':
+    dependencies:
+      '@polkadot/util': 13.5.3
+      '@polkadot/wasm-util': 7.4.1(@polkadot/util@13.5.3)
       '@polkadot/x-global': 13.5.3
       tslib: 2.8.1
 
@@ -7935,9 +7988,9 @@ snapshots:
 
   '@substrate/ss58-registry@1.51.0': {}
 
-  '@subwallet-connect/common@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/common@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@walletconnect/universal-provider': 2.20.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       bignumber.js: 9.3.1
       ethers: 5.5.4(bufferutil@4.0.9)(utf-8-validate@5.0.10)
@@ -7970,9 +8023,9 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/core@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/core@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@walletconnect/modal': 2.7.0(@types/react@19.1.2)(react@19.1.0)
       axios: 1.10.0
       bignumber.js: 9.3.1
@@ -8020,10 +8073,10 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/injected-wallets@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/injected-wallets@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       joi: 17.9.1
       lodash.uniqby: 4.7.0
     transitivePeerDependencies:
@@ -8054,10 +8107,10 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/polkadot-js@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/polkadot-js@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -8086,10 +8139,10 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/react@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/react@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
-      '@subwallet-connect/core': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@subwallet-connect/core': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       react: 19.1.0
       use-sync-external-store: 1.5.0(react@19.1.0)
     transitivePeerDependencies:
@@ -8122,10 +8175,10 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/subwallet-polkadot@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/subwallet-polkadot@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -8154,10 +8207,10 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/talisman@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/talisman@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@polkadot/extension-inject': 0.46.9(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -8186,9 +8239,9 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/walletconnect-polkadot@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/walletconnect-polkadot@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@walletconnect/universal-provider': 2.20.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       joi: 17.9.1
       rxjs: 7.8.2
@@ -8220,9 +8273,9 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@subwallet-connect/walletconnect@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@subwallet-connect/walletconnect@1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@12.6.2)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@subwallet-connect/common': 1.0.8(@polkadot/api@16.4.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@polkadot/util@13.5.3)(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@walletconnect/ethereum-provider': 2.20.0(@types/react@19.1.2)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@walletconnect/modal': 2.7.0(@types/react@19.1.2)(react@19.1.0)
       joi: 17.9.1
@@ -8610,9 +8663,9 @@ snapshots:
     dependencies:
       '@vanilla-extract/css': 1.15.5
 
-  '@vercel/analytics@1.5.0(next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(svelte@3.59.2)':
+  '@vercel/analytics@1.5.0(next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(svelte@3.59.2)':
     optionalDependencies:
-      next: 15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      next: 15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       svelte: 3.59.2
 
@@ -11405,9 +11458,9 @@ snapshots:
 
   next-tick@1.1.0: {}
 
-  next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      '@next/env': 15.3.6
+      '@next/env': 15.3.8
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
@@ -11431,9 +11484,9 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  nextjs-toploader@3.8.16(next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  nextjs-toploader@3.8.16(next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      next: 15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      next: 15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       nprogress: 0.2.0
       prop-types: 15.8.1
       react: 19.1.0
@@ -11471,12 +11524,12 @@ snapshots:
 
   nprogress@0.2.0: {}
 
-  nuqs@2.4.3(next@15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  nuqs@2.4.3(next@15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       mitt: 3.0.1
       react: 19.1.0
     optionalDependencies:
-      next: 15.3.6(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      next: 15.3.8(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
   obj-multiplex@1.0.0:
     dependencies:
